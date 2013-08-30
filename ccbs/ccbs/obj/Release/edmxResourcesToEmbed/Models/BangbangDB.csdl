@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BangbangDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="BangbangDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BBUsers" EntityType="BangbangDB.BBUser" />
+    <EntitySet Name="BBActivities" EntityType="BangbangDB.BBActivity" />
+    <EntitySet Name="BBRegisterEntries" EntityType="BangbangDB.BBRegisterEntry" />
+    <AssociationSet Name="BBActivityBBRegisterEntry" Association="BangbangDB.BBActivityBBRegisterEntry">
+      <End Role="BBActivity" EntitySet="BBActivities" />
+      <End Role="BBRegisterEntry" EntitySet="BBRegisterEntries" />
+    </AssociationSet>
+    <AssociationSet Name="BBUserBBActivity" Association="BangbangDB.BBUserBBActivity">
+      <End Role="BBUser" EntitySet="BBUsers" />
+      <End Role="BBActivity" EntitySet="BBActivities" />
+    </AssociationSet>
+    <AssociationSet Name="BBUserBBRegisterEntry" Association="BangbangDB.BBUserBBRegisterEntry">
+      <End Role="BBUser" EntitySet="BBUsers" />
+      <End Role="BBRegisterEntry" EntitySet="BBRegisterEntries" />
+    </AssociationSet>
+    <EntitySet Name="BBComments" EntityType="BangbangDB.BBComment" />
+    <AssociationSet Name="BBActivityBBComment" Association="BangbangDB.BBActivityBBComment">
+      <End Role="BBActivity" EntitySet="BBActivities" />
+      <End Role="BBComment" EntitySet="BBComments" />
+    </AssociationSet>
+    <EntitySet Name="BBCategories" EntityType="BangbangDB.BBCategory" />
+    <AssociationSet Name="BBCategoryBBActivity" Association="BangbangDB.BBCategoryBBActivity">
+      <End Role="BBCategory" EntitySet="BBCategories" />
+      <End Role="BBActivity" EntitySet="BBActivities" />
+    </AssociationSet>
+    <EntitySet Name="Locations" EntityType="BangbangDB.Location" />
+    <AssociationSet Name="LocationBBUser" Association="BangbangDB.LocationBBUser">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="BBUser" EntitySet="BBUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BBUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Gender" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Phone" Nullable="false" />
+    <Property Type="String" Name="Major" Nullable="true" />
+    <Property Type="Int32" Name="Year" Nullable="false" />
+    <Property Type="String" Name="Avatar" Nullable="true" />
+    <Property Type="String" Name="Username" Nullable="false" />
+    <NavigationProperty Name="CreatedActivities" Relationship="BangbangDB.BBUserBBActivity" FromRole="BBUser" ToRole="BBActivity" />
+    <NavigationProperty Name="BBRegisterEntries" Relationship="BangbangDB.BBUserBBRegisterEntry" FromRole="BBUser" ToRole="BBRegisterEntry" />
+    <Property Type="String" Name="ComeFrom" Nullable="false" />
+    <Property Type="DateTime" Name="RegTime" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="BangbangDB.LocationBBUser" FromRole="BBUser" ToRole="Location" />
+    <Property Type="Int32" Name="LocationId" Nullable="false" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBActivity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <NavigationProperty Name="BBRegisterEntries" Relationship="BangbangDB.BBActivityBBRegisterEntry" FromRole="BBActivity" ToRole="BBRegisterEntry" />
+    <NavigationProperty Name="Creater" Relationship="BangbangDB.BBUserBBActivity" FromRole="BBActivity" ToRole="BBUser" />
+    <Property Type="Int32" Name="BBUserId" Nullable="false" />
+    <NavigationProperty Name="BBComments" Relationship="BangbangDB.BBActivityBBComment" FromRole="BBActivity" ToRole="BBComment" />
+    <Property Type="DateTime" Name="PostDate" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <Property Type="Boolean" Name="IsDraft" Nullable="false" />
+    <NavigationProperty Name="BBCategory" Relationship="BangbangDB.BBCategoryBBActivity" FromRole="BBActivity" ToRole="BBCategory" />
+    <Property Type="Int32" Name="BBCategoryId" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBRegisterEntry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="Time" Nullable="false" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="String" Name="Contact" Nullable="true" />
+    <Property Type="Int32" Name="UpCount" Nullable="false" />
+    <Property Type="Int32" Name="LowerCount" Nullable="false" />
+    <Property Type="Int32" Name="GenderLimit" Nullable="false" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+    <NavigationProperty Name="BBActivity" Relationship="BangbangDB.BBActivityBBRegisterEntry" FromRole="BBRegisterEntry" ToRole="BBActivity" />
+    <Property Type="Int32" Name="BBActivityId" Nullable="false" />
+    <NavigationProperty Name="RegisteredBBUsers" Relationship="BangbangDB.BBUserBBRegisterEntry" FromRole="BBRegisterEntry" ToRole="BBUser" />
+  </EntityType>
+  <Association Name="BBActivityBBRegisterEntry">
+    <End Type="BangbangDB.BBActivity" Role="BBActivity" Multiplicity="1" />
+    <End Type="BangbangDB.BBRegisterEntry" Role="BBRegisterEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBActivity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBRegisterEntry">
+        <PropertyRef Name="BBActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BBUserBBActivity">
+    <End Type="BangbangDB.BBUser" Role="BBUser" Multiplicity="1" />
+    <End Type="BangbangDB.BBActivity" Role="BBActivity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBActivity">
+        <PropertyRef Name="BBUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BBUserBBRegisterEntry">
+    <End Type="BangbangDB.BBUser" Role="BBUser" Multiplicity="*" />
+    <End Type="BangbangDB.BBRegisterEntry" Role="BBRegisterEntry" Multiplicity="*" />
+  </Association>
+  <EntityType Name="BBComment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" Nullable="false" />
+    <Property Type="String" Name="Body" Nullable="true" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <Property Type="String" Name="Postby" Nullable="false" />
+    <NavigationProperty Name="BBActivity" Relationship="BangbangDB.BBActivityBBComment" FromRole="BBComment" ToRole="BBActivity" />
+    <Property Type="Int32" Name="BBActivityId" Nullable="false" />
+  </EntityType>
+  <Association Name="BBActivityBBComment">
+    <End Type="BangbangDB.BBActivity" Role="BBActivity" Multiplicity="1" />
+    <End Type="BangbangDB.BBComment" Role="BBComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBActivity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBComment">
+        <PropertyRef Name="BBActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BBCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <NavigationProperty Name="BBActivities" Relationship="BangbangDB.BBCategoryBBActivity" FromRole="BBCategory" ToRole="BBActivity" />
+    <Property Type="String" Name="Icon" Nullable="true" />
+    <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+  </EntityType>
+  <Association Name="BBCategoryBBActivity">
+    <End Type="BangbangDB.BBCategory" Role="BBCategory" Multiplicity="1" />
+    <End Type="BangbangDB.BBActivity" Role="BBActivity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBActivity">
+        <PropertyRef Name="BBCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Domain" Nullable="false" />
+    <NavigationProperty Name="BBUsers" Relationship="BangbangDB.LocationBBUser" FromRole="Location" ToRole="BBUser" />
+  </EntityType>
+  <Association Name="LocationBBUser">
+    <End Type="BangbangDB.Location" Role="Location" Multiplicity="1" />
+    <End Type="BangbangDB.BBUser" Role="BBUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBUser">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

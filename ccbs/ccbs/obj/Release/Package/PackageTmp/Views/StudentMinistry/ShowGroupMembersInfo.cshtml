@@ -1,0 +1,165 @@
+﻿@model ccbs.Models.VolunteerGroup
+@{
+    ViewBag.Title = "Show the selection List of Group members";
+}
+<div id="content-no-sidebar">
+    <h3>
+        The selection List of Group members in @Model.Name</h3>
+    <div style="padding-top: 30px;">
+        @foreach (var vol in Model.Volunteers)
+        {
+            <p>
+                <strong>Member: @vol.Name;</strong> Email: @vol.Email; Phone: @vol.Phone</p>
+            <div>
+                <h3>
+                    Pickup List</h3>
+                <table>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Major
+                        </th>
+                        <th>
+                            Arrive
+                        </th>
+                        <th>
+                            Flight
+                        </th>
+                        <th>
+                            Comment
+                        </th>
+                        <th>
+                            Temp Housing
+                        </th>
+                    </tr>
+                    @foreach (var item in vol.PickupNewStudents)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gender)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Major)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ArrivalTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Flight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                            <td>
+                                @if (item.TempHouseVolunteer != null)
+                                {
+                                    @("Assigned: " + item.TempHouseVolunteer.Name)
+                                    <br />
+                                    @("Address: " + item.TempHouseVolunteer.Address)
+                                }
+                                else if (item.NeedTempHousing)
+                                {
+                                    @("Not assigned");
+                                }
+                                else if (!item.NeedTempHousing)
+                                {
+                                    @("No need of Temp-Housing");
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div style="padding-top: 20px; padding-bottom: 20px;">
+                <h3>
+                    Temp Housing List</h3>
+                <table>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Major
+                        </th>
+                        <th>
+                            Arrive
+                        </th>
+                        <th>
+                            Flight
+                        </th>
+                        <th>
+                            Comment
+                        </th>
+                        <th>
+                            Pick up
+                        </th>
+                    </tr>
+                    @foreach (var item in vol.TempHouseNewStudents)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gender)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Major)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ArrivalTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Flight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                            <td>
+                                @if (item.PickupVolunteer != null)
+                                {
+                                    @("Assigned: " + item.PickupVolunteer.Name)
+                                    <br />@("Email: " + item.PickupVolunteer.Email)
+                                }
+                                else if (item.NeedPickup)
+                                {
+                                    @("Not assigned");
+                                }
+                                else if (!item.NeedPickup)
+                                {
+                                    @("No need of pickup");
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div style="border-bottom: dotted 1px #82D9ED; padding-bottom: 20px;">
+            </div>
+        }
+    </div>
+    <br class="clearfix" />
+</div>

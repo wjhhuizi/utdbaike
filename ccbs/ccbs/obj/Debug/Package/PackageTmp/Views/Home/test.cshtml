@@ -1,0 +1,115 @@
+﻿@model List<ccbs.Models.Activity>
+@{
+    ViewBag.Title = "UTD Living Water Student Fellowship";
+    List<ccbs.Models.Activity> comingEvents = Model;
+    List<ccbs.Models.HomeGallery> homeGalleries = ViewBag.homeGalleries;
+}
+<div id="content">
+    <div>
+        <script type="text/javascript">
+            function startGallery() {
+                var myGallery = new gallery(Moo.$('myGallery'), {
+                    timed: true
+                });
+            }
+            window.onDomReady(startGallery);
+        </script>
+    </div>
+    <div id="myGallery">
+        @foreach (var pic in homeGalleries)
+        {
+            <div class="imageElement">
+                @if (!String.IsNullOrEmpty(pic.Title))
+                {
+                    <h3>
+                        @pic.Title</h3>
+                }
+                @if (!String.IsNullOrEmpty(pic.Description))
+                {
+                    <p>
+                        @pic.Description</p>
+                }
+                @if (!String.IsNullOrEmpty(pic.HyperLink))
+                {
+                    <a href="@pic.HyperLink" title="open link" class="open"></a>
+                }
+                <img src="@pic.Picture" class="full" />
+                <img src="@ccbs.Controllers.HomeGalleryController.ToThumbnailPath(pic.Picture)"
+                    class="thumbnail" />
+            </div>
+        }
+    </div>
+    <br class="clearfix" />
+    <div class="box">
+        <div style="text-align: center;">
+            <h3>
+                团契活动安排</h3>
+        </div>
+        <br class="clearfix" />
+        <div style="float: left; padding-right: 30px; padding-top: 10px; width: 250px;">
+            <div>
+                <ul>
+                    <li><strong>日程表</strong></li>
+                    <li style="font-size: 75%;">
+                        @(Html.Telerik().Calendar()
+                .Name("Calendar")
+                .ClientEvents(events => events
+                .OnLoad("onCalendarChange")
+                .OnChange("onCalendarChange"))
+                .Value(DateTime.Today))
+                    </li>
+                </ul>
+            </div>
+            <div id="activitiesOnSelDay" style="width: 250px;">
+            </div>
+        </div>
+        <div style="float: right; width: 250px; padding-right: 30px; padding-top: 10px;">
+            <div class="arrowLinks">
+                <ul>
+                    <li><strong>近期活动</strong></li>
+                    @foreach (var ac in comingEvents)
+                    {
+                        char[] temps = new char[60];
+                        <li>
+                            @Html.ActionLink(ac.Title + "@" + ac.TimeFrom.ToString("MM/dd/yy"), "Details", "Activity", new { id = ac.Id }, null)
+                            <p style="font-size: small; text-indent: 20px;">
+                                FROM @ac.TimeFrom.ToString("hh:mm tt") to @ac.TimeTo.ToString("hh:mm tt")</p>
+                            <p style="font-size: small; text-indent: 20px;">
+                                AT @ac.Address</p>
+                        </li>
+                    }
+                    <li>@Html.ActionLink("more ...", "Index", "Activity", null, null)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>
+<script>
+    function formatDate(date) {
+        return $.telerik.formatString('{0:MM/dd/yyyy}', date);
+    }
+    function onCalendarChange(e) {
+        var xmlhttp;
+        if (e == null) {
+            document.getElementById("activitiesOnSelDay").innerHTML = "";
+            return;
+        }
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("activitiesOnSelDay").innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET", "/Home/_onCalendarChange?date=" + formatDate(e.date), true);
+        xmlhttp.send();
+    }
+</script>

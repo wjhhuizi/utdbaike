@@ -1,0 +1,94 @@
+﻿@model ccbs.Models.Article
+@{
+    Layout = null;
+    string articleType = ccbs.Models.TreeNodeType.ArticleItem.ToString();
+    var commentTypeAndId = articleType + "," + Model.Id;
+    bool IsEditor = (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.MyRoles.baikeEditor));
+}
+<br />
+@if (Model.Comments != null && Model.Comments.Count > 0)
+{
+    <div style="border-top: dotted 2px rgb(230, 233, 249);">
+        <br />
+        <h4>
+            已有评论</h4>
+        <br />
+    </div>
+}
+@foreach (var comment in Model.Comments)
+{
+    string username;
+    if (comment.UserName == "Guest" || comment.UserName == "Admin")
+    {
+        username = comment.UserName;
+    }
+    else
+    {
+
+        char[] str = { '.', '.', '.', '.', '.', '.' };
+        var usernamearray = comment.UserName.ToArray();
+        str[0] = usernamearray[0];
+        str[1] = usernamearray[1];
+        str[5] = usernamearray[usernamearray.Length - 1];
+        username = new string(str);
+    }
+    string LikeComment = "LikeComment" + comment.Id.ToString();
+    string LikeCommentCount = "LikeCommentCount" + comment.Id.ToString();
+    <div style="border: dotted 2px rgb(230, 233, 249);">
+        <div>
+            <b>用户: @username</b>&nbsp&nbsp<span style="color: Orange;"><a id="@LikeComment" onclick="updateLikeCommentCnt(@comment.Id)">
+                <img src="../../Content/oceania/images/like.jpg" alt="Like" />
+            </a>&nbsp <b id="@LikeCommentCount">
+                @comment.LikeCount
+            </b></span>&nbsp&nbsp
+            @if (IsEditor)
+            {
+                <a onclick="DeleteComment('@comment.Id')">删除此评论</a>
+            }
+        </div>
+        <p style="text-indent: 2em;">@comment.Comment</p>
+    </div>
+    <br />
+}
+<div id="result">
+</div>
+<div>
+    @using (Ajax.BeginForm("ArticleComment", "Article", null, new AjaxOptions { OnComplete = "ArticleComment_OnComplete" }))
+    {
+        <div class="editor-label">
+            <p>
+                发表评论或者补充</p>
+        </div>
+        @Html.Hidden("ArticleId", Model.Id)
+        <div class="editor-field">
+            @Html.TextArea("Comment", new { @class = "text-area-edit" })
+        </div>
+        <br />
+        <p>
+            <input type="submit" value="提交" />
+        </p>
+    }
+</div>
+<script type="text/javascript">
+    function ArticleComment_OnComplete(context) {
+        var value = '@commentTypeAndId';
+        $('#display-content').load('/Article/ShowTreeNodeContent?typeAndId=' + value, function () { });
+    }
+
+    function DeleteComment(id) {
+        if (confirm("确定删除这条评论吗") == false) {
+            return;
+        }
+        $('#result').load('/Article/DeleteArticleCommentConfirmed/' + id, function () {
+            var value = '@commentTypeAndId';
+            $('#display-content').load('/Article/ShowTreeNodeContent?typeAndId=' + value);
+        });
+    }
+
+    function updateLikeCommentCnt(commentId) {
+        $('#LikeCommentCount' + commentId).load('/Article/UpdateCommentLikeCount?commentId=' + commentId, function () {
+            document.getElementById("LikeComment" + commentId).onclick = function () { alert("You've already like it!") };
+        });
+    }
+
+</script>

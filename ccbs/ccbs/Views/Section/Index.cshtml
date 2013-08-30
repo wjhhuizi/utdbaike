@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ccbs.Models.Section>
+@{
+    ViewBag.Title = "Sections";
+}
+<div id="content-no-sidebar-no-padding">
+    @foreach (var section in Model)
+    {
+        <div>
+            @{Html.RenderAction("_ShowSection", "Section", new { id = section.Id });}
+        </div>
+    }
+    <br class="clearfix" />
+    <p>
+        @Html.ActionLink("Add a New Section", "CreateSection")
+    </p>
+    <table>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Capacity
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditSection", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "SectionDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteSection", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+    <br class="clearfix" />
+</div>

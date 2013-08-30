@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Unauthorized Error";
+}
+<div id="content">
+    <h2>
+        Sorry, you don't have the authority to view this page!</h2>
+    <br />
+    <br />
+    <a onclick="window.history.go(-1);return false;">Go Back</a>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

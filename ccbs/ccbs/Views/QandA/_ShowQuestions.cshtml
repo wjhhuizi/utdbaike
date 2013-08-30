@@ -1,0 +1,88 @@
+﻿@model List<ccbs.Models.Question>
+@{
+    Layout = null;
+    string username = ViewBag.username;
+    bool IsPreviliged = (User.IsInRole(ccbs.Models.MyRoles.baikeQandA) || User.IsInRole(ccbs.Models.LWSFRoles.admin));
+}
+<div id="showQuestions">
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var ques in Model)
+        {
+            int count = (ques.Answers == null) ? 0 : ques.Answers.Count;
+            string title = ques.Title + "(" + count + ")" + "  " + ques.LastUpdate.ToString("MM/dd/yy");
+        <div style="border: dotted 2px rgb(230, 233, 249);">
+            @Ajax.ActionLink(title, "QuestionDetails", "QandA", new { id = ques.Id }, new AjaxOptions { OnComplete = "ShowQuestionDetails_OnComplete" })
+            <span style="color: Orange;">&nbsp&nbsp&nbsp<b>点击量: @ques.VisitCount</b> &nbsp&nbsp&nbsp</span>
+            @if (IsPreviliged)
+            {
+                <span>&nbsp&nbsp&nbsp <a onclick="DeleteQuestion('@ques.Id')">删除</a></span>
+            }
+        </div>
+        <br />
+        }
+        <div>
+            @Html.ActionLink("More ...", "AllQuestions", "QandA", null, null)
+        </div>
+        <div id="deleteQorAResult">
+        </div>
+        {
+            Html.Telerik().Window()
+                .Name("QuestionDetails-Window")
+                .Title("新生提问")
+                .Width(320)
+                .Draggable(true)
+                .Modal(true)
+               .Visible(false).Render();
+        }
+    }
+</div>
+<script type="text/javascript">
+    function ShowQuestionDetails_OnComplete(context) {
+
+        var JsonAdd = context.get_response().get_object();
+
+        if (JsonAdd.Success) {
+            var questionDetails = JsonAdd.PartialViewHtml;
+            var questionDetailsWindows = $("#QuestionDetails-Window").data("tWindow");
+            questionDetailsWindows.content(questionDetails).center().open();
+        }
+    }
+    function CreateAnswer_OnComplete(context) {
+        var JsonAdd = context.get_response().get_object();
+        var user = '@username';
+        if (JsonAdd.Success) {
+            var questionDetails = JsonAdd.PartialViewHtml;
+            var questionDetailsWindows = $("#QuestionDetails-Window").data("tWindow");
+            questionDetailsWindows.content(questionDetails);
+            $('#showQuestions').load('/QandA/_ShowQuestions?username=' + user, function () {
+                alert("回复成功，感谢您的回复!");
+            });
+        }
+    }
+
+    function DeleteQuestion(id) {
+        var r = confirm("确定删除这个问题及其所有回复吗?");
+        if (r == true) {
+            var user = '@username';
+            $("#deleteQorAResult").load("/QandA/DeleteQuestion/" + id, function () {
+                $('#showQuestions').load('/QandA/_ShowQuestions?username=' + user, function () {
+                    alert("问题删除成功!");
+                });
+            });
+        }
+    }
+
+    function DeleteAnswer(id, questionId) {
+        var r = confirm("确定删除这条回复吗?");
+        if (r == true) {
+            $("#deleteQorAResult").load("/QandA/DeleteAnswer/" + id, function () {
+                var questionDetailsWindows = $("#QuestionDetails-Window").data("tWindow");
+                questionDetailsWindows.ajaxRequest("/QandA/_QuestionDetails/", { id: questionId });
+                $('#showQuestions').load('/QandA/_ShowQuestions?username=' + user, function () {
+                    alert("成功删除此回复!");
+                });
+            });
+        }
+    }
+</script>

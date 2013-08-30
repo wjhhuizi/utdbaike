@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "System Management";
+}
+<div id="content">
+    <h2>
+        System Management</h2>
+    <div>
+        <ul>
+            <li>Worship Management</li>
+            <li>@Html.ActionLink("Worship Songs", "Manage", "WorshipSong")</li>
+            <li>Organizations and Vounteers Management</li>
+            <li>@Html.ActionLink("Organizations", "Index", "VolunteerOrganization")</li>
+            <li>@Html.ActionLink("Volunteer Groups", "Index", "VolunteerGroup")</li>
+            <li>@Html.ActionLink("Volunteers", "Index", "Volunteer")</li>
+            <li>@Html.ActionLink("Edit Short Message", "EditShortMessage", "StudentMinistry")</li>
+            <li>New Students Management</li>
+            <li>@Html.ActionLink("New Students", "Index", "NewStudent")</li>
+            @*<li>@Html.ActionLink("Send Email", "Index", "Email")</li>*@
+        </ul>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

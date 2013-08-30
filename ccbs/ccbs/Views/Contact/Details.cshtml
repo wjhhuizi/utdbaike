@@ -1,0 +1,39 @@
+﻿@model ccbs.Models.Contact
+@{
+    ViewBag.Title = "Details";
+}
+<div id="content-no-sidebar">
+    <fieldset>
+        <legend>Contact</legend>
+        <div class="display-label">
+            Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+        <div class="display-label">
+            Title</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Title)
+        </div>
+        <div class="display-label">
+            Function</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Function)
+        </div>
+        <div class="display-label">
+            Email</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
+        <div class="display-label">
+            Phone</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Phone)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <br class="clearfix" />
+</div>

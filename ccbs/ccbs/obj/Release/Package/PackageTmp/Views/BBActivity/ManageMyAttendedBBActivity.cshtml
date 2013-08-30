@@ -1,0 +1,36 @@
+﻿@model List<ccbs.Models.BBRegisterEntry>
+@{
+    ViewBag.Title = "Manage Attended BBActivities";
+    ccbs.Models.BBUser currentBBUser = ViewBag.currentBBUser;
+}
+<div>
+    @foreach (var sched in Model)
+    {
+        <ol>
+            <li>
+                <div>
+                    @Html.ActionLink(sched.BBActivity.Title + "@" + sched.Time.ToString("MM/dd/yyyy HH:mm"), "BBActivityDetails", "BBActivity", new { id = sched.BBActivity.Id }, new { Title = "Click to see details" })
+                </div>
+                <div>
+                    <p>
+                        Time: @sched.Time.ToString("MM/dd/yyyy HH:mm")</p>
+                    <p>
+                        Address: @sched.Address</p>
+                    <p>
+                        Contact: @sched.Contact</p>
+                    @if (sched.IsActive)
+                    {
+                        if (sched.RegisteredBBUsers.Contains(currentBBUser))
+                        {
+                        <span>@Html.ActionLink("I Leave", "CancelBBActivity", "BBActivity", new { Rid = sched.Id, Uid = currentBBUser.Id, returnUrl = Request.RawUrl }, new { title = "点击取消我的报名" })</span>
+                        }
+                        else
+                        {
+                        <span>@Html.ActionLink("I Join", "AttendBBActivity", "BBActivity", new { Rid = sched.Id, returnUrl = Request.RawUrl }, new { title = "点击我要报名参加" })</span>
+                        }
+                    }
+                </div>
+            </li>
+        </ol>
+    }
+</div>

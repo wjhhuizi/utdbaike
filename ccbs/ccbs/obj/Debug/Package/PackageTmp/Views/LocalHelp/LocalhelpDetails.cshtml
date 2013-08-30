@@ -1,0 +1,19 @@
+﻿@model ccbs.Models.LocalHelp
+@{
+    ViewBag.Title = Model.Title;
+}
+<div id="content">
+    <div>
+        <h4 style="text-align: center;">@Model.Title</h4>
+    </div>
+    <br />
+    <div class="display-content">
+        @Html.Raw(Model.Description)
+    </div>
+    <br class="clearfix" />
+</div>
+<div class="sidebar">
+    <div class="box-small-padding">
+        @{Html.RenderAction("_ShowRegisterEntries", "LocalHelp", new { localhelpId = Model.Id });}
+    </div>
+</div>

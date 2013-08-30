@@ -1,0 +1,16 @@
+﻿@model ccbs.Models.EmailRecord
+@{
+    ViewBag.Title = @Model.Title;
+}
+<div id="content">
+    <div class="box">
+        <h2 style="text-align: center;">
+            @Model.Title</h2>
+        <br />
+        @Html.Raw(ViewBag.BodyText)
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

@@ -1,0 +1,68 @@
+﻿@model ccbs.Models.NewStudent
+<h4 class="box-head">
+    接机和临住分配</h4>
+<br />
+<div style="font-size: small;">
+    @if (Model.Organization != null)
+    {
+        <p style="color: Blue;">
+            为你提供接机和临住的机构：
+        </p>
+        <p>@Model.Organization.Name</p>
+        <p>@Model.Organization.Description</p>
+        if (Model.Organization.OrgLeader != null)
+        {
+        <p>
+            该机构联系人:<br />
+            姓名: @Model.Organization.OrgLeader.Name<br />
+            邮箱: @Model.Organization.OrgLeader.Email<br />
+            手机: @Model.Organization.OrgLeader.Phone</p>
+        }
+        if (Model.NeedPickup)
+        {
+            if (Model.PickupVolunteer != null)
+            {
+        <p style="color: Blue;">
+            该机构为你安排的接机志愿者:</p>
+        <p>
+            姓名: @Model.PickupVolunteer.Name<br />
+            邮箱: @Model.PickupVolunteer.Email<br />
+            手机: @Model.PickupVolunteer.Phone<br />
+            简介:<br />
+            <text>@Model.PickupVolunteer.BriefIntro</text>
+        </p>
+            }
+            else
+            {
+        <p>
+            该机构正在努力的为你安排接机志愿者, 如有任何问题，请联系该机构或者学生会</p>
+            }
+        }
+        if (Model.NeedTempHousing)
+        {
+            if (Model.TempHouseVolunteer != null)
+            {
+        <p style="color: Blue;">
+            该组织为你安排的临住志愿者:</p>
+        <p>
+            姓名: @Model.TempHouseVolunteer.Name<br />
+            邮箱: @Model.TempHouseVolunteer.Email<br />
+            手机: @Model.TempHouseVolunteer.Phone<br />
+            简介:<br />
+            <text>@Model.TempHouseVolunteer.BriefIntro</text>
+        </p>
+            }
+            else
+            {
+        <p>
+            该机构正在努力的为你安排临住志愿者, 如有任何问题，请联系该机构或者学生会</p>
+            }
+        }
+    }
+    else
+    {
+        <p>
+            我们正在努力的安排您的接机和临住, 我们会及时的通过本网站更新信息，请您经常登录本网站关注分配状态，如有任何问题请 @Html.ActionLink("联系我们", "Contact", "Home")
+            </p>
+    }
+</div>

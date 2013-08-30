@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ccbs.Models.OrgRequest>
+@{
+    ViewBag.Title = "Requests From Organizations";
+}
+<div id="content-no-sidebar">
+    <h2>
+        Requests From Organizations</h2>
+    <table>
+        <tr>
+            <th>
+                机构
+            </th>
+            <th>
+                日期
+            </th>
+            <th>
+                # of New Students
+            </th>
+            <th>
+                Note
+            </th>
+            <th>
+                我的回复
+            </th>
+            <th>
+                进度
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Organization.Name
+                </td>
+                <td>
+                    @item.RequestDate
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumOfNews)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reply)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Progress)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

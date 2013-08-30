@@ -1,0 +1,26 @@
+﻿@model List<ccbs.Models.News>
+@{
+    Layout = null;
+}
+<div class="sidebar">
+    <div class="box">
+        <h4>
+            我们的足迹
+        </h4>
+        @foreach (var news in Model)
+        {
+            char[] temp = new char[20];
+            string title;
+            if (news.Title.Length > 14)
+            {
+                news.Title.CopyTo(0, temp, 0, 14);
+                title = new String(temp) + "...";
+            }
+            else
+            {
+                title = news.Title;
+            }
+            <p>@Html.ActionLink(title, "Details", "News", new { id = @news.Id }, null)</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@model List<ccbs.Models.HomeGallery>
+@{
+    Layout = null;
+}
+@if (Model != null && Model.Count > 1)
+{
+    <div>
+        <script type="text/javascript">
+            function startGallery() {
+                var myGallery = new gallery(Moo.$('myGallery'), {
+                    timed: true
+                });
+            }
+            window.onDomReady(startGallery);
+        </script>
+    </div>
+    <div id="myGallery">
+        @foreach (var pic in Model)
+        {
+            <div class="imageElement">
+                @if (!String.IsNullOrEmpty(pic.Title))
+                {
+                    <h3>
+                        @pic.Title</h3>
+                }
+                @if (!String.IsNullOrEmpty(pic.Description))
+                {
+                    <p>
+                        @pic.Description</p>
+                }
+                @if (!String.IsNullOrEmpty(pic.HyperLink))
+                {
+                    <a href="@pic.HyperLink" title="open image" class="open"></a>
+                }
+                <img src="@pic.Picture" class="full" />
+                <img src="@ccbs.Controllers.HomeGalleryController.ToThumbnailPath(pic.Picture)"
+                    class="thumbnail" />
+            </div>
+        }
+    </div>
+}

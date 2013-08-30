@@ -1,0 +1,12 @@
+﻿@model ccbs.Models.BBUser
+@{
+    Layout = null;
+}
+<div>
+    <h4>@Model.Name, Welcome to join Bangbang</h4>
+    <p>
+        Please Click the following Link to activate your account</p>
+    <div>
+        @Html.ActionLink("Activate My Account", "ActivateMyAccount", "BBUser", "http", "www.utdbaike.com", "_blank", new { bbUserId = Model.Id, emailAddr = ViewBag.emailAddr, hashCode = ViewBag.hashCode }, null)
+    </div>
+</div>

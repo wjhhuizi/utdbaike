@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WebModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="WebModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Activities" EntityType="WebModel.Activity" />
+    <EntitySet Name="SMMessages" EntityType="WebModel.SMMessage" />
+    <EntitySet Name="Coworkers" EntityType="WebModel.Coworker" />
+    <EntitySet Name="Meetings" EntityType="WebModel.Meeting" />
+    <EntitySet Name="News" EntityType="WebModel.News" />
+    <EntitySet Name="Paragraphs" EntityType="WebModel.Paragraph" />
+    <AssociationSet Name="NewsParagraph" Association="WebModel.NewsParagraph">
+      <End Role="News" EntitySet="News" />
+      <End Role="Paragraph" EntitySet="Paragraphs" />
+    </AssociationSet>
+    <EntitySet Name="HomeGalleries" EntityType="WebModel.HomeGallery" />
+    <EntitySet Name="EmailRecords" EntityType="WebModel.EmailRecord" />
+    <EntitySet Name="SubDirectories" EntityType="WebModel.SubDirectory" />
+    <EntitySet Name="Articles" EntityType="WebModel.Article" />
+    <AssociationSet Name="SubDirectoryTopDirectory" Association="WebModel.SubDirectoryTopDirectory">
+      <End Role="SubDirectory" EntitySet="SubDirectories" />
+      <End Role="SubDirectory1" EntitySet="SubDirectories" />
+    </AssociationSet>
+    <AssociationSet Name="DirectoryArticle" Association="WebModel.DirectoryArticle">
+      <End Role="SubDirectory" EntitySet="SubDirectories" />
+      <End Role="Article" EntitySet="Articles" />
+    </AssociationSet>
+    <EntitySet Name="ArticleComments" EntityType="WebModel.ArticleComment" />
+    <AssociationSet Name="ArticleAndComment" Association="WebModel.ArticleAndComment">
+      <End Role="Article" EntitySet="Articles" />
+      <End Role="ArticleComment" EntitySet="ArticleComments" />
+    </AssociationSet>
+    <EntitySet Name="Questions" EntityType="WebModel.Question" />
+    <EntitySet Name="Answers" EntityType="WebModel.Answer" />
+    <AssociationSet Name="QuestionAnswer" Association="WebModel.QuestionAnswer">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Answer" EntitySet="Answers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Activity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+    <Property Name="Title" Nullable="true" Type="String" />
+    <Property Name="Address" Nullable="true" Type="String" />
+    <Property Name="Description" Nullable="true" Type="String" />
+    <Property Name="Picture" Nullable="true" Type="String" />
+    <Property Name="TimeFrom" Nullable="false" Type="DateTime" />
+    <Property Name="TimeTo" Nullable="false" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="SMMessage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="PostDate" />
+  </EntityType>
+  <EntityType Name="Coworker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Gender" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Phone" Nullable="true" />
+    <Property Type="String" Name="SelfIntro" Nullable="true" />
+    <Property Type="String" Name="Testimony" Nullable="true" />
+    <Property Type="String" Name="MindRenew" Nullable="true" />
+    <Property Type="String" Name="Service" Nullable="true" />
+    <Property Type="DateTime" Name="BeginDate" Nullable="true" />
+    <Property Type="DateTime" Name="LeaveDate" Nullable="true" />
+    <Property Type="String" Name="SelfPhoto" Nullable="true" />
+    <Property Type="String" Name="BaptisePhoto" Nullable="true" />
+    <Property Type="String" Name="Username" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Meeting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="Date" Nullable="false" />
+    <Property Type="Int32" Name="NumOfAtt" Nullable="true" />
+    <Property Type="String" Name="AttNames" Nullable="true" />
+    <Property Type="String" Name="Agenda" Nullable="true" />
+    <Property Type="String" Name="Content" Nullable="true" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+    <Property Type="String" Name="Title" Nullable="false" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <NavigationProperty Name="Paragraphs" Relationship="WebModel.NewsParagraph" FromRole="News" ToRole="Paragraph" />
+    <Property Type="Boolean" Name="Hidden" Nullable="false" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="Paragraph">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="SubTitle" Nullable="true" />
+    <Property Type="String" Name="Image" Nullable="true" />
+    <Property Type="String" Name="TextContent" Nullable="true" />
+    <NavigationProperty Name="News" Relationship="WebModel.NewsParagraph" FromRole="Paragraph" ToRole="News" />
+    <Property Type="Int32" Name="NewsId" Nullable="false" />
+  </EntityType>
+  <Association Name="NewsParagraph">
+    <End Type="WebModel.News" Role="News" Multiplicity="1" />
+    <End Type="WebModel.Paragraph" Role="Paragraph" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="News">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Paragraph">
+        <PropertyRef Name="NewsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HomeGallery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Picture" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="HyperLink" Nullable="true" />
+    <Property Type="Int32" Name="Order" Nullable="false" DefaultValue="100" />
+  </EntityType>
+  <EntityType Name="EmailRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Body" Nullable="true" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SubDirectory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <NavigationProperty Name="SubDirectories" Relationship="WebModel.SubDirectoryTopDirectory" FromRole="SubDirectory" ToRole="SubDirectory1" />
+    <NavigationProperty Name="TopDirectory" Relationship="WebModel.SubDirectoryTopDirectory" FromRole="SubDirectory1" ToRole="SubDirectory" />
+    <Property Type="Int32" Name="SubDirectoryId" Nullable="true" />
+    <NavigationProperty Name="Articles" Relationship="WebModel.DirectoryArticle" FromRole="SubDirectory" ToRole="Article" />
+    <Property Type="Int32" Name="Number" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Article">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="MainContent" Nullable="true" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <NavigationProperty Name="Directory" Relationship="WebModel.DirectoryArticle" FromRole="Article" ToRole="SubDirectory" />
+    <Property Type="Int32" Name="SubDirectoryId" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="Creator" Nullable="true" />
+    <NavigationProperty Name="Comments" Relationship="WebModel.ArticleAndComment" FromRole="Article" ToRole="ArticleComment" />
+    <Property Type="Int32" Name="Number" Nullable="false" />
+    <Property Type="Boolean" Name="Published" Nullable="false" DefaultValue="false" />
+    <Property Type="Int32" Name="LikeCount" Nullable="false" />
+    <Property Type="Int32" Name="VisitCount" Nullable="false" />
+  </EntityType>
+  <Association Name="SubDirectoryTopDirectory">
+    <End Type="WebModel.SubDirectory" Role="SubDirectory" Multiplicity="0..1" />
+    <End Type="WebModel.SubDirectory" Role="SubDirectory1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubDirectory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubDirectory1">
+        <PropertyRef Name="SubDirectoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DirectoryArticle">
+    <End Type="WebModel.SubDirectory" Role="SubDirectory" Multiplicity="1" />
+    <End Type="WebModel.Article" Role="Article" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubDirectory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="SubDirectoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ArticleComment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UserName" Nullable="false" />
+    <Property Type="String" Name="Comment" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <NavigationProperty Name="Article" Relationship="WebModel.ArticleAndComment" FromRole="ArticleComment" ToRole="Article" />
+    <Property Type="Int32" Name="ArticleId" Nullable="false" />
+    <Property Type="Int32" Name="LikeCount" Nullable="false" />
+  </EntityType>
+  <Association Name="ArticleAndComment">
+    <End Type="WebModel.Article" Role="Article" Multiplicity="1" />
+    <End Type="WebModel.ArticleComment" Role="ArticleComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Article">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ArticleComment">
+        <PropertyRef Name="ArticleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UserName" Nullable="false" />
+    <Property Type="String" Name="MainContent" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <NavigationProperty Name="Answers" Relationship="WebModel.QuestionAnswer" FromRole="Question" ToRole="Answer" />
+    <Property Type="String" Name="Title" Nullable="false" />
+    <Property Type="Int32" Name="LikeCount" Nullable="false" />
+    <Property Type="Int32" Name="VisitCount" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="MainContent" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="false" />
+    <NavigationProperty Name="Question" Relationship="WebModel.QuestionAnswer" FromRole="Answer" ToRole="Question" />
+    <Property Type="Int32" Name="QuestionId" Nullable="false" />
+    <Property Type="Int32" Name="LikeCount" Nullable="false" />
+  </EntityType>
+  <Association Name="QuestionAnswer">
+    <End Type="WebModel.Question" Role="Question" Multiplicity="1" />
+    <End Type="WebModel.Answer" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

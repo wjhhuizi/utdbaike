@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BangbangDBStoreContainer" CdmEntityContainer="BangbangDBContainer">
+    <EntitySetMapping Name="BBUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.BBUser)">
+        <MappingFragment StoreEntitySet="BBUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="ComeFrom" ColumnName="ComeFrom" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BBActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.BBActivity)">
+        <MappingFragment StoreEntitySet="BBActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="BBUserId" ColumnName="BBUserId" />
+          <ScalarProperty Name="PostDate" ColumnName="PostDate" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsDraft" ColumnName="IsDraft" />
+          <ScalarProperty Name="BBCategoryId" ColumnName="BBCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BBRegisterEntries">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.BBRegisterEntry)">
+        <MappingFragment StoreEntitySet="BBRegisterEntries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="UpCount" ColumnName="UpCount" />
+          <ScalarProperty Name="LowerCount" ColumnName="LowerCount" />
+          <ScalarProperty Name="GenderLimit" ColumnName="GenderLimit" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="BBActivityId" ColumnName="BBActivityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BBComments">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.BBComment)">
+        <MappingFragment StoreEntitySet="BBComments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="Postby" ColumnName="Postby" />
+          <ScalarProperty Name="BBActivityId" ColumnName="BBActivityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BBCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.BBCategory)">
+        <MappingFragment StoreEntitySet="BBCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(BangbangDB.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Domain" ColumnName="Domain" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BBUserBBRegisterEntry" TypeName="BangbangDB.BBUserBBRegisterEntry" StoreEntitySet="BBUserBBRegisterEntry">
+      <EndProperty Name="BBUser">
+        <ScalarProperty Name="Id" ColumnName="RegisteredBBUsers_Id" />
+      </EndProperty>
+      <EndProperty Name="BBRegisterEntry">
+        <ScalarProperty Name="Id" ColumnName="BBRegisterEntries_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

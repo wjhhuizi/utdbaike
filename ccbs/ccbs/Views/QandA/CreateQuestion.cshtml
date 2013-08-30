@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+    var currUserName = User.Identity.Name;
+}
+<div>
+    @using (Ajax.BeginForm("CreateQuestion", "QandA", null, new AjaxOptions { OnComplete = "CreateQuestion_OnComplete" }))
+    {
+        <div class="editor-label">
+            <h4 style="font-size: small; color: Blue;">
+                有什么问题需要问师兄师姐的吗?</h4>
+        </div>
+        <div class="editor-field">
+            <input type="text" name="Title" id="Title" style="width: 215px;" />
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("MainContent", new { style = "width: 220px; height: 150px;" })
+        </div>
+        <p>
+            <input type="submit" value="提交" />
+        </p>
+    }
+</div>
+<br />
+<div style="font-size: small;">
+    <h4 style="color: Blue;">
+        提问的问题</h4>
+    <br />
+    @{Html.RenderAction("_ShowQuestions", "QandA", new { username = currUserName });}
+</div>
+<script type="text/javascript">
+    function CreateQuestion_OnComplete(context) {
+        var JsonAdd = context.get_response().get_object();
+
+        if (JsonAdd.Success) {
+            $("#display-questions").html(JsonAdd.PartialViewHtml);
+            alert("问题post成功! 请等待其他志愿者的回答");
+        }
+        else {
+            alert("问题标题不能为空！");
+        }
+    }
+</script>

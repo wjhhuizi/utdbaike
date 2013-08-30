@@ -1,0 +1,57 @@
+﻿@model ccbs.Models.Section
+@{
+    Layout = null;
+    var galleryId = "sectionGallery" + Model.Id;
+}
+<div id="section-box">
+    <h3 style="background-color: @Model.TitleColor;">
+        @Model.Title</h3>
+    @if (Model.GalleryItems != null && Model.GalleryItems.Count > 1)
+    {
+        <script type="text/javascript">
+            function startGallery() {
+                var myGallery = new gallery(Moo.$('@galleryId'), {
+                    timed: true,
+                    showArrows: true,
+                    showInfopane: false,
+                    showCarousel: false,
+                    embedLinks: true,
+                    delay: 3000
+                });
+            }
+            window.onDomReady(startGallery);
+        </script>
+        <div id="@galleryId" class="sectionGallery">
+            @foreach (var pic in Model.GalleryItems)
+            {
+                <div class="imageElement">
+                    @if (!String.IsNullOrEmpty(pic.Title))
+                    {
+                        <h3>
+                            @pic.Title</h3>
+                    }
+                    @if (!String.IsNullOrEmpty(pic.Description))
+                    {
+                        <p>
+                            @pic.Description</p>
+                    }
+                    @if (!String.IsNullOrEmpty(pic.HyperLink))
+                    {
+                        <a href="@pic.HyperLink" title="click me" class="open"></a>
+                    }
+                    <img src="@pic.Picture" class="full" />
+                </div>
+            }
+        </div>
+    }
+    <div class="mainpart">
+        <div style="padding-left: 3px; padding-top: 3px;" class="arrowLinks">
+            <ul>
+                @foreach (var item in Model.SubItems)
+                {
+                    <li><a href="@item.Link">@item.Text</a> </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

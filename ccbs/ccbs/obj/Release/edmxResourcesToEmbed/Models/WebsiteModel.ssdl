@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl" Alias="Self" Namespace="webDBModel.Store" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0">
+  <EntityContainer Name="webDBModelStoreContainer">
+    <EntitySet Name="Activities" EntityType="webDBModel.Store.Activities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BibleStudies" EntityType="webDBModel.Store.BibleStudies" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BibleStudyCoworkers" EntityType="webDBModel.Store.BibleStudyCoworkers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ContactInfoes" EntityType="webDBModel.Store.ContactInfoes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EdmMetadatas" EntityType="webDBModel.Store.EdmMetadatas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Introductions" EntityType="webDBModel.Store.Introductions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="News" EntityType="webDBModel.Store.News" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserGroupRelations" EntityType="webDBModel.Store.UserGroupRelations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserGroups" EntityType="webDBModel.Store.UserGroups" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfoes" EntityType="webDBModel.Store.UserInfoes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Worships" EntityType="webDBModel.Store.Worships" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorshipSongRelations" EntityType="webDBModel.Store.WorshipSongRelations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorshipSongs" EntityType="webDBModel.Store.WorshipSongs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="BibleStudyCoworkers_bibleStudy" Association="webDBModel.Store.BibleStudyCoworkers_bibleStudy">
+      <End EntitySet="BibleStudies" Role="BibleStudies" />
+      <End EntitySet="BibleStudyCoworkers" Role="BibleStudyCoworkers" />
+    </AssociationSet>
+    <AssociationSet Name="BibleStudyCoworkers_coworkers" Association="webDBModel.Store.BibleStudyCoworkers_coworkers">
+      <End EntitySet="UserInfoes" Role="UserInfoes" />
+      <End EntitySet="BibleStudyCoworkers" Role="BibleStudyCoworkers" />
+    </AssociationSet>
+    <AssociationSet Name="UserGroupRelation_user" Association="webDBModel.Store.UserGroupRelation_user">
+      <End EntitySet="UserInfoes" Role="UserInfoes" />
+      <End EntitySet="UserGroupRelations" Role="UserGroupRelations" />
+    </AssociationSet>
+    <AssociationSet Name="UserGroupRelation_userGroup" Association="webDBModel.Store.UserGroupRelation_userGroup">
+      <End EntitySet="UserGroups" Role="UserGroups" />
+      <End EntitySet="UserGroupRelations" Role="UserGroupRelations" />
+    </AssociationSet>
+    <AssociationSet Name="UserInfo_userGroup" Association="webDBModel.Store.UserInfo_userGroup">
+      <End EntitySet="UserGroups" Role="UserGroups" />
+      <End EntitySet="UserInfoes" Role="UserInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="Worship_WorshipGroup" Association="webDBModel.Store.Worship_WorshipGroup">
+      <End EntitySet="UserGroups" Role="UserGroups" />
+      <End EntitySet="Worships" Role="Worships" />
+    </AssociationSet>
+    <AssociationSet Name="WorshipSongRelation_worship" Association="webDBModel.Store.WorshipSongRelation_worship">
+      <End EntitySet="Worships" Role="Worships" />
+      <End EntitySet="WorshipSongRelations" Role="WorshipSongRelations" />
+    </AssociationSet>
+    <AssociationSet Name="WorshipSongRelation_song" Association="webDBModel.Store.WorshipSongRelation_song">
+      <End EntitySet="WorshipSongs" Role="WorshipSongs" />
+      <End EntitySet="WorshipSongRelations" Role="WorshipSongRelations" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Activities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="title" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="time" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="address" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="acontent" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="picture" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="flyer" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="BibleStudies">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="date" Nullable="false" Type="datetime" />
+    <Property Name="topic" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="bscontent" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="application" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="share" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="BibleStudyCoworkers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="bibleStudy_ID" Nullable="true" Type="int" />
+    <Property Name="coworkers_ID" Nullable="true" Type="int" />
+  </EntityType>
+  <EntityType Name="ContactInfoes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="changeDate" Nullable="false" Type="datetime" />
+    <Property Name="contactInfo1" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="EdmMetadatas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="ModelHash" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="Introductions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="changeDate" Nullable="false" Type="datetime" />
+    <Property Name="title" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="icontent" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="changeDate" Nullable="false" Type="datetime" />
+    <Property Name="title" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="ncontent" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="UserGroupRelations">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="userGroup_ID" Nullable="true" Type="int" />
+    <Property Name="user_ID" Nullable="true" Type="int" />
+  </EntityType>
+  <EntityType Name="UserGroups">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="name" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="comment" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="UserInfoes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Gender" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Email" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Phone" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Major" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Year" Nullable="false" Type="int" />
+    <Property Name="Term" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="userGroup_ID" Nullable="true" Type="int" />
+  </EntityType>
+  <EntityType Name="Worships">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="refDate" Nullable="false" Type="datetime" />
+    <Property Name="WorshipGroup_ID" Nullable="true" Type="int" />
+  </EntityType>
+  <EntityType Name="WorshipSongRelations">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="worship_ID" Nullable="true" Type="int" />
+    <Property Name="song_ID" Nullable="true" Type="int" />
+  </EntityType>
+  <EntityType Name="WorshipSongs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="literalCategory" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Comment" Nullable="true" MaxLength="4000" Type="nvarchar" />
+    <Property Name="Link" Nullable="true" MaxLength="4000" Type="nvarchar" />
+  </EntityType>
+  <Association Name="BibleStudyCoworkers_bibleStudy">
+    <End Type="webDBModel.Store.BibleStudies" Multiplicity="0..1" Role="BibleStudies" />
+    <End Type="webDBModel.Store.BibleStudyCoworkers" Multiplicity="*" Role="BibleStudyCoworkers" />
+    <ReferentialConstraint>
+      <Principal Role="BibleStudies">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BibleStudyCoworkers">
+        <PropertyRef Name="bibleStudy_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BibleStudyCoworkers_coworkers">
+    <End Type="webDBModel.Store.UserInfoes" Multiplicity="0..1" Role="UserInfoes" />
+    <End Type="webDBModel.Store.BibleStudyCoworkers" Multiplicity="*" Role="BibleStudyCoworkers" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfoes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BibleStudyCoworkers">
+        <PropertyRef Name="coworkers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserGroupRelation_user">
+    <End Type="webDBModel.Store.UserInfoes" Multiplicity="0..1" Role="UserInfoes" />
+    <End Type="webDBModel.Store.UserGroupRelations" Multiplicity="*" Role="UserGroupRelations" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfoes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserGroupRelations">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserGroupRelation_userGroup">
+    <End Type="webDBModel.Store.UserGroups" Multiplicity="0..1" Role="UserGroups" />
+    <End Type="webDBModel.Store.UserGroupRelations" Multiplicity="*" Role="UserGroupRelations" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroups">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserGroupRelations">
+        <PropertyRef Name="userGroup_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserInfo_userGroup">
+    <End Type="webDBModel.Store.UserGroups" Multiplicity="0..1" Role="UserGroups" />
+    <End Type="webDBModel.Store.UserInfoes" Multiplicity="*" Role="UserInfoes" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroups">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserInfoes">
+        <PropertyRef Name="userGroup_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Worship_WorshipGroup">
+    <End Type="webDBModel.Store.UserGroups" Multiplicity="0..1" Role="UserGroups" />
+    <End Type="webDBModel.Store.Worships" Multiplicity="*" Role="Worships" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroups">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Worships">
+        <PropertyRef Name="WorshipGroup_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorshipSongRelation_worship">
+    <End Type="webDBModel.Store.Worships" Multiplicity="0..1" Role="Worships" />
+    <End Type="webDBModel.Store.WorshipSongRelations" Multiplicity="*" Role="WorshipSongRelations" />
+    <ReferentialConstraint>
+      <Principal Role="Worships">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WorshipSongRelations">
+        <PropertyRef Name="worship_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorshipSongRelation_song">
+    <End Type="webDBModel.Store.WorshipSongs" Multiplicity="0..1" Role="WorshipSongs" />
+    <End Type="webDBModel.Store.WorshipSongRelations" Multiplicity="*" Role="WorshipSongRelations" />
+    <ReferentialConstraint>
+      <Principal Role="WorshipSongs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WorshipSongRelations">
+        <PropertyRef Name="song_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

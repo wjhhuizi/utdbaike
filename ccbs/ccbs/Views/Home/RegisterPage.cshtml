@@ -1,0 +1,23 @@
+﻿@using myResources = ccbs.Views.Home.HomeResources
+@{
+    ViewBag.Title = myResources.Reg_Tite;
+}
+<div id="content-no-sidebar">
+    <h2 style="text-align: center;">
+        @myResources.Reg_Tite</h2>
+    <div style="padding-left: 150px; padding-top: 50px;">
+        <ul>
+            <li style="display: inline;">
+                <button onclick="window.location.href='../Volunteer/VolunteerRegister'" style="width: 350px;
+                    height: 60px;">
+                    <b style="font-size: large; color: Blue;">@myResources.Reg_Volunteer</b></button>
+            </li>
+            <li style="display: inline; padding-left: 50px;">
+                <button onclick="window.location.href='../NewStudent/NewStudentRegister'" style="width: 350px;
+                    height: 60px;">
+                    <b style="font-size: large; color: Blue;">@myResources.Reg_NewStudent</b></button>
+            </li>
+        </ul>
+    </div>
+    <br class="clearfix" />
+</div>

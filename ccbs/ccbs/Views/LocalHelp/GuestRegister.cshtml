@@ -1,0 +1,80 @@
+﻿@model ccbs.Models.GuestParticipant
+@{
+    ViewBag.Title = "Registration Form";
+    ccbs.Models.RegisterEntry registerEntry = ViewBag.registerEntry;
+}
+<div id="content-no-sidebar">
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <div>
+        <h3 style="background-color: Orange; color: #FFFFFF;">
+            @*Guest Registration For @registerEntry.LocalHelp.Title *@(如果您已经有账号请先登录您的账号，再报名，如果您还未注册请先注册为新生再进入报名)</h3>
+        @*<div class="mainpart">
+            <div style="float: left; padding-left: 3px; padding-top: 3px; width: 450px;">
+                <div class="display-label">
+                    Event Name</div>
+                <div class="display-field">
+                    @registerEntry.LocalHelp.Title
+                </div>
+                <div class="display-label">
+                    @Html.ActionLink(">>详细介绍>>", "LocalhelpDetails", "LocalHelp", new { id = registerEntry.LocalHelp.Id }, null)</div>
+                <div class="display-label">
+                    时间</div>
+                <div class="display-field">
+                    @registerEntry.Time.ToString("MM/dd/yyyy hh:mm tt")
+                </div>
+                <div class="display-label">
+                    接送地点</div>
+                <div class="display-field">
+                    @registerEntry.Address
+                </div>
+                <div class="display-label">
+                    联系人</div>
+                <div class="display-field">
+                    @registerEntry.Contact
+                </div>
+            </div>
+            <div class="box" style="float: left; padding-left: 20px; padding-top: 3px; width: 300px;">
+                @if (registerEntry.IsActive == false)
+                {
+                    <p style="color: Red;">
+                        Sorry, the registration for this local help is closed!</p>
+                }
+                else
+                {
+                    using (Html.BeginForm())
+                    {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.RegisterEntryId)
+                    @Html.HiddenFor(model => model.IsChristian)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Name, "姓名")
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Email, "常用的邮箱")
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Email)
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Phone, "手机号码")
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Phone)
+                        @Html.ValidationMessageFor(model => model.Phone)
+                    </div>
+                    <div style="float: right; padding-top: 20px;">
+                        <input type="submit" value="注册" style="width: 70px; background-color: Orange;" />
+                    </div>
+                    }
+                }
+            </div>
+        </div>*@
+    </div>
+    <br class="clearfix" />
+</div>

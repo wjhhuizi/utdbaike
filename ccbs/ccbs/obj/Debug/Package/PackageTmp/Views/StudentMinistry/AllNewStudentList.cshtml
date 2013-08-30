@@ -1,0 +1,235 @@
+﻿@using MyResources = ccbs.Views.StudentMinistry.StudentMinstryResources
+@model IEnumerable<ccbs.Models.NewStudentViewModel>
+@{
+    ViewBag.Title = MyResources.ASL_Title;
+}
+<div id="content-no-sidebar">
+    <div>
+        <div style="float: left;">
+            <h3>
+                @MyResources.ASL_Title</h3>
+        </div>
+        <div style="float: left; padding-left: 30px;">
+            @Html.ActionLink(MyResources.SL_GoBack, "VolunteerHome")
+        </div>
+        <div style="float: left; padding-left: 30px;">
+            <a onclick="openStatisticsWindow()">@MyResources.SL_ShowStatistics</a>
+        </div>
+        <div style="float: left; padding-left: 30px;">
+            @Html.ActionLink(MyResources.SL_ShowUnassigned, "NewStudentList")
+        </div>
+        <br />
+        <br />
+        <div>
+            @(Html.Telerik().Grid(Model)
+    .Name("NewStudentGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.CnName).Width(70).Title(@MyResources.SL_Name);
+        columns.Bound(o => o.Gender).Width(70).Title(@MyResources.SL_Gender);
+        columns.Bound(o => o.ComeFrom).Width(70).Title(@MyResources.SL_ComeFrom);
+        columns.Bound(o => o.Major).Width(80).Title(@MyResources.SL_Major);
+        columns.Bound(o => o.ArrivalTime).Width(80).Title(@MyResources.SL_Arrive);
+        columns.Bound(o => o.Flight).Width(90).Title(@MyResources.SL_Flight);
+        columns.Bound(o => o.Note).Width(120).Title(@MyResources.SL_Note);
+        columns.Command(commands => commands
+                   .Custom("PickupNewStudent")
+                   .Text("Pickup")
+                   .DataRouteValues(route => route.Add(o => o.Id).RouteKey("Id"))
+                   .Ajax(true)
+                   .Action("PickupNewStudent", "StudentMinistry"))
+               .HtmlAttributes(new { style = "text-align: center" })
+               .Width(100);
+        columns.Command(commands => commands
+                       .Custom("TempHousingNewStudent")
+                       .Text("Housing")
+                       .DataRouteValues(route => route.Add(o => o.Id).RouteKey("Id"))
+                       .Ajax(true)
+                       .Action("TempHousingNewStudent", "StudentMinistry"))
+                   .HtmlAttributes(new { style = "text-align: center" })
+                   .Width(100);
+        columns.Bound(o => o.PickupStatus).Width(120).Title(@MyResources.SL_PickupStatus);
+        columns.Bound(o => o.TempHousingStatus).Width(120).Title(@MyResources.SL_HousingStatus);
+    })
+    .ClientEvents(events => events.OnComplete("onComplete"))
+    .DataBinding(dataBinding
+                    => dataBinding.Ajax().Select("_AllNewStudentList", "StudentMinistry"))
+    .Pageable(paging => paging.Enabled(false))
+    .Resizable(resizing => resizing.Columns(true))
+    .Scrollable(c => c.Height("500px"))
+    .Sortable()
+    .Filterable())
+        </div>
+    </div>
+    @(Html.Telerik().Window()
+    .Name("PickupRequest")
+    .Visible(false)
+    .Title("New Student Pickup and Temp Housing")
+    .Modal(true)
+    .Width(400)
+    .Height(300)
+    .Content(@<text>
+    <div id="student-details">
+        <p id="actionStatus" style="font-size: large; color: Red; text-align: center;">
+        </p>
+        <p id="studentInfo">
+        </p>
+        <p id="StudentFlight">
+        </p>
+        <p id="studentContact">
+        </p>
+        <p id="moreNote" style="color: Red;">
+        </p>
+    </div>
+    </text>)
+)
+    @(Html.Telerik().Window()
+    .Name("StatisticsWindow")
+    .Visible(false)
+    .Title("Pickup and Temp Housing Statistics")
+    .LoadContentFrom("CurrVolunteerStatistics", "StudentMinistry")
+    .Buttons(buttons => buttons.Refresh().Maximize().Close())
+    .Width(450)
+    .Height(500)
+    .Draggable(true))
+    <br class="clearfix" />
+</div>
+<script type="text/javascript">
+    function onComplete(e) {
+        if (e.name == "PickupNewStudent" || e.name == "TempHousingNewStudent") {
+
+            //if ($(".t-grid .t-refresh").exists()) {
+            $(".t-grid .t-refresh").trigger('click');
+            // }
+
+            var detailWindow = $("#PickupRequest").data("tWindow");
+            var status = e.response.status;
+            if (status == "pickup-no-need") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("This student has no need of pickup. Please Select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else if (status == "pickup-assigned") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("The pickup of this student has been assigned. Please Select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else if (status == "housing-no-need") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("This student has no need of Temp Housing. Please Select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else if (status == "housing-assigned") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("The Temp Housing of this student has been assigned. Please Select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else if (status == "different-gender") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("The Temp-Housing host voluteer and the hosted student must be the same gender if you are sigle-male or single-female. Please Select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else if (status == "out-group") {
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Selection Failed!")
+                .end()
+                .find("p#studentInfo")
+                .text("This student has been removed from your group. This may happen when your group leader returned this student to your organization.Please select another one. Thank you")
+                .end()
+                .find("p#StudentFlight")
+                .text("")
+                .end()
+                .find("p#studentContact")
+                .text("")
+                .end()
+                .find("p#moreNote")
+                .text("");
+            }
+            else {
+                var student = e.response.student;
+                $("#student-details")
+                .find("p#actionStatus")
+                .text("Successfully Selected!")
+                .end()
+                .find("p#studentInfo")
+                .text(student.Name + ",   " + student.Gender + ",   " + "Major in " + student.Major)
+                .end()
+                .find("p#StudentFlight")
+                .text("Flight: " + student.Flight + "\nArrival: " + student.ArrivalTime)
+                .end()
+                .find("p#studentContact")
+                .text("Contact: " + student.Email)
+                .end()
+                .find("p#moreNote")
+                .text("You can cancel this selection no later than one week before this student arrives");
+            }
+            detailWindow.center().open();
+        }
+    }
+
+    function openStatisticsWindow() {
+        var window = $("#StatisticsWindow").data("tWindow");
+        window.center().open().refresh();
+    }
+</script>

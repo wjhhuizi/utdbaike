@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "UTD 校园事工";
+}
+<div id="content">
+    <h2>
+        UTD 校园事工</h2>
+    <div>
+        <ul>
+            <li><big>Entry For</big>
+                <button onclick="window.location.href='../StudentMinistry/VolunteerHome'" style="width: 350px;
+                    height: 60px;">
+                    <b style="font-size: large; color: Blue;">Volunteers</b></button>
+            </li>
+            <li><big>Entry For</big>
+                <button onclick="window.location.href='../NewStudent/NewStudentHome'" style="width: 350px;
+                    height: 60px;">
+                    <b style="font-size: large; color: Blue;">2012 Fall New Student</b></button>
+            </li>
+            <li><big>Entry For</big>
+                <button onclick="window.location.href='../LocalHelp/'" style="width: 350px;
+                    height: 60px;">
+                    <b style="font-size: large; color: Blue;">Local Help Registration</b></button>
+            </li>
+        </ul>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

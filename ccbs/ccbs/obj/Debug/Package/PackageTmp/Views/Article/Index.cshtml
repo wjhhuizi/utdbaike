@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ccbs.Models.TreeViewModel>
+@{
+    ViewBag.Title = "UTD 中国学生百科";
+    string articleType = ccbs.Models.TreeNodeType.ArticleItem.ToString();
+    bool IsPreviliged = (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.MyRoles.baikeEditor));
+    string IsEditor = IsPreviliged.ToString();
+}
+<div class="leftsidebar">
+    <div id="baike-menu">
+        <div>
+            <h4>
+                百科目录
+                @if (IsPreviliged)
+                {
+                    <span>&nbsp&nbsp</span>@Html.ActionLink("新建", "CreateDirectory", new { topDirId = -1 })
+                }</h4>
+        </div>
+        <br />
+        <div>
+            @(Html.Telerik().TreeView()
+        .Name("TreeView")
+        .ClientEvents(events => events
+            .OnSelect("OnTreeViewItemSelected")
+                    .OnLoad("OnTreeViewLoad"))
+        .BindTo(Model, mappings =>
+        {
+            mappings.For<ccbs.Models.TreeViewModel>(binding => binding
+                    .ItemDataBound((item, treeNode) =>
+                    {
+                        item.Value = treeNode.Type.ToString() + "," + treeNode.Id.ToString();
+                        item.Text = treeNode.Title;
+                        item.ImageUrl = treeNode.ImageUrl;
+                    })
+                    .Children(treeNode => treeNode.SubNodes));
+            mappings.For<ccbs.Models.TreeViewModel>(binding => binding
+                    .ItemDataBound((item, treeNode) =>
+                    {
+                        item.Value = treeNode.Type.ToString() + "," + treeNode.Id.ToString();
+                        item.Text = treeNode.Title;
+                        item.ImageUrl = treeNode.ImageUrl;
+                    }));
+        })
+)
+        </div>
+    </div>
+</div>
+<div id="right-content">
+    <div id="display-content">
+        @{Html.RenderAction("ShowDeclaration", "Article", null);}
+    </div>
+</div>
+<script type="text/javascript">
+    function treeView() {
+        return $('#TreeView').data('tTreeView');
+    }
+
+    function OnTreeViewItemSelected(e) {
+        var value = treeView().getItemValue(e.item);
+        var typeAndId = value.split(",");
+        //if ((typeAndId[0] == '@articleType') || ('@IsEditor' == 'True')) {
+        $('#display-content').load('/Article/ShowTreeNodeContent?typeAndId=' + value, function () {
+            location.hash = value;
+        });
+        //}
+    }
+
+    function OnTreeViewLoad(e) {
+        var hash = location.hash;
+        if (hash == null) {
+            return;
+        }
+        var array1 = hash.split("#");
+        var typeAndId = array1[1];
+        if (typeAndId == null) {
+            return;
+        }
+        var tree = treeView();
+        var node = tree.findByValue(typeAndId);
+        if (node == null) {
+            return;
+        }
+        var array = typeAndId.split(",");
+        if (array[0] == '@articleType') {
+            treeView().expand(node.parent().closest(".t-item"));
+
+        }
+        else {
+            treeView().expand(node);
+        }
+        $('#display-content').load('/Article/ShowTreeNodeContent?typeAndId=' + typeAndId, function () {
+            location.hash = typeAndId;
+        });
+    }
+</script>

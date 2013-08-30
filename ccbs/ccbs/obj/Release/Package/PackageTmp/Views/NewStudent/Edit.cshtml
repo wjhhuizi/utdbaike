@@ -1,0 +1,140 @@
+﻿@model ccbs.Models.NewStudentInfoModel
+@{
+    ViewBag.Title = "编辑信息";
+}
+<div id="content">
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>编辑信息</legend>
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.UserName)
+            @Html.HiddenFor(model => model.RegTime)
+            @Html.HiddenFor(model => model.LastUpdate)
+            <h4>
+                个人信息</h4>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CnName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.CnName)
+                @Html.ValidationMessageFor(model => model.CnName)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Gender)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.Gender, new[]
+                {
+                   new SelectListItem{Value=ccbs.Models.SystemGender.singleFemale.ToString(), Text=ccbs.Models.SystemGender.singleFemaleString},
+                   new SelectListItem{Value=ccbs.Models.SystemGender.singleMale.ToString(), Text=ccbs.Models.SystemGender.singleMaleString}, 
+                })
+                @Html.ValidationMessageFor(model => model.Gender)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ComeFrom)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ComeFrom)
+                @Html.ValidationMessageFor(model => model.ComeFrom)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Phone)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Phone)
+                @Html.ValidationMessageFor(model => model.Phone)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Major)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Major)
+                @Html.ValidationMessageFor(model => model.Major)
+            </div>
+            <br />
+            <h4>
+                接机和临住信息</h4>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Flight)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Flight)
+                @Html.ValidationMessageFor(model => model.Flight)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ArrivalTime)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ArrivalTime)
+                @Html.ValidationMessageFor(model => model.ArrivalTime)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.EntryPort)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.EntryPort)
+                @Html.ValidationMessageFor(model => model.EntryPort)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.NeedPickup)
+            </div>
+            <div class="editor-field">
+                <b>Yes</b> @Html.EditorFor(model => model.NeedPickup)
+                @Html.ValidationMessageFor(model => model.NeedPickup)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.NeedTempHousing)
+            </div>
+            <div class="editor-field">
+                <b>Yes</b> @Html.EditorFor(model => model.NeedTempHousing)
+                @Html.ValidationMessageFor(model => model.NeedTempHousing)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DaysOfTempHousing)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.DaysOfTempHousing, new[]
+                {
+                      new SelectListItem{Value=ccbs.Models.TempHouseLength.Under3.ToString(), Text="小于3天"},
+                      new SelectListItem{Value=ccbs.Models.TempHouseLength.From3To7.ToString(), Text="3~7天"},
+                      new SelectListItem{Value=ccbs.Models.TempHouseLength.From7To10.ToString(), Text="7~10天"},
+                      new SelectListItem{Value=ccbs.Models.TempHouseLength.Over10.ToString(), Text="10天以上"},
+                      new SelectListItem{Value=ccbs.Models.TempHouseLength.NotSure.ToString(), Text="稍后再定"},
+                })
+                @Html.ValidationMessageFor(model => model.DaysOfTempHousing)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Note)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.Note)
+                @Html.ValidationMessageFor(model => model.Note)
+            </div>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+    }
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

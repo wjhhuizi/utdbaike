@@ -1,0 +1,38 @@
+﻿@model ccbs.Models.Paragraph
+@{
+    ViewBag.Title = "Delete";
+}
+<div id="content">
+    <h3>
+        确定删除这一段吗?</h3>
+    <fieldset>
+        <legend>Paragraph</legend>
+        <div class="display-label">
+            段落标题</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SubTitle)
+        </div>
+        <div class="display-label">
+            图片</div>
+        <div class="display-field">
+            <img src="@Model.Image" alt="" />
+        </div>
+        <div class="display-label">
+            文字内容</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.TextContent)
+        </div>
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        <p>
+            <input type="submit" value="删除" />
+            |
+            @Html.ActionLink("返回", "Details", "News", new { id = Model.NewsId }, null)
+        </p>
+    }
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderAction("_newsSidebar", "News", null);}
+</div>

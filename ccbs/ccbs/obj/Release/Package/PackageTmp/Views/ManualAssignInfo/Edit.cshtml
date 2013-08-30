@@ -1,0 +1,83 @@
+﻿@model ccbs.Models.ManualAssignInfo
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>ManualAssignInfo</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Type)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VolName)
+            @Html.ValidationMessageFor(model => model.VolName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolGender)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VolGender)
+            @Html.ValidationMessageFor(model => model.VolGender)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolEmail)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VolEmail)
+            @Html.ValidationMessageFor(model => model.VolEmail)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolPhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VolPhone)
+            @Html.ValidationMessageFor(model => model.VolPhone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolAddr)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VolAddr)
+            @Html.ValidationMessageFor(model => model.VolAddr)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastUpdate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastUpdate)
+            @Html.ValidationMessageFor(model => model.LastUpdate)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

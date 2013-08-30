@@ -1,0 +1,13 @@
+﻿@model ccbs.Models.Volunteer
+@{
+    ViewBag.Title = @Model.Name + " 's Home";
+}
+<div id="content">
+    <h3>
+        我的主页</h3>
+    
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

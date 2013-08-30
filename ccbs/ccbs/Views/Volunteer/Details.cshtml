@@ -1,0 +1,205 @@
+﻿@model ccbs.Models.Volunteer
+@{
+    Layout = null;
+    bool showCancel = ViewBag.showCancel;
+    var currVolId = Model.Id;
+    var highPreviliged = User.IsInRole(ccbs.Models.LWSFRoles.groupLeader)
+        || User.IsInRole(ccbs.Models.LWSFRoles.organizationLeader)
+        || User.IsInRole(ccbs.Models.LWSFRoles.admin)
+        || User.IsInRole(ccbs.Models.LWSFRoles.newStudentAdmin);
+}
+<h4>
+    Name: @Model.Name
+</h4>
+<p>
+    Email: @Model.Email</p>
+<p>
+    Address: @Model.Address
+</p>
+<p>
+    Phone: @Model.Phone
+</p>
+<p>
+    From: @Model.Organization.Name</p>
+<div id="CancelResult">
+</div>
+<div style="padding-top: 30px;">
+    <h3>
+        接机列表</h3>
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                来自
+            </th>
+            <th>
+                Arrive
+            </th>
+            <th>
+                Flight
+            </th>
+            <th>
+                Temp Housing
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model.PickupNewStudents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CnName)
+                </td>
+                <td>
+                    @ccbs.Models.SystemGender.ToStringGender(item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComeFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight)
+                </td>
+                <td>
+                    @if (item.TempHouseVolunteer != null)
+                    {
+                        @("Assigned: " + item.TempHouseVolunteer.Name)
+                        <br />
+                        @("Address: " + item.TempHouseVolunteer.Address)
+                    }
+                    else if (item.NeedTempHousing)
+                    {
+                        @("Not assigned");
+                    }
+                    else if (!item.NeedTempHousing)
+                    {
+                        @("No need of Temp-Housing");
+                    }
+                </td>
+                <td>
+                    @if (showCancel)
+                    {
+                        var dl = DateTime.Now.AddDays(ccbs.Models.SetupParameters.CancelDeadline);
+                        bool cancelEnabled = (highPreviliged) || (DateTime.Compare(dl, item.ArrivalTime) < 0); 
+                        <a onclick="cancelPickup(@item.Id, '@currVolId', '@cancelEnabled')">Cancel</a> 
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div style="padding-top: 30px; padding-bottom: 20px;">
+    <h3>
+        临住列表</h3>
+    <table>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                来自
+            </th>
+            <th>
+                Arrive
+            </th>
+            <th>
+                Flight
+            </th>
+            <th>
+                Comment
+            </th>
+            <th>
+                Pick up
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model.TempHouseNewStudents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CnName)
+                </td>
+                <td>
+                    @ccbs.Models.SystemGender.ToStringGender(item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComeFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Major)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight)
+                </td>
+                <td>
+                    @if (item.PickupVolunteer != null)
+                    {
+                        @("Assigned: " + item.PickupVolunteer.Name)
+                        <br />@("Email: " + item.PickupVolunteer.Email)
+                    }
+                    else if (item.NeedPickup)
+                    {
+                        @("Not assigned");
+                    }
+                    else if (!item.NeedPickup)
+                    {
+                        @("No need of pickup");
+                    }
+                </td>
+                <td>
+                    @if (showCancel)
+                    {
+                        var dl = DateTime.Now.AddDays(ccbs.Models.SetupParameters.CancelDeadline);
+                        bool cancelEnabled = (highPreviliged) || (DateTime.Compare(dl, item.ArrivalTime) < 0);
+                        <a onclick="cancelHousing(@item.Id, '@currVolId', '@cancelEnabled')">Cancel</a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<script type="text/javascript">
+    function cancelPickup(StudId, volId, cancelEnabled) {
+        if (cancelEnabled == "False") {
+            alert("Warning! This student will arrive soon. If you cancel this, you must reassign this student in your group and cannot return to your organization");
+        }
+
+        var r = confirm("Are you sure to cancel this pickup?");
+        if (r == true) {
+            $('#CancelResult').load('/StudentMinistry/CancelPickup/' + StudId, null, function () {
+                var volunteerDetailsWindows = $("#volunteer-detail-Window").data("tWindow");
+                volunteerDetailsWindows.ajaxRequest("/Volunteer/ViewDetails/", { volId: volId });
+            });
+            alert("Canceled Successfully!");
+        } else {
+        }
+    }
+    function cancelHousing(StudId, volId, cancelEnabled) {
+        if (cancelEnabled == "False") {
+            alert("Warning! This student will arrive soon. If you cancel this, you must reassign this student in your group and cannot return to your organization");
+        }
+        var r = confirm("Are you sure to cancel this Temp Housing?");
+        if (r == true) {
+            $('#CancelResult').load('/StudentMinistry/CancelTempHousing/' + StudId, null, function () {
+                var volunteerDetailsWindows = $("#volunteer-detail-Window").data("tWindow");
+                volunteerDetailsWindows.ajaxRequest("/Volunteer/ViewDetails/", { volId: volId });
+            });
+            alert("Canceled Successfully!");
+        } else {
+        }
+    }
+</script>

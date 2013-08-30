@@ -1,0 +1,165 @@
+﻿@model ccbs.Models.NewStudentRegisterModel
+@{
+    ViewBag.Title = "New Student Register";
+}
+<div id="content">
+    <br />
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "注册出错啦！ 请更正下面的错误")
+        <div>
+            <fieldset>
+                <legend>2013 Fall 新生接机临住注册表格</legend>
+                <br />
+                <div class="box">
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.UserName)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.UserName)
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Password)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(m => m.ConfirmPassword)
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>
+                        个人信息</h4>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.CnName)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.CnName)
+                        @Html.ValidationMessageFor(m => m.CnName)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Gender)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(m => m.Gender, new[]
+                        {
+                            new SelectListItem{Value=ccbs.Models.SystemGender.singleFemale.ToString(), Text=ccbs.Models.SystemGender.singleFemaleString},
+                            new SelectListItem{Value=ccbs.Models.SystemGender.singleMale.ToString(), Text=ccbs.Models.SystemGender.singleMaleString},
+                        })
+                        @Html.ValidationMessageFor(m => m.Gender)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.ComeFrom)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.ComeFrom)
+                        @Html.ValidationMessageFor(m => m.ComeFrom)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Email)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Email)
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Phone)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Phone)
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Major)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Major)
+                        @Html.ValidationMessageFor(m => m.Major)
+                    </div>
+                    <br />
+                    <h4>
+                        接机和临住信息</h4>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Flight)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(m => m.Flight)
+                        @Html.ValidationMessageFor(m => m.Flight)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.ArrivalTime)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(m => m.ArrivalTime)
+                        @Html.ValidationMessageFor(m => m.ArrivalTime)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.EntryPort)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(m => m.EntryPort)
+                        @Html.ValidationMessageFor(m => m.EntryPort)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.NeedPickup)
+                    </div>
+                    <div class="editor-field">
+                        <b>Yes</b> @Html.EditorFor(m => m.NeedPickup)
+                        @Html.ValidationMessageFor(m => m.NeedPickup)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.NeedTempHousing)
+                    </div>
+                    <div class="editor-field">
+                        <b>Yes</b> @Html.EditorFor(m => m.NeedTempHousing)
+                        @Html.ValidationMessageFor(m => m.NeedTempHousing)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.DaysOfTempHousing)
+                    </div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(m => m.DaysOfTempHousing, new[]
+                        {
+                            new SelectListItem{Value=ccbs.Models.TempHouseLength.Under3.ToString(), Text="小于3天"},
+                            new SelectListItem{Value=ccbs.Models.TempHouseLength.From3To7.ToString(), Text="3~7天"},
+                            new SelectListItem{Value=ccbs.Models.TempHouseLength.From7To10.ToString(), Text="7~10天"},
+                            new SelectListItem{Value=ccbs.Models.TempHouseLength.Over10.ToString(), Text="10天以上"},
+                            new SelectListItem{Value=ccbs.Models.TempHouseLength.NotSure.ToString(), Text="稍后再定"},
+                        })
+                        @Html.ValidationMessageFor(m => m.DaysOfTempHousing)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(m => m.Note)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(m => m.Note)
+                        @Html.ValidationMessageFor(m => m.Note)
+                    </div>
+                </div>
+                <p>
+                    <input type="submit" value="提交注册" />
+                </p>
+            </fieldset>
+        </div>
+    }
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

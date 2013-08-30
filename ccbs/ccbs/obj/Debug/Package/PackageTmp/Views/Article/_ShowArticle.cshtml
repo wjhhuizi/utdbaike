@@ -1,0 +1,32 @@
+﻿@model ccbs.Models.Article
+@{
+    Layout = null;
+    bool IsEditor = (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.MyRoles.baikeEditor));
+}
+<div>
+    <h4 style="text-align: center;">@Model.Title</h4>
+    <span style="color: Orange;"><b>点击量: @Model.VisitCount</b>&nbsp&nbsp&nbsp&nbsp&nbsp<a id="LikeArticle" onclick="updateLikeArticleCnt(@Model.Id)">
+        <img src="../../Content/oceania/images/like.jpg" alt="Like" />
+    </a>&nbsp <b id="likeArticleCount">
+        @Model.LikeCount
+    </b></span>&nbsp&nbsp&nbsp&nbsp
+    @if (IsEditor)
+    {
+        <span>@Html.ActionLink("编辑", "EditArticle", new { id = Model.Id }) | @Html.ActionLink("删除", "DeleteArticle", new { id = Model.Id })</span>
+    }
+    <br />
+    <br />
+</div>
+<div class="display-content">
+    @Html.Raw(Model.MainContent)
+</div>
+<div>
+    @{Html.RenderPartial("_ArticleComment", Model);}
+</div>
+<script type="text/javascript">
+    function updateLikeArticleCnt(articleId) {
+        $('#likeArticleCount').load('/Article/UpdateArticleLikeCount?articleId=' + articleId, function () {
+            document.getElementById("LikeArticle").onclick = function () { alert("You've already like it!") };
+        });
+    }
+</script>

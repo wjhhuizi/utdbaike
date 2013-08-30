@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BangbangDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="BangbangDBStoreContainer">
+    <EntitySet Name="BBUsers" EntityType="BangbangDB.Store.BBUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BBActivities" EntityType="BangbangDB.Store.BBActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BBRegisterEntries" EntityType="BangbangDB.Store.BBRegisterEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BBComments" EntityType="BangbangDB.Store.BBComments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BBCategories" EntityType="BangbangDB.Store.BBCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Locations" EntityType="BangbangDB.Store.Locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BBUserBBRegisterEntry" EntityType="BangbangDB.Store.BBUserBBRegisterEntry" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BBActivityBBRegisterEntry" Association="BangbangDB.Store.BBActivityBBRegisterEntry">
+      <End Role="BBActivity" EntitySet="BBActivities" />
+      <End Role="BBRegisterEntry" EntitySet="BBRegisterEntries" />
+    </AssociationSet>
+    <AssociationSet Name="BBUserBBActivity" Association="BangbangDB.Store.BBUserBBActivity">
+      <End Role="BBUser" EntitySet="BBUsers" />
+      <End Role="BBActivity" EntitySet="BBActivities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BBUserBBRegisterEntry_BBUser" Association="BangbangDB.Store.FK_BBUserBBRegisterEntry_BBUser">
+      <End Role="BBUser" EntitySet="BBUsers" />
+      <End Role="BBUserBBRegisterEntry" EntitySet="BBUserBBRegisterEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BBUserBBRegisterEntry_BBRegisterEntry" Association="BangbangDB.Store.FK_BBUserBBRegisterEntry_BBRegisterEntry">
+      <End Role="BBRegisterEntry" EntitySet="BBRegisterEntries" />
+      <End Role="BBUserBBRegisterEntry" EntitySet="BBUserBBRegisterEntry" />
+    </AssociationSet>
+    <AssociationSet Name="BBActivityBBComment" Association="BangbangDB.Store.BBActivityBBComment">
+      <End Role="BBActivity" EntitySet="BBActivities" />
+      <End Role="BBComment" EntitySet="BBComments" />
+    </AssociationSet>
+    <AssociationSet Name="BBCategoryBBActivity" Association="BangbangDB.Store.BBCategoryBBActivity">
+      <End Role="BBCategory" EntitySet="BBCategories" />
+      <End Role="BBActivity" EntitySet="BBActivities" />
+    </AssociationSet>
+    <AssociationSet Name="LocationBBUser" Association="BangbangDB.Store.LocationBBUser">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="BBUser" EntitySet="BBUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BBUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Major" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Avatar" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ComeFrom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegTime" Type="datetime" Nullable="false" />
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBActivities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BBUserId" Type="int" Nullable="false" />
+    <Property Name="PostDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="IsDraft" Type="bit" Nullable="false" />
+    <Property Name="BBCategoryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBRegisterEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Contact" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UpCount" Type="int" Nullable="false" />
+    <Property Name="LowerCount" Type="int" Nullable="false" />
+    <Property Name="GenderLimit" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="BBActivityId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBComments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="Postby" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="BBActivityId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateDate" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Domain" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BBUserBBRegisterEntry">
+    <Key>
+      <PropertyRef Name="RegisteredBBUsers_Id" />
+      <PropertyRef Name="BBRegisterEntries_Id" />
+    </Key>
+    <Property Name="RegisteredBBUsers_Id" Type="int" Nullable="false" />
+    <Property Name="BBRegisterEntries_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="BBActivityBBRegisterEntry">
+    <End Role="BBActivity" Type="BangbangDB.Store.BBActivities" Multiplicity="1" />
+    <End Role="BBRegisterEntry" Type="BangbangDB.Store.BBRegisterEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBActivity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBRegisterEntry">
+        <PropertyRef Name="BBActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BBUserBBActivity">
+    <End Role="BBUser" Type="BangbangDB.Store.BBUsers" Multiplicity="1" />
+    <End Role="BBActivity" Type="BangbangDB.Store.BBActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBActivity">
+        <PropertyRef Name="BBUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BBActivityBBComment">
+    <End Role="BBActivity" Type="BangbangDB.Store.BBActivities" Multiplicity="1" />
+    <End Role="BBComment" Type="BangbangDB.Store.BBComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBActivity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBComment">
+        <PropertyRef Name="BBActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BBCategoryBBActivity">
+    <End Role="BBCategory" Type="BangbangDB.Store.BBCategories" Multiplicity="1" />
+    <End Role="BBActivity" Type="BangbangDB.Store.BBActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBActivity">
+        <PropertyRef Name="BBCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LocationBBUser">
+    <End Role="Location" Type="BangbangDB.Store.Locations" Multiplicity="1" />
+    <End Role="BBUser" Type="BangbangDB.Store.BBUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBUser">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BBUserBBRegisterEntry_BBUser">
+    <End Role="BBUser" Type="BangbangDB.Store.BBUsers" Multiplicity="1" />
+    <End Role="BBUserBBRegisterEntry" Type="BangbangDB.Store.BBUserBBRegisterEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BBUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBUserBBRegisterEntry">
+        <PropertyRef Name="RegisteredBBUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BBUserBBRegisterEntry_BBRegisterEntry">
+    <End Role="BBUserBBRegisterEntry" Type="BangbangDB.Store.BBUserBBRegisterEntry" Multiplicity="*" />
+    <End Role="BBRegisterEntry" Type="BangbangDB.Store.BBRegisterEntries" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="BBRegisterEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BBUserBBRegisterEntry">
+        <PropertyRef Name="BBRegisterEntries_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

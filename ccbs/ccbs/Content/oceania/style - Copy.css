@@ -1,0 +1,642 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 3.0 License
+
+Name       : Oceania
+Description: A two-column, fixed-width design with a bright color scheme.
+Version    : 1.0
+Released   : 20120208
+*/
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+a
+{
+    cursor: pointer;
+    color: #1D68AB;
+    text-decoration: underline;
+}
+
+a:hover
+{
+    text-decoration: none;
+}
+
+body
+{
+    /*background: #CFD5DE url(images/img01.jpg) top left repeat-x;*/ /*background-color: rgb(230, 233, 249);*/
+    background: #FFF url('Images/blue.png') repeat-x 50% 0;
+    line-height: 1.75em; /*color: #6B7C93;*/
+    font-size: 12.5pt;
+}
+
+body, input
+{
+    font-family: Arial, sans-serif;
+}
+
+br.clearfix
+{
+    clear: both;
+}
+
+strong
+{
+    color: #333333;
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    color: #000;
+}
+
+h1
+{
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+h2
+{
+    padding: 0 0 10px 0;
+}
+
+h3
+{
+    font-size: 1.2em;
+}
+
+h4
+{
+    font-size: 1.1em;
+}
+
+h5, h6
+{
+    font-size: 1em;
+}
+
+/*-------------------------------------------------------*/
+
+img.alignleft
+{
+    margin: 5px 20px 20px 0;
+    float: left;
+}
+
+img.aligntop
+{
+    margin: 5px 0 20px 0;
+}
+
+ul
+{
+    margin-bottom: 1.5em;
+}
+
+ul h4
+{
+    margin-bottom: 0.35em;
+}
+
+.box
+{
+    overflow: hidden;
+}
+
+#content
+{
+    float: left;
+    padding: 20px;
+    width: 736px; /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/ /*border: dotted 2px rgb(230, 233, 249);*/
+}
+
+#content-fullview
+{
+    /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/
+    border: dotted 2px rgb(230, 233, 249);
+}
+
+#content-no-sidebar
+{
+    padding: 20px;
+}
+
+#footer
+{
+    margin: 30px 0 120px 0;
+    text-align: center;
+    color: #626E7F;
+}
+
+#footer a
+{
+    color: #626E7F;
+}
+
+#header
+{
+    background: #2C84AF url(images/banner.jpg) top left no-repeat;
+    color: #FFFFFF;
+    height: 140px;
+    position: relative;
+    padding: 40px;
+    border-top: solid 1px #96D0F7;
+    border-bottom: solid 1px #0C3459;
+}
+
+#logo
+{
+    top: 40px;
+    height: 140px;
+    position: absolute;
+    left: 40px;
+    line-height: 140px;
+}
+
+#logo a
+{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+#logo h1
+{
+    font-size: 2.8em;
+}
+
+#menu
+{
+    height: 62px;
+    left: 250px;
+    line-height: 62px;
+    bottom: 0px;
+    position: absolute;
+}
+
+#menu a
+{
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1.25em;
+}
+
+#menu ul
+{
+    padding: 0 25px 0 25px;
+    list-style: none;
+}
+
+#menu ul li
+{
+    padding: 10px 15px 10px 15px;
+    display: inline;
+}
+
+#menu ul li.current_page_item
+{
+    background: #56AFD8 url(images/img04.jpg) top left no-repeat;
+    border-top: solid 1px #82D9ED;
+    border-bottom: solid 1px #24627C;
+}
+
+#menu ul li.last
+{
+    padding-right: 0;
+}
+
+#page-menu
+{
+    height: 10px;
+    left: 250px;
+    line-height: 10px;
+    top: 0px;
+    position: absolute;
+}
+
+#page-menu a
+{
+    text-transform: lowercase;
+    text-decoration: none;
+    color: Blue;
+    font-size: 1.25em;
+}
+
+#page-menu ul
+{
+    padding: 0 25px 0 25px;
+    list-style: none;
+}
+
+#page-menu ul li
+{
+    padding: 10px 15px 10px 15px;
+    display: inline;
+}
+
+#page-menu ul li.current_page_item
+{
+    background: #56AFD8 url(images/img04.jpg) top left no-repeat;
+    border-top: solid 1px #82D9ED;
+    border-bottom: solid 1px #24627C;
+}
+
+#page-menu ul li.last
+{
+    padding-right: 0;
+}
+
+#page
+{
+    position: relative;
+    margin: 20px 0 20px 0;
+    padding: 0;
+    width: 1080px;
+}
+
+#page .section-list
+{
+    padding-left: 0;
+    list-style: none;
+}
+
+#page .section-list li
+{
+    clear: both;
+    padding: 25px 0 25px 0;
+}
+
+#page ul
+{
+    list-style: none;
+}
+
+#page ul li
+{
+    padding: 15px 0 15px 0;
+    border-top: dotted 1px #C5CDD8;
+}
+
+#page ul li.first
+{
+    padding-top: 0;
+    border-top: 0;
+}
+
+#search input.form-submit
+{
+    background: #B87A23;
+    padding: 5px;
+    color: #FFFFFF;
+    border: 0;
+    margin-left: 1em;
+}
+
+#search input.form-text
+{
+    padding: 10px;
+    border: dotted 1px #569DBF;
+}
+
+.sidebar
+{
+    /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/
+    width: 255px;
+    margin: 0 0 0px 790px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 20px; /*border: dotted 2px rgb(230, 233, 249);*/
+}
+
+.sidebar ul
+{
+    list-style: none;
+}
+
+.sidebar ul li
+{
+    font-size: medium;
+    padding: 3px 0 3px 0;
+    border-top: dotted 1px #C5CDD8;
+}
+
+.sidebar ul li.first
+{
+    border-top: 0;
+    padding-top: 0;
+}
+
+#wrapper
+{
+    position: relative;
+    margin: 0 auto 0 auto;
+    padding: 10px 0 0 0;
+    width: 1080px;
+    background-color: #FFFFFF;
+}
+
+#logindisplay
+{
+    font-size: 1.1em;
+    display: block;
+    text-align: right;
+    margin: 10px;
+    color: White;
+}
+
+#logindisplay a:link
+{
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:visited
+{
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:hover
+{
+    color: white;
+    text-decoration: none;
+}
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset
+{
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend
+{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea
+{
+    min-height: 75px;
+}
+
+textarea.multiedit
+{
+    width: 550px;
+    height: 200px;
+}
+
+.text-area-edit
+{
+    width: 700px;
+    height: 300px;
+}
+
+.text-area-display
+{
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+
+.text-area-in-table
+{
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+
+.text-area-coworker-profile-intro
+{
+    width: 400px;
+    height: auto;
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+
+.text-area-coworker-profile-testimony
+{
+    width: 700px;
+    height: auto;
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+
+.text-area-coworker-profile-mind-renew
+{
+    width: 700px;
+    height: auto;
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+}
+/*.editor-field textarea
+{
+    height: 100px;
+    width: 300px;
+}*/
+
+#coworker-profile-title
+{
+}
+
+#coworker-profile-selfphoto
+{
+    float: left;
+    padding-left: 10px;
+}
+
+#coworker-profile-intro
+{
+    float: right;
+    padding-left: 10px;
+}
+
+#coworker-profile-baptise-photo
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#coworker-profile-testimony
+{
+    padding-left: 10px;
+}
+
+#coworker-profile-mind-renew
+{
+    padding-left: 10px;
+}
+
+input[type="text"], input[type="password"]
+{
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.0em;
+    color: #444;
+    width: 300px;
+}
+
+select
+{
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 1.0em;
+    color: #444;
+}
+
+input[type="submit"]
+{
+    font-size: 1.0em;
+    padding: 5px;
+}
+
+input[type="file"]
+{
+    font-size: 1.0em;
+    padding: 5px;
+    width: auto;
+    height: 40px;
+}
+
+
+/* TABLE
+----------------------------------------------------------*/
+
+table
+{
+    padding-left: 20px;
+    border: solid 1px #e8eef4;
+    border-collapse: collapse;
+}
+
+table td
+{
+    padding: 5px;
+    border: solid 1px #e8eef4;
+}
+
+table th
+{
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: solid 1px #e8eef4;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label, .editor-label
+{
+    margin: 1em 0 0 0;
+    color: Black;
+    font-weight: bold;
+}
+
+.display-field, .editor-field
+{
+    margin: 0.5em 0 0 0;
+}
+
+.text-box
+{
+    width: 30em;
+}
+
+.text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+#commEdit, #commCancel, #commSave
+{
+    color: #1D68AB;
+    text-decoration: underline;
+}
+
+#commEdit:hover, #commCancel:hover, #commSave:hover
+{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.texteditoralign
+{
+    position: absolute;
+    right: 100px;
+}
+
+#hymnsearch #s
+{
+    background: rgb(230, 233, 249);
+    border: none;
+    border-radius: 15px;
+    font: italic 110% Georgia, "Times New Roman" , Times, serif;
+    color: #ada8a3;
+    padding: 2px 5px;
+    width: 240px;
+}
+#hymnsearch #s:focus
+{
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+.editor-output
+{
+    font: normal 1em/1.1em "Consolas" , "Monaco" , "Bitstream Vera Sans Mono" , "Courier New" , Courier, monospace;
+    border: 1px solid #ccc;
+    background: #fff;
+    display: block;
+    padding: 4px 8px 8px;
+}

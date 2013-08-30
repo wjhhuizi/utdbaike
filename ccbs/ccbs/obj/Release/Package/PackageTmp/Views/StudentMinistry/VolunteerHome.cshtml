@@ -1,0 +1,378 @@
+﻿@using MyResources = ccbs.Views.StudentMinistry.StudentMinstryResources
+@model ccbs.Models.Volunteer 
+@{
+    ViewBag.Title = Model.Name + " 's Home";
+    var highPreviliged = User.IsInRole(ccbs.Models.LWSFRoles.groupLeader)
+        || User.IsInRole(ccbs.Models.LWSFRoles.organizationLeader)
+        || User.IsInRole(ccbs.Models.LWSFRoles.admin)
+        || User.IsInRole(ccbs.Models.LWSFRoles.newStudentAdmin);
+    bool IsFacssVolunteer = ccbs.Models.NewStudentListOps.IsOrgFacss(Model.Organization.Name);
+}
+<div id="content-no-sidebar">
+    <h3 style="text-align: center; color: Gray;">
+        @MyResources.Home_Title</h3>
+    <br class="clearfix" />
+    <div id="volunteer-details" style="padding-top: 10px; width: 320px; float: left;">
+        <div class="box-small-padding">
+            <h4 class="box-head">
+                @MyResources.PI_Title</h4>
+            <br />
+            <div>
+                <p>
+                    @MyResources.PI_Name: @Model.Name
+                </p>
+                <p>
+                    @MyResources.PI_Email: @Model.Email
+                </p>
+                <p>
+                    @MyResources.PI_Phone: @Model.Phone
+                </p>
+            </div>
+            <br />
+            <div>
+                @Html.ActionLink(@MyResources.PI_Edit, "Edit", "Volunteer", new { id = Model.Id, returnUrl = Request.RawUrl }, null)
+                &nbsp&nbsp
+                @Html.ActionLink(@MyResources.PI_ChangePsw, "ChangePassword", "Account")
+            </div>
+        </div>
+        <div class="box-small-padding">
+            <h4 class="box-head">
+                系统通知</h4>
+            <div style="background-color: Silver;">
+                <p>
+                    目前新生正在注册中，过一阵子就可以登录网站选择要接送或者临住的新生了. 我们届时会邮件通知，所以请确保你们的联系方式正确无误，非常感谢</p>
+            </div>
+        </div>
+    </div>
+    <div style="float: right; padding-left: 40px; padding-top: 10px; width: 350px;">
+        <div style="font-size: small;">
+            <h4 style="color: Blue;">
+                @MyResources.QandA_Title</h4>
+            <br />
+            @{Html.RenderAction("_ShowQuestions", "QandA", new { username = "" });}
+        </div>
+    </div>
+    <div style="float: right; padding-left: 20px; padding-top: 10px; width: 280px;">
+        <div class="box-small-padding">
+            <h4 class="box-head">
+                @MyResources.CP_Title</h4>
+            <br />
+            <div class="arrowLinks">
+                <ul>
+                    <li style="padding: 5px;">
+                        @Html.ActionLink(@MyResources.CP_SelectTask, "NewStudentList")
+                    </li>
+                    @if (Model.Group != null)
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Group_Members, "AllGroupMembers", "VolunteerGroup", new { groupId = Model.GroupId }, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.organizationLeader))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Manage_Org, "Details", "VolunteerOrganization", new { id = Model.OrganizationId }, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.groupLeader))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Manage_Org, "Details", "VolunteerGroup", new { id = Model.GroupId }, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.newStudentAdmin) || User.IsInRole(ccbs.Models.LWSFRoles.admin))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_StudentManage, "Index", "NewStudent")
+                        </li>
+                    }
+                    @if (!Model.Organization.Name.Contains("FACSS"))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Download, "Download", "Home", null, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.LWSFRoles.localhelpAdmin))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_LocalHelp, "Manage", "LocalHelp", null, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.LWSFRoles.emailAdmin))
+                    {
+                        <li style="padding: 5px;">
+                            @Html.ActionLink("发送系统邮件", "SendSystemEmail", "Email", null, null)
+                        </li>
+                    }
+                    @if (User.IsInRole(ccbs.Models.LWSFRoles.admin))
+                    {
+                        <li>
+                            <br />
+                        </li>
+                        <li style="padding: 5px;"><strong>@MyResources.CP_AdminTools</strong></li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_VolunteerOrgs, "Index", "VolunteerOrganization")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_ManageAccounts, "ManageAccount", "Account")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_SystemEmail, "Index", "EmailRecord")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Manage_Photos, "Index", "HomeGallery")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Calendar, "Manage", "Activity")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_News, "Index", "News")
+                        </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink(@MyResources.CP_Meeting, "Index", "Meeting")
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br class="clearfix" />
+    <div id="CancelResult" style="border-bottom: dotted 1px #82D9ED;">
+    </div>
+    @if (Model.PickupNewStudents.Count > 0)
+    {
+        <div style="padding-top: 30px;">
+            <h3>
+                @MyResources.My_Pickup_List</h3>
+            <table>
+                <tr>
+                    <th>
+                        @MyResources.SL_Name
+                    </th>
+                    <th>
+                        @MyResources.SL_Gender
+                    </th>
+                    <th>
+                        @MyResources.SL_ComeFrom
+                    </th>
+                    <th>
+                        @MyResources.PI_Email
+                    </th>
+                    <th>
+                        @MyResources.SL_Major
+                    </th>
+                    <th>
+                        @MyResources.SL_Arrive
+                    </th>
+                    <th>
+                        @MyResources.SL_Flight
+                    </th>
+                    <th>
+                        @MyResources.SL_Note
+                    </th>
+                    <th>
+                        @MyResources.Cart_HostInfo
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model.PickupNewStudents)
+                {
+                    var dl = DateTime.Now.AddDays(ccbs.Models.SetupParameters.CancelDeadline);
+                    bool cancelEnabled = (highPreviliged) || (DateTime.Compare(dl, item.ArrivalTime) < 0);
+                    <tr>
+                        @if (cancelEnabled && IsFacssVolunteer)
+                        {
+                            <td>
+                                <abbr title="You will see it @ccbs.Models.SetupParameters.CancelDeadline days before his/her arrival time">
+                                    NA</abbr>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @item.CnName
+                            </td>
+                        }
+                        <td>
+                            @ccbs.Models.SystemGender.ToStringGender(item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComeFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Major)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArrivalTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Flight)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @if (item.TempHouseVolunteer != null)
+                            {
+                                @(@MyResources.PI_Name + ": " + item.TempHouseVolunteer.Name)
+                                <br />
+                                @(@MyResources.PI_Phone + ": " + item.TempHouseVolunteer.Phone)
+                                <br />
+                                @(@MyResources.PI_Email + ": " + item.TempHouseVolunteer.Email)
+                                <br />
+                                @("Address: " + item.TempHouseVolunteer.Address)
+                            }
+                            else if (item.NeedTempHousing)
+                            {
+                                @("Not Assigned");
+                            }
+                            else if (!item.NeedTempHousing)
+                            {
+                                @("No Need");
+                            }
+                        </td>
+                        <td>
+                            <a onclick="cancelPickup(@item.Id, '@Request.RawUrl', '@cancelEnabled')">Cancel</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    @if (Model.TempHouseNewStudents.Count > 0)
+    {
+        <div style="padding-top: 30px; padding-bottom: 20px;">
+            <h3>
+                @MyResources.My_Housing_List</h3>
+            <table>
+                <tr>
+                    <th>
+                        @MyResources.SL_Name
+                    </th>
+                    <th>
+                        @MyResources.SL_Gender
+                    </th>
+                    <th>
+                        @MyResources.SL_ComeFrom
+                    </th>
+                    <th>
+                        @MyResources.PI_Email
+                    </th>
+                    <th>
+                        @MyResources.SL_Major
+                    </th>
+                    <th>
+                        @MyResources.SL_Arrive
+                    </th>
+                    <th>
+                        @MyResources.SL_Flight
+                    </th>
+                    <th>
+                        @MyResources.SL_Note
+                    </th>
+                    <th>
+                        @MyResources.Cart_PickupInfo
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model.TempHouseNewStudents)
+                {
+                    var dl = DateTime.Now.AddDays(ccbs.Models.SetupParameters.CancelDeadline);
+                    bool cancelEnabled = (highPreviliged) || (DateTime.Compare(dl, item.ArrivalTime) < 0);
+                    <tr>
+                        @if (cancelEnabled && IsFacssVolunteer)
+                        {
+                            <td>
+                                <abbr title="You will see it @ccbs.Models.SetupParameters.CancelDeadline days before his/her arrival time">
+                                    NA</abbr>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @item.CnName
+                            </td>
+                        }
+                        <td>
+                            @ccbs.Models.SystemGender.ToStringGender(item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComeFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Major)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArrivalTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Flight)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @if (item.PickupVolunteer != null)
+                            {
+                                @(@MyResources.PI_Name + ": " + item.PickupVolunteer.Name)
+                                <br />
+                                @(@MyResources.PI_Phone + ": " + item.PickupVolunteer.Phone)
+                                <br />
+                                @(@MyResources.PI_Email + ": " + item.PickupVolunteer.Email)
+                            }
+                            else if (item.NeedPickup)
+                            {
+                                @("Not Assigned");
+                            }
+                            else if (!item.NeedPickup)
+                            {
+                                @("No Need");
+                            }
+                        </td>
+                        <td>
+                            <a onclick="cancelHousing(@item.Id, '@Request.RawUrl', '@cancelEnabled')">Cancel</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    <br class="clearfix" />
+</div>
+<script type="text/javascript">
+    function cancelPickup(StudId, returnUrl, cancelEnabled) {
+        if (cancelEnabled == "False") {
+            alert("Sorry, you cannot cancel!! Since this student will arrive soon. If you really have to, please contact your group leader");
+            return;
+        }
+
+        var r = confirm("Are you sure to cancel this pickup?");
+        if (r == true) {
+            $('#CancelResult').load('/StudentMinistry/CancelPickup/' + StudId, null, function () {
+                window.location.href = returnUrl;
+            });
+        } else {
+        }
+    }
+    function cancelHousing(StudId, returnUrl, cancelEnabled) {
+        if (cancelEnabled == "False") {
+            alert("Sorry, you cannot cancel!! Since this student will arrive soon. If you really have to, please contact your group leader");
+            return;
+        }
+        var r = confirm("Are you sure to cancel this Temp Housing?");
+        if (r == true) {
+            $('#CancelResult').load('/StudentMinistry/CancelTempHousing/' + StudId, null, function () {
+                window.location.href = returnUrl;
+            });
+        } else {
+        }
+    }
+</script>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ccbs.Models.Activity>
+@{
+    ViewBag.Title = "Recent Activities";
+}
+<div id="content">
+    <div class="box">
+        <div class="arrowLinks">
+            <ul>
+                <li><strong>我们的活动安排</strong></li>
+                @foreach (var ac in Model)
+                {
+                    char[] temps = new char[60];
+                    <li>
+                        @Html.ActionLink(ac.Title + "@" + ac.TimeFrom.ToString("MM/dd/yy"), "Details", "Activity", new { id = ac.Id }, null)
+                        <p>
+                            From @ac.TimeFrom.ToString("hh:mm tt") to @ac.TimeTo.ToString("hh:mm tt")</p>
+                        @if (ac.Description.Length > 50)
+                        {
+                            ac.Description.CopyTo(0, temps, 0, 50);
+                            <span style="font-size: small;">@(new String(temps))
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="font-size: small;">@ac.Description</span>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

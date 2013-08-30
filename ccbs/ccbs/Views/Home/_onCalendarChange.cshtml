@@ -1,0 +1,52 @@
+﻿@model List<ccbs.Models.Activity>
+@{
+    Layout = null;
+}
+<div class="arrowLinks">
+    <ul>
+        <li><strong>@ViewBag.selDate</strong> </li>
+        @{
+            if (Model == null || Model.Count == 0)
+            {
+            <li style="color: Red;">没有活动</li>
+            }
+            else
+            {
+
+                foreach (var a in Model)
+                {
+            <li>
+                <p>@Html.ActionLink(a.Title, "Details", "Activity", new { id = a.Id }, null)</p>
+                @if (a.TimeFrom.Date == a.TimeTo.Date)
+                {
+                    <p style="font-size: small; text-indent: 20px;">
+                        From @a.TimeFrom.ToString("hh:mm tt") to @a.TimeTo.ToString("hh:mm tt")
+                    </p>
+                }
+                else
+                {
+                    <p style="font-size: small; text-indent: 20px;">
+                        From @a.TimeFrom to @a.TimeTo
+                    </p>
+                }
+                <p style="font-size: small; text-indent: 20px;">
+                    Address: @a.Address</p>
+                @*                @if (a.Description != null)
+                {
+                    char[] temps = new char[60];
+                    if (a.Description.Length > 40)
+                    {
+                        a.Description.CopyTo(0, temps, 0, 40);
+                    <span style="font-size: small; text-indent: 20px;">@(new String(temps))
+                    </span>
+                    }
+                    else
+                    {
+                    <span style="font-size: small; text-indent: 20px;">@a.Description</span>
+                    }
+                }*@ </li>
+                }
+            }
+        }
+    </ul>
+</div>

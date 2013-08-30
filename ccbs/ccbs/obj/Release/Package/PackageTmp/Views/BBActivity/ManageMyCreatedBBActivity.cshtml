@@ -1,0 +1,50 @@
+﻿@model List<ccbs.Models.BBActivity>
+@{
+    ViewBag.Title = "Manage My BBActivities";
+}
+<div>
+    @foreach (var ac in Model)
+    {
+        <div>
+            <div style="float: left;">
+                <h4>@ac.Title</h4>
+            </div>
+            <div style="float: left; padding-left: 20px;">
+                @Html.ActionLink("Edit", "EditBBActivity", "BBActivity", new { id = ac.Id }, null)
+            </div>
+            <div style="float: left; padding-left: 20px;">
+                @Html.ActionLink("Delete", "DeleteBBActivity", "BBActivity", new { id = ac.Id }, null)
+            </div>
+        </div>
+        <div style="padding-top: 20px;">
+            <span>@Html.Raw(ac.Description)</span>
+        </div>
+        <div style="padding-top: 10px;">
+            @foreach (var sched in ac.BBRegisterEntries.OrderBy(r => r.Time).ToList())
+            {
+                int count = 1;
+                <div style="float: left; padding-left: 5px;">
+                    <p>
+                        @count.ToString()<span>.</span>
+                    </p>
+                    <p>
+                        Time:
+                        @sched.Time.ToString("MM/dd/yyyy HH:mm")
+                    </p>
+                    <p>
+                        Address:
+                        @sched.Address
+                    </p>
+                    <p>
+                        Contact:
+                        @sched.Contact
+                    </p>
+                    <p>
+                        @Html.ActionLink("Edit", "EditBBRegisterEntry", "BBActivity", new { id = sched.Id, returnUrl = Request.RawUrl }, null)
+                        | @Html.ActionLink("Delete", "DeleteBBRegisterEntry", "BBActivity", new { id = sched.Id, returnUrl = Request.RawUrl }, null)
+                    </p>
+                </div>
+            }
+        </div>
+    }
+</div>

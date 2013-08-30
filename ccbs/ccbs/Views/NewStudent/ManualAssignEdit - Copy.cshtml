@@ -1,0 +1,91 @@
+﻿@model ccbs.Models.ManualAssignInfo
+@{
+    Layout = null;
+    bool status = true;
+    SelectListItem[] typeSelectionList = null;
+    List<SelectListItem> itemList = new List<SelectListItem>();
+    if ((Model.NewStudent.PickupVolunteer == null) && Model.NewStudent.NeedPickup)
+    {
+        itemList.Add(new SelectListItem { Value = ccbs.Models.ManualAssignType.IntPickup.ToString(), Text = ccbs.Models.ManualAssignType.StringPickup });
+    }
+    if ((Model.NewStudent.TempHouseVolunteer == null) && Model.NewStudent.NeedTempHousing)
+    {
+        itemList.Add(new SelectListItem { Value = ccbs.Models.ManualAssignType.IntHousing.ToString(), Text = ccbs.Models.ManualAssignType.StringHousing });
+    }
+    if (((Model.NewStudent.PickupVolunteer == null) && Model.NewStudent.NeedPickup) && ((Model.NewStudent.TempHouseVolunteer == null) && Model.NewStudent.NeedTempHousing))
+    {
+        itemList.Add(new SelectListItem { Value = ccbs.Models.ManualAssignType.IntBoth.ToString(), Text = ccbs.Models.ManualAssignType.StringBoth });
+    }
+    typeSelectionList = itemList.ToArray();
+    if (itemList.Count == 0)
+    {
+        status = false;
+    }
+}
+@{Html.Telerik().Window()
+        .Name("Manual-Assign-Window")
+        .Title("手动分配的志愿者信息")
+        .Content(@<text>
+    @using (Ajax.BeginForm("ManualAssignEdit", "NewStudent", null, new AjaxOptions { OnComplete = "ManualAssign_OnComplete" }))
+    {
+        @Html.Hidden("studId", Model.NewStudent.Id)
+        <div class="editor-label">
+            <p>@Model.NewStudent.Id.ToString()</p>
+            @Html.LabelFor(model => model.Type, "分配类型")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Type, typeSelectionList)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolName, "姓名")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.VolName)
+            @Html.ValidationMessageFor(model => model.VolName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolGender, "性别")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.VolGender, new[]
+                {
+                   new SelectListItem{Value=ccbs.Models.SystemGender.singleFemale.ToString(), Text="Single-Female"},
+                   new SelectListItem{Value=ccbs.Models.SystemGender.singleMale.ToString(), Text="Single-Male"}, 
+                   new SelectListItem{Value=ccbs.Models.SystemGender.Family.ToString(), Text="Family"}, 
+                })
+            @Html.ValidationMessageFor(model => model.VolGender)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolEmail, "邮箱")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.VolEmail)
+            @Html.ValidationMessageFor(model => model.VolEmail)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolPhone, "手机")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.VolPhone)
+            @Html.ValidationMessageFor(model => model.VolPhone)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VolAddr, "地址")
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.VolAddr)
+            @Html.ValidationMessageFor(model => model.VolAddr)
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="t-button t-state-default">
+                提交</button>
+        </div>
+    }
+    </text>)
+        .Width(320)
+        .Draggable(true)
+        .Modal(true)
+        .Visible(false)
+        .Render();
+}

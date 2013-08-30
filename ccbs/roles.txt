@@ -1,0 +1,7 @@
+1. Administrator
+2. Manager
+3. WorshipManager
+4. BibleStudyManager
+
+admin: admin@livingwatersf.org
+psw:   lovelwsf

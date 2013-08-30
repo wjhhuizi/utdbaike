@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Cart_HostInfo" xml:space="preserve">
+    <value>Info of Host Volunteer</value>
+  </data>
+  <data name="Cart_PickupInfo" xml:space="preserve">
+    <value>Info of Pickup Volunteer</value>
+  </data>
+  <data name="CP_Activities" xml:space="preserve">
+    <value>Manage Activities</value>
+  </data>
+  <data name="CP_AdminTools" xml:space="preserve">
+    <value>Administrator Tools</value>
+  </data>
+  <data name="CP_Calendar" xml:space="preserve">
+    <value>Manage Calendar</value>
+  </data>
+  <data name="CP_Download" xml:space="preserve">
+    <value>Materials Download</value>
+  </data>
+  <data name="CP_Group_Members" xml:space="preserve">
+    <value>Details of Group Members</value>
+  </data>
+  <data name="CP_Manage_Group" xml:space="preserve">
+    <value>Manage My Group</value>
+  </data>
+  <data name="CP_Manage_Org" xml:space="preserve">
+    <value>Manage My Organization</value>
+  </data>
+  <data name="CP_Manage_Photos" xml:space="preserve">
+    <value>Manage Homepage Gallary</value>
+  </data>
+  <data name="CP_Meeting" xml:space="preserve">
+    <value>Manage Meetings</value>
+  </data>
+  <data name="CP_News" xml:space="preserve">
+    <value>Manage News</value>
+  </data>
+  <data name="CP_SelectTask" xml:space="preserve">
+    <value>Select Task for Me</value>
+  </data>
+  <data name="CP_StudentManage" xml:space="preserve">
+    <value>Manage New Students</value>
+  </data>
+  <data name="CP_SystemEmail" xml:space="preserve">
+    <value>Manage System Emails</value>
+  </data>
+  <data name="CP_Title" xml:space="preserve">
+    <value>Control Panel</value>
+    <comment>Control Panel</comment>
+  </data>
+  <data name="CP_VolunteerOrgs" xml:space="preserve">
+    <value>Manage Organizations</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>My Page</value>
+  </data>
+  <data name="My_Housing_List" xml:space="preserve">
+    <value>My Temp Housing Tasks</value>
+  </data>
+  <data name="My_Pickup_List" xml:space="preserve">
+    <value>My Airport Pickup Tasks</value>
+  </data>
+  <data name="PI_ChangePsw" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="PI_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="PI_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="PI_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PI_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="PI_Title" xml:space="preserve">
+    <value>My Information</value>
+    <comment>Personal Information Title</comment>
+  </data>
+  <data name="QandA_Title" xml:space="preserve">
+    <value>Questions From New Students</value>
+  </data>
+  <data name="SL_Arrive" xml:space="preserve">
+    <value>Arrive</value>
+  </data>
+  <data name="SL_ComeFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="SL_Flight" xml:space="preserve">
+    <value>Flight</value>
+  </data>
+  <data name="SL_Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="SL_GoBack" xml:space="preserve">
+    <value>Back to my page</value>
+  </data>
+  <data name="SL_HousingStatus" xml:space="preserve">
+    <value>Housing Status</value>
+  </data>
+  <data name="SL_Major" xml:space="preserve">
+    <value>Major</value>
+  </data>
+  <data name="SL_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SL_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="SL_PickupStatus" xml:space="preserve">
+    <value>Pickup Status</value>
+  </data>
+  <data name="SL_ShowStatistics" xml:space="preserve">
+    <value>Show Statistics</value>
+  </data>
+  <data name="SL_Title" xml:space="preserve">
+    <value>Select the new students that I will help</value>
+    <comment>Student List</comment>
+  </data>
+  <data name="Stat_Group" xml:space="preserve">
+    <value>Progress of Groups</value>
+  </data>
+  <data name="Stat_GroupName" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Stat_Housing" xml:space="preserve">
+    <value># of Housing</value>
+  </data>
+  <data name="Stat_Org" xml:space="preserve">
+    <value>Progress of Volunteer Organizations</value>
+  </data>
+  <data name="Stat_OrgName" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="Stat_Pickup" xml:space="preserve">
+    <value># of Pickup</value>
+  </data>
+  <data name="Stat_StudNum" xml:space="preserve">
+    <value># of Students</value>
+  </data>
+  <data name="Stat_Title" xml:space="preserve">
+    <value>Statistics of Progress</value>
+  </data>
+  <data name="ASL_Title" xml:space="preserve">
+    <value>All The New Students</value>
+  </data>
+  <data name="SL_ShowAll" xml:space="preserve">
+    <value>Show All The New Students</value>
+  </data>
+  <data name="SL_ShowUnassigned" xml:space="preserve">
+    <value>Show Unassigned New Students</value>
+  </data>
+  <data name="CP_LocalHelp" xml:space="preserve">
+    <value>New Student Local Help</value>
+  </data>
+  <data name="CP_ManageAccounts" xml:space="preserve">
+    <value>Manage Accounts</value>
+  </data>
+</root>

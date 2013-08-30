@@ -1,0 +1,90 @@
+﻿@model ccbs.Models.Section
+@{
+    ViewBag.Title = "Details";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div id="content-no-sidebar">
+    <div style="float: left; padding-top: 20px;">
+        <h4>
+            Sample
+        </h4>
+        <br />
+        @{Html.RenderAction("_ShowSection", "Section", new { id = Model.Id });}
+        <br class="clearfix" />
+    </div>
+    <div style="float: left; padding-left: 20px;">
+        <div class="box-small-padding">
+            <h4>
+                Links
+            </h4>
+            <div>
+                @using (Html.BeginForm("AddSubItem", "Section", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.Hidden("SectionId", Model.Id)
+                    <div class="editor-field">
+                        <span>Title: </span>
+                        @Html.Editor("Text")
+                    </div>
+                    <div class="editor-field">
+                        <span>Link: </span>
+                        @Html.Editor("Link")
+                    </div>
+                    <p>
+                        <input type="submit" value="Add link" style="width: 120px; background-color: Orange;" />
+                    </p>
+                }
+                <br class="clearfix" />
+            </div>
+            <div>
+                @foreach (var item in Model.SubItems)
+                {
+                    <li><a href="@item.Link">@item.Text</a>&nbsp&nbsp&nbsp @Html.ActionLink("Remove", "RemoveSubItem", "Section", new { subItemId = item.Id }, null)
+                    </li>
+                }
+            </div>
+        </div>
+        <div class="box-small-padding">
+            <h4>
+                Gallery</h4>
+            <p>
+                @Html.ActionLink("新加图片", "AddGalleryItem", "Section", new { sectionId = Model.Id }, null)
+            </p>
+            <table>
+                <tr>
+                    <th>
+                        图片
+                    </th>
+                    <th>
+                        标题
+                    </th>
+                    <th>
+                        链接
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model.GalleryItems)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.Picture" alt="@item.Title"/>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HyperLink)
+                        </td>
+                        <td>
+                            @Html.ActionLink("编辑图片", "EditGalleryItem", "Section", new { id = item.Id }, null)
+                            |
+                            @Html.ActionLink("删除图片", "DeleteGalleryItem", "Section", new { id = item.Id }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model List<ccbs.Models.LocalHelp>
+@{
+    Layout = null;
+}
+<div>
+    @foreach (var localhelp in Model)
+    {
+        <div class="box">
+            <div>
+                <h4>@Html.ActionLink(localhelp.Title, "LocalhelpDetails", "LocalHelp", new { id = localhelp.Id }, new { title = "点击查看详细介绍" })</h4>
+            </div>
+            <br />
+            <div style="padding-left: 20px;">
+                @{Html.RenderAction("_ShowRegisterEntries", "LocalHelp", new { localhelpId = localhelp.Id });}
+            </div>
+        </div>
+    }
+</div>

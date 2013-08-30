@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ccbs.Models.LocalHelp>
+@{
+    ViewBag.Title = "管理活动";
+}
+<div id="content-no-sidebar">
+    <h2>
+        活动列表</h2>
+    <p>
+        @Html.ActionLink("新建", "CreateLocalHelp", new { orgId = ViewBag.orgId })
+    </p>
+    <div style="padding-top: 20px;">
+        <table>
+            <tr>
+                <th>
+                    主题
+                </th>
+                <th>
+                    创建机构
+                </th>
+                <th>
+                    注册限制
+                </th>
+                <th>
+                    时间地点
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <abbr title="详细内容">
+                            @Html.ActionLink(item.Title, "LocalhelpDetails", new { id = item.Id })</abbr>
+                    </td>
+                    <td>
+                        @if (item.Organization != null)
+                        {
+                            <span>@item.Organization.Name</span>
+                        }
+                        else
+                        {
+                            <span>Administrator</span>
+                        }
+                    </td>
+                    <td>
+                        @ccbs.Models.LocalHelpRestriction.ToString(item.Restriction)
+                    </td>
+                    <td>
+                        <div>
+                            @{Html.RenderAction("_ShowRegisterEntries", "LocalHelp", new { localhelpId = item.Id });}
+                        </div>
+                    </td>
+                    <td>
+                        @Html.ActionLink("编辑", "EditLocalHelp", new { id = item.Id, returnUrl = Request.RawUrl })
+                        |
+                        @Html.ActionLink("明细", "LocalhelpDetails", new { id = item.Id }) |
+                        @Html.ActionLink("删除", "DeleteLocalHelp", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+        <div id="result">
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>

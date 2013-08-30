@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ccbs.Models.NewStudentViewModel>
+@{
+    ViewBag.Title = "尚未分配到小组的新同学列表";
+    Layout = null;
+}
+<h4 id="displayedTitle">
+    尚未分配到小组的新同学列表
+</h4>
+<br />
+<div>
+    @{Html.Telerik().Grid<ccbs.Models.NewStudentViewModel>()
+        .Name("NewstudentGrid")
+        .DataKeys(keys =>
+        {
+            keys.Add(s => s.Id);
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(s => s.Id)
+                   .Title("")
+                   .Width(70)
+                   .HtmlAttributes(new { style = "text-align:center" })
+                   .Aggregate(aggregates => aggregates.Count())
+                   .ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' />")
+                   .ClientFooterTemplate("共: <#= Count #>")
+                   .ClientGroupFooterTemplate("共: <#= Count #>");
+            columns.Bound(s => s.CnName).Width(70).Title("姓名");
+            columns.Bound(s => s.Gender).Width(60).Title("性别");
+            columns.Bound(s => s.ComeFrom).Width(60).Title("来自");
+            columns.Bound(s => s.Flight).Width(80).Title("航班");
+            columns.Bound(s => s.ArrivalTime).Title("到达时间").Width(80)
+            .Aggregate(aggregates => aggregates.Count())
+            .ClientGroupHeaderTemplate("<#= Title #>: <#= Key #> (Count: <#= Count #>)");
+            columns.Bound(s => s.Note).Width(130).Title("备注");
+            columns.Bound(s => s.PickupStatus).Width(90).Title("接机");
+            columns.Bound(s => s.TempHousingStatus).Width(90).Title("临住");
+            columns.Command(commands =>
+            {
+                commands.Custom("viewDetails")
+                    .ButtonType(GridButtonType.Text)
+                    .Text("详细信息")
+                    .HtmlAttributes(new { @class = "detailsCommand" })
+                    .DataRouteValues(route => route.Add(o => o.Id).RouteKey("studId"))
+                    // Make ajax requests
+                    .Ajax(true)
+                    // Which action method to call
+                    .Action("ViewDetails", "NewStudent");
+
+            }).Width(130).Title("详细信息");
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax().Select("_GrpSelectNewStudents", "VolunteerGroup", new { orgId = ViewBag.orgId });
+            })
+        .ClientEvents(events =>
+            {
+                events.OnComplete("onComplete");
+            })
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Pageable(paging => paging.Enabled(false))
+        .Resizable(resizing => resizing.Columns(true))
+        .Scrollable(c => c.Height("600px"))
+        .Sortable()
+        .Filterable()
+        .Groupable(grouping => grouping.Enabled(true))
+        .Render();}
+</div>
+<div style="padding-top: 20px;">
+    <div style="float: left; padding-right: 10px;">
+        <button class="t-button t-state-default" onclick="assignedSelectedStudentsToGrp()"
+            style="height: 30px;">
+            将选择的新生加入我们小组
+        </button>
+        <span id="result"></span>
+    </div>
+</div>
+@(Html.Telerik().Window()
+    .Name("student-detail-window")
+    .Visible(false)
+    .Title("Student Details")
+    .Modal(true)
+    .Width(440)
+    .Height(250)
+    .Content(@<text>
+<div id="student-details">
+    <div style="float: left; padding-left: 15px; width: 200px;">
+        <p id="student-name">
+        </p>
+        <p id="student-gender">
+        </p>
+        <p id="student-email">
+        </p>
+        <p id="student-phone">
+        </p>
+        <p id="student-major">
+        </p>
+        <p id="student-comefrom">
+        </p>
+        <p id="student-status">
+        </p>
+    </div>
+    <div style="float: right; padding-right: 15px; width: 200px;">
+        <p id="student-flight">
+        </p>
+        <p id="student-arrive">
+        </p>
+        <p id="student-entry">
+        </p>
+        <p id="student-assignedorg">
+        </p>
+        <p id="student-pickup">
+        </p>
+        <p id="student-housing">
+        </p>
+        <p id="student-daysofhousing">
+        </p>
+    </div>
+</div>
+</text>)
+)
+<div id="manualAssignEditor">
+</div>

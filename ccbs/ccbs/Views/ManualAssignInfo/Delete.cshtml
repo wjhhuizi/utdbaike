@@ -1,0 +1,53 @@
+﻿@model ccbs.Models.ManualAssignInfo
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>ManualAssignInfo</legend>
+
+    <div class="display-label">Type</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Type)
+    </div>
+
+    <div class="display-label">VolName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VolName)
+    </div>
+
+    <div class="display-label">VolGender</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VolGender)
+    </div>
+
+    <div class="display-label">VolEmail</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VolEmail)
+    </div>
+
+    <div class="display-label">VolPhone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VolPhone)
+    </div>
+
+    <div class="display-label">VolAddr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VolAddr)
+    </div>
+
+    <div class="display-label">LastUpdate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastUpdate)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

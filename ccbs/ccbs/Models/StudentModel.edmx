@@ -1,0 +1,1348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StudentModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="StudentModelStoreContainer">
+    <EntitySet Name="NewStudents" EntityType="StudentModel.Store.NewStudents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Volunteers" EntityType="StudentModel.Store.Volunteers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Organizations" EntityType="StudentModel.Store.Organizations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrgRequests" EntityType="StudentModel.Store.OrgRequests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LocalHelps" EntityType="StudentModel.Store.LocalHelps" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GuestParticipants" EntityType="StudentModel.Store.GuestParticipants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ManualAssignInfoes" EntityType="StudentModel.Store.ManualAssignInfoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="StudentModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OperationRecords" EntityType="StudentModel.Store.OperationRecords" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TempPools" EntityType="StudentModel.Store.TempPools" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RegisterEntries" EntityType="StudentModel.Store.RegisterEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EmailHistories" EntityType="StudentModel.Store.EmailHistories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NewStudentRegisterEntry" EntityType="StudentModel.Store.NewStudentRegisterEntry" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LocalHelpVolunteer" EntityType="StudentModel.Store.LocalHelpVolunteer" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="NewStudentVolunteer" Association="StudentModel.Store.NewStudentVolunteer">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="NewStudentVolunteer1" Association="StudentModel.Store.NewStudentVolunteer1">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="NewStudentOrg" Association="StudentModel.Store.NewStudentOrg">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="Organization" EntitySet="Organizations" />
+    </AssociationSet>
+    <AssociationSet Name="AdminOrganization" Association="StudentModel.Store.AdminOrganization">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="OrgRequestOrganization" Association="StudentModel.Store.OrgRequestOrganization">
+      <End Role="OrgRequest" EntitySet="OrgRequests" />
+      <End Role="Organization" EntitySet="Organizations" />
+    </AssociationSet>
+    <AssociationSet Name="OrganizationVolunteer" Association="StudentModel.Store.OrganizationVolunteer">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="NewStudentManualAssignInfo" Association="StudentModel.Store.NewStudentManualAssignInfo">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="ManualAssignInfo" EntitySet="ManualAssignInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="OrganizationGroup" Association="StudentModel.Store.OrganizationGroup">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="VolunteerAdminGroup" Association="StudentModel.Store.VolunteerAdminGroup">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="GroupNewStudent" Association="StudentModel.Store.GroupNewStudent">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="NewStudent" EntitySet="NewStudents" />
+    </AssociationSet>
+    <AssociationSet Name="GroupVolunteer" Association="StudentModel.Store.GroupVolunteer">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Volunteer" EntitySet="Volunteers" />
+    </AssociationSet>
+    <AssociationSet Name="TempPoolNewStudent" Association="StudentModel.Store.TempPoolNewStudent">
+      <End Role="TempPool" EntitySet="TempPools" />
+      <End Role="NewStudent" EntitySet="NewStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NewStudentRegisterEntry_NewStudent" Association="StudentModel.Store.FK_NewStudentRegisterEntry_NewStudent">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="NewStudentRegisterEntry" EntitySet="NewStudentRegisterEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NewStudentRegisterEntry_RegisterEntry" Association="StudentModel.Store.FK_NewStudentRegisterEntry_RegisterEntry">
+      <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+      <End Role="NewStudentRegisterEntry" EntitySet="NewStudentRegisterEntry" />
+    </AssociationSet>
+    <AssociationSet Name="RegisterEntryGuestParticipant" Association="StudentModel.Store.RegisterEntryGuestParticipant">
+      <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+      <End Role="GuestParticipant" EntitySet="GuestParticipants" />
+    </AssociationSet>
+    <AssociationSet Name="LocalHelpRegisterEntry" Association="StudentModel.Store.LocalHelpRegisterEntry">
+      <End Role="LocalHelp" EntitySet="LocalHelps" />
+      <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+    </AssociationSet>
+    <AssociationSet Name="OrganizationLocalHelp" Association="StudentModel.Store.OrganizationLocalHelp">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="LocalHelp" EntitySet="LocalHelps" />
+    </AssociationSet>
+    <AssociationSet Name="NewStudentEmailHistory" Association="StudentModel.Store.NewStudentEmailHistory">
+      <End Role="NewStudent" EntitySet="NewStudents" />
+      <End Role="EmailHistory" EntitySet="EmailHistories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocalHelpVolunteer_LocalHelp" Association="StudentModel.Store.FK_LocalHelpVolunteer_LocalHelp">
+      <End Role="LocalHelp" EntitySet="LocalHelps" />
+      <End Role="LocalHelpVolunteer" EntitySet="LocalHelpVolunteer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocalHelpVolunteer_Volunteer" Association="StudentModel.Store.FK_LocalHelpVolunteer_Volunteer">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="LocalHelpVolunteer" EntitySet="LocalHelpVolunteer" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="NewStudents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Major" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Term" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ArrivalTime" Type="datetime" Nullable="false" />
+    <Property Name="Flight" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="NeedPickup" Type="bit" Nullable="false" />
+    <Property Name="NeedTempHousing" Type="bit" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EntryPort" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ComeFrom" Type="nvarchar(max)" Nullable="true" DefaultValue="Unknow" />
+    <Property Name="CnName" Type="nvarchar(max)" Nullable="true" DefaultValue="Unknow" />
+    <Property Name="RegTime" Type="datetime" Nullable="false" />
+    <Property Name="HasApt" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="WhenApt" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="WhereApt" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="WillingToHelp" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="HelpNote" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Marked" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="DaysOfHousing" Type="int" Nullable="false" />
+    <Property Name="Confirmed" Type="int" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="IsManualAssigned" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="ManualAssignedPickup" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ManualAssignedHost" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PickupVolunteer_Id" Type="int" Nullable="true" />
+    <Property Name="TempHouseVolunteer_Id" Type="int" Nullable="true" />
+    <Property Name="Organization_Id" Type="int" Nullable="true" />
+    <Property Name="Group_Id" Type="int" Nullable="true" />
+    <Property Name="TempPool_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Volunteers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" DefaultValue="Not Provided" />
+    <Property Name="BriefIntro" Type="nvarchar(max)" Nullable="true" DefaultValue="Not Provided" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="true" DefaultValue="none" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" DefaultValue="Not Provided" />
+    <Property Name="OrganizationId" Type="int" Nullable="false" />
+    <Property Name="RegTime" Type="datetime" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HelpType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RelationToUTD" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="GroupId" Type="int" Nullable="true" />
+    <Property Name="AdminOrg_Id" Type="int" Nullable="true" />
+    <Property Name="AdminGroup_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Organizations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" DefaultValue="Not Provided" />
+    <Property Name="Passcode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ModelType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrgRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NumOfNews" Type="int" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="true" DefaultValue="none" />
+    <Property Name="Reply" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Progress" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RequestDate" Type="datetime" Nullable="true" />
+    <Property Name="Organization_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LocalHelps">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Restriction" Type="int" Nullable="false" />
+    <Property Name="OrganizationId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="GuestParticipants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsChristian" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="RegisterEntryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ManualAssignInfoes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="VolName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VolGender" Type="int" Nullable="false" />
+    <Property Name="VolEmail" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="VolPhone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="VolAddr" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="NewStudentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Passcode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="OrganizationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OperationRecords">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Arg1" Type="int" Nullable="false" />
+    <Property Name="Arg2" Type="int" Nullable="false" />
+    <Property Name="Data" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TempPools">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RegisterEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Contact" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="LocalHelpId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmailHistories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="LastSend" Type="datetime" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Confirmed" Type="bit" Nullable="false" />
+    <Property Name="ToEmail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NewStudentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NewStudentRegisterEntry">
+    <Key>
+      <PropertyRef Name="NewStudents_Id" />
+      <PropertyRef Name="RegisterEntries_Id" />
+    </Key>
+    <Property Name="NewStudents_Id" Type="int" Nullable="false" />
+    <Property Name="RegisterEntries_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LocalHelpVolunteer">
+    <Key>
+      <PropertyRef Name="LocalHelps_Id" />
+      <PropertyRef Name="Volunteers_Id" />
+    </Key>
+    <Property Name="LocalHelps_Id" Type="int" Nullable="false" />
+    <Property Name="Volunteers_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="NewStudentVolunteer">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="PickupVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NewStudentVolunteer1">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="TempHouseVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NewStudentOrg">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="Organization_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdminOrganization">
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="0..1" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Volunteer">
+        <PropertyRef Name="AdminOrg_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrgRequestOrganization">
+    <End Role="OrgRequest" Type="StudentModel.Store.OrgRequests" Multiplicity="*" />
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrgRequest">
+        <PropertyRef Name="Organization_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrganizationVolunteer">
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="1" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Volunteer">
+        <PropertyRef Name="OrganizationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NewStudentManualAssignInfo">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="1" />
+    <End Role="ManualAssignInfo" Type="StudentModel.Store.ManualAssignInfoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewStudent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ManualAssignInfo">
+        <PropertyRef Name="NewStudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrganizationGroup">
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="1" />
+    <End Role="Group" Type="StudentModel.Store.Groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="OrganizationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VolunteerAdminGroup">
+    <End Role="Group" Type="StudentModel.Store.Groups" Multiplicity="0..1" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Volunteer">
+        <PropertyRef Name="AdminGroup_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupNewStudent">
+    <End Role="Group" Type="StudentModel.Store.Groups" Multiplicity="0..1" />
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="Group_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupVolunteer">
+    <End Role="Group" Type="StudentModel.Store.Groups" Multiplicity="0..1" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Volunteer">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TempPoolNewStudent">
+    <End Role="TempPool" Type="StudentModel.Store.TempPools" Multiplicity="0..1" />
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TempPool">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="TempPool_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RegisterEntryGuestParticipant">
+    <End Role="RegisterEntry" Type="StudentModel.Store.RegisterEntries" Multiplicity="1" />
+    <End Role="GuestParticipant" Type="StudentModel.Store.GuestParticipants" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RegisterEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GuestParticipant">
+        <PropertyRef Name="RegisterEntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LocalHelpRegisterEntry">
+    <End Role="LocalHelp" Type="StudentModel.Store.LocalHelps" Multiplicity="1" />
+    <End Role="RegisterEntry" Type="StudentModel.Store.RegisterEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LocalHelp">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RegisterEntry">
+        <PropertyRef Name="LocalHelpId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrganizationLocalHelp">
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="0..1" />
+    <End Role="LocalHelp" Type="StudentModel.Store.LocalHelps" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LocalHelp">
+        <PropertyRef Name="OrganizationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NewStudentEmailHistory">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="1" />
+    <End Role="EmailHistory" Type="StudentModel.Store.EmailHistories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewStudent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmailHistory">
+        <PropertyRef Name="NewStudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NewStudentRegisterEntry_NewStudent">
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="1" />
+    <End Role="NewStudentRegisterEntry" Type="StudentModel.Store.NewStudentRegisterEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewStudent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudentRegisterEntry">
+        <PropertyRef Name="NewStudents_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NewStudentRegisterEntry_RegisterEntry">
+    <End Role="NewStudentRegisterEntry" Type="StudentModel.Store.NewStudentRegisterEntry" Multiplicity="*" />
+    <End Role="RegisterEntry" Type="StudentModel.Store.RegisterEntries" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="RegisterEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudentRegisterEntry">
+        <PropertyRef Name="RegisterEntries_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocalHelpVolunteer_LocalHelp">
+    <End Role="LocalHelp" Type="StudentModel.Store.LocalHelps" Multiplicity="1" />
+    <End Role="LocalHelpVolunteer" Type="StudentModel.Store.LocalHelpVolunteer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LocalHelp">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LocalHelpVolunteer">
+        <PropertyRef Name="LocalHelps_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocalHelpVolunteer_Volunteer">
+    <End Role="LocalHelpVolunteer" Type="StudentModel.Store.LocalHelpVolunteer" Multiplicity="*" />
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LocalHelpVolunteer">
+        <PropertyRef Name="Volunteers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="StudentModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="StudentModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NewStudents" EntityType="StudentModel.NewStudent" />
+          <EntitySet Name="Volunteers" EntityType="StudentModel.Volunteer" />
+          <EntitySet Name="Organizations" EntityType="StudentModel.Organization" />
+          <EntitySet Name="OrgRequests" EntityType="StudentModel.OrgRequest" />
+          <EntitySet Name="LocalHelps" EntityType="StudentModel.LocalHelp" />
+          <EntitySet Name="GuestParticipants" EntityType="StudentModel.GuestParticipant" />
+          <EntitySet Name="ManualAssignInfoes" EntityType="StudentModel.ManualAssignInfo" />
+          <EntitySet Name="Groups" EntityType="StudentModel.Group" />
+          <AssociationSet Name="NewStudentVolunteer" Association="StudentModel.NewStudentVolunteer">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <AssociationSet Name="NewStudentVolunteer1" Association="StudentModel.NewStudentVolunteer1">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <AssociationSet Name="NewStudentOrg" Association="StudentModel.NewStudentOrg">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="AdminOrganization" Association="StudentModel.AdminOrganization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <AssociationSet Name="OrgRequestOrganization" Association="StudentModel.OrgRequestOrganization">
+            <End Role="OrgRequest" EntitySet="OrgRequests" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="OrganizationVolunteer" Association="StudentModel.OrganizationVolunteer">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <AssociationSet Name="NewStudentManualAssignInfo" Association="StudentModel.NewStudentManualAssignInfo">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="ManualAssignInfo" EntitySet="ManualAssignInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="OrganizationGroup" Association="StudentModel.OrganizationGroup">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="VolunteerAdminGroup" Association="StudentModel.VolunteerAdminGroup">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <AssociationSet Name="GroupNewStudent" Association="StudentModel.GroupNewStudent">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="NewStudent" EntitySet="NewStudents" />
+          </AssociationSet>
+          <AssociationSet Name="GroupVolunteer" Association="StudentModel.GroupVolunteer">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <EntitySet Name="OperationRecords" EntityType="StudentModel.OperationRecord" />
+          <EntitySet Name="TempPools" EntityType="StudentModel.TempPool" />
+          <AssociationSet Name="TempPoolNewStudent" Association="StudentModel.TempPoolNewStudent">
+            <End Role="TempPool" EntitySet="TempPools" />
+            <End Role="NewStudent" EntitySet="NewStudents" />
+          </AssociationSet>
+          <EntitySet Name="RegisterEntries" EntityType="StudentModel.RegisterEntry" />
+          <AssociationSet Name="NewStudentRegisterEntry" Association="StudentModel.NewStudentRegisterEntry">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+          </AssociationSet>
+          <AssociationSet Name="RegisterEntryGuestParticipant" Association="StudentModel.RegisterEntryGuestParticipant">
+            <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+            <End Role="GuestParticipant" EntitySet="GuestParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="LocalHelpRegisterEntry" Association="StudentModel.LocalHelpRegisterEntry">
+            <End Role="LocalHelp" EntitySet="LocalHelps" />
+            <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+          </AssociationSet>
+          <AssociationSet Name="OrganizationLocalHelp" Association="StudentModel.OrganizationLocalHelp">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="LocalHelp" EntitySet="LocalHelps" />
+          </AssociationSet>
+          <EntitySet Name="EmailHistories" EntityType="StudentModel.EmailHistory" />
+          <AssociationSet Name="NewStudentEmailHistory" Association="StudentModel.NewStudentEmailHistory">
+            <End Role="NewStudent" EntitySet="NewStudents" />
+            <End Role="EmailHistory" EntitySet="EmailHistories" />
+          </AssociationSet>
+          <AssociationSet Name="LocalHelpVolunteer" Association="StudentModel.LocalHelpVolunteer">
+            <End Role="LocalHelp" EntitySet="LocalHelps" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="NewStudent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="Gender" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="true" />
+          <Property Type="String" Name="Phone" Nullable="true" />
+          <Property Type="String" Name="Major" Nullable="true" />
+          <Property Type="Int32" Name="Year" Nullable="false" />
+          <Property Type="String" Name="Term" Nullable="true" />
+          <Property Type="DateTime" Name="ArrivalTime" Nullable="false" />
+          <Property Type="String" Name="Flight" Nullable="true" />
+          <Property Type="Boolean" Name="NeedPickup" Nullable="false" />
+          <Property Type="Boolean" Name="NeedTempHousing" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" />
+          <Property Type="String" Name="EntryPort" Nullable="true" />
+          <Property Type="String" Name="ComeFrom" Nullable="true" DefaultValue="Unknow" />
+          <Property Type="String" Name="CnName" Nullable="true" DefaultValue="Unknow" />
+          <Property Type="DateTime" Name="RegTime" Nullable="false" />
+          <Property Type="Boolean" Name="HasApt" Nullable="false" DefaultValue="false" />
+          <Property Type="String" Name="WhenApt" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WhereApt" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="WillingToHelp" Nullable="false" DefaultValue="false" />
+          <Property Type="String" Name="HelpNote" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Marked" Nullable="false" DefaultValue="false" />
+          <Property Type="Int32" Name="DaysOfHousing" Nullable="false" />
+          <Property Type="Int32" Name="Confirmed" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+          <Property Type="Boolean" Name="IsManualAssigned" Nullable="false" DefaultValue="false" />
+          <Property Type="String" Name="ManualAssignedPickup" Nullable="true" />
+          <Property Type="String" Name="ManualAssignedHost" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="false" />
+          <NavigationProperty Name="PickupVolunteer" Relationship="StudentModel.NewStudentVolunteer" FromRole="NewStudent" ToRole="Volunteer" />
+          <NavigationProperty Name="TempHouseVolunteer" Relationship="StudentModel.NewStudentVolunteer1" FromRole="NewStudent" ToRole="Volunteer" />
+          <NavigationProperty Name="Organization" Relationship="StudentModel.NewStudentOrg" FromRole="NewStudent" ToRole="Organization" />
+          <NavigationProperty Name="ManualAssignInfoes" Relationship="StudentModel.NewStudentManualAssignInfo" FromRole="NewStudent" ToRole="ManualAssignInfo" />
+          <NavigationProperty Name="Group" Relationship="StudentModel.GroupNewStudent" FromRole="NewStudent" ToRole="Group" />
+          <NavigationProperty Name="TempPool" Relationship="StudentModel.TempPoolNewStudent" FromRole="NewStudent" ToRole="TempPool" />
+          <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.NewStudentRegisterEntry" FromRole="NewStudent" ToRole="RegisterEntry" />
+          <NavigationProperty Name="EmailHistories" Relationship="StudentModel.NewStudentEmailHistory" FromRole="NewStudent" ToRole="EmailHistory" />
+        </EntityType>
+        <EntityType Name="Volunteer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="Gender" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Phone" Nullable="true" DefaultValue="Not Provided" />
+          <Property Type="String" Name="BriefIntro" Nullable="true" DefaultValue="Not Provided" />
+          <Property Type="String" Name="Note" Nullable="true" DefaultValue="none" />
+          <Property Type="String" Name="Address" Nullable="true" DefaultValue="Not Provided" />
+          <Property Type="Int32" Name="OrganizationId" Nullable="false" />
+          <Property Type="DateTime" Name="RegTime" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" />
+          <Property Type="String" Name="HelpType" Nullable="true" />
+          <Property Type="String" Name="RelationToUTD" Nullable="true" />
+          <Property Type="Int32" Name="GroupId" Nullable="true" />
+          <NavigationProperty Name="PickupNewStudents" Relationship="StudentModel.NewStudentVolunteer" FromRole="Volunteer" ToRole="NewStudent" />
+          <NavigationProperty Name="TempHouseNewStudents" Relationship="StudentModel.NewStudentVolunteer1" FromRole="Volunteer" ToRole="NewStudent" />
+          <NavigationProperty Name="AdminOrg" Relationship="StudentModel.AdminOrganization" FromRole="Volunteer" ToRole="Organization" />
+          <NavigationProperty Name="Organization" Relationship="StudentModel.OrganizationVolunteer" FromRole="Volunteer" ToRole="Organization" />
+          <NavigationProperty Name="AdminGroup" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Volunteer" ToRole="Group" />
+          <NavigationProperty Name="Group" Relationship="StudentModel.GroupVolunteer" FromRole="Volunteer" ToRole="Group" />
+          <NavigationProperty Name="LocalHelps" Relationship="StudentModel.LocalHelpVolunteer" FromRole="Volunteer" ToRole="LocalHelp" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" DefaultValue="Not Provided" />
+          <Property Type="String" Name="Passcode" Nullable="true" />
+          <Property Type="Int32" Name="ModelType" Nullable="false" />
+          <NavigationProperty Name="NewStudents" Relationship="StudentModel.NewStudentOrg" FromRole="Organization" ToRole="NewStudent" />
+          <NavigationProperty Name="OrgLeader" Relationship="StudentModel.AdminOrganization" FromRole="Organization" ToRole="Volunteer" />
+          <NavigationProperty Name="OrgRequests" Relationship="StudentModel.OrgRequestOrganization" FromRole="Organization" ToRole="OrgRequest" />
+          <NavigationProperty Name="Volunteers" Relationship="StudentModel.OrganizationVolunteer" FromRole="Organization" ToRole="Volunteer" />
+          <NavigationProperty Name="Groups" Relationship="StudentModel.OrganizationGroup" FromRole="Organization" ToRole="Group" />
+          <NavigationProperty Name="LocalHelps" Relationship="StudentModel.OrganizationLocalHelp" FromRole="Organization" ToRole="LocalHelp" />
+        </EntityType>
+        <EntityType Name="OrgRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="NumOfNews" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" DefaultValue="none" />
+          <Property Type="String" Name="Reply" Nullable="true" />
+          <Property Type="String" Name="Progress" Nullable="true" />
+          <Property Type="DateTime" Name="RequestDate" />
+          <NavigationProperty Name="Organization" Relationship="StudentModel.OrgRequestOrganization" FromRole="OrgRequest" ToRole="Organization" />
+        </EntityType>
+        <EntityType Name="LocalHelp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Int32" Name="Restriction" Nullable="false" />
+          <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.LocalHelpRegisterEntry" FromRole="LocalHelp" ToRole="RegisterEntry" />
+          <NavigationProperty Name="Organization" Relationship="StudentModel.OrganizationLocalHelp" FromRole="LocalHelp" ToRole="Organization" />
+          <Property Type="Int32" Name="OrganizationId" Nullable="true" />
+          <NavigationProperty Name="Volunteers" Relationship="StudentModel.LocalHelpVolunteer" FromRole="LocalHelp" ToRole="Volunteer" />
+        </EntityType>
+        <EntityType Name="GuestParticipant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Phone" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="Boolean" Name="IsChristian" Nullable="false" DefaultValue="false" />
+          <NavigationProperty Name="RegisterEntry" Relationship="StudentModel.RegisterEntryGuestParticipant" FromRole="GuestParticipant" ToRole="RegisterEntry" />
+          <Property Type="Int32" Name="RegisterEntryId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ManualAssignInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="String" Name="VolName" Nullable="false" />
+          <Property Type="Int32" Name="VolGender" Nullable="false" />
+          <Property Type="String" Name="VolEmail" Nullable="true" />
+          <Property Type="String" Name="VolPhone" Nullable="true" />
+          <Property Type="String" Name="VolAddr" Nullable="true" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+          <Property Type="Int32" Name="NewStudentId" Nullable="false" />
+          <NavigationProperty Name="NewStudent" Relationship="StudentModel.NewStudentManualAssignInfo" FromRole="ManualAssignInfo" ToRole="NewStudent" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="String" Name="Passcode" Nullable="true" />
+          <Property Type="Int32" Name="OrganizationId" Nullable="false" />
+          <NavigationProperty Name="Organization" Relationship="StudentModel.OrganizationGroup" FromRole="Group" ToRole="Organization" />
+          <NavigationProperty Name="Leader" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Group" ToRole="Volunteer" />
+          <NavigationProperty Name="NewStudents" Relationship="StudentModel.GroupNewStudent" FromRole="Group" ToRole="NewStudent" />
+          <NavigationProperty Name="Volunteers" Relationship="StudentModel.GroupVolunteer" FromRole="Group" ToRole="Volunteer" />
+        </EntityType>
+        <Association Name="NewStudentVolunteer">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+        </Association>
+        <Association Name="NewStudentVolunteer1">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+        </Association>
+        <Association Name="NewStudentOrg">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="0..1" />
+        </Association>
+        <Association Name="AdminOrganization">
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+        </Association>
+        <Association Name="OrgRequestOrganization">
+          <End Type="StudentModel.OrgRequest" Role="OrgRequest" Multiplicity="*" />
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="1" />
+        </Association>
+        <Association Name="OrganizationVolunteer">
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="1" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Volunteer">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="NewStudentManualAssignInfo">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="1" />
+          <End Type="StudentModel.ManualAssignInfo" Role="ManualAssignInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewStudent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ManualAssignInfo">
+              <PropertyRef Name="NewStudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganizationGroup">
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="1" />
+          <End Type="StudentModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VolunteerAdminGroup">
+          <End Type="StudentModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+        </Association>
+        <Association Name="GroupNewStudent">
+          <End Type="StudentModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+        </Association>
+        <Association Name="GroupVolunteer">
+          <End Type="StudentModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Volunteer">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OperationRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="Int32" Name="Arg1" Nullable="false" />
+          <Property Type="Int32" Name="Arg2" Nullable="false" />
+          <Property Type="String" Name="Data" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="Link" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+        </EntityType>
+        <EntityType Name="TempPool">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+          <NavigationProperty Name="NewStudents" Relationship="StudentModel.TempPoolNewStudent" FromRole="TempPool" ToRole="NewStudent" />
+          <Property Type="String" Name="UserName" Nullable="false" />
+        </EntityType>
+        <Association Name="TempPoolNewStudent">
+          <End Type="StudentModel.TempPool" Role="TempPool" Multiplicity="0..1" />
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+        </Association>
+        <EntityType Name="RegisterEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Time" Nullable="false" />
+          <Property Type="String" Name="Address" Nullable="true" />
+          <Property Type="String" Name="Contact" Nullable="true" />
+          <NavigationProperty Name="NewStudents" Relationship="StudentModel.NewStudentRegisterEntry" FromRole="RegisterEntry" ToRole="NewStudent" />
+          <NavigationProperty Name="GuestParticipants" Relationship="StudentModel.RegisterEntryGuestParticipant" FromRole="RegisterEntry" ToRole="GuestParticipant" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <NavigationProperty Name="LocalHelp" Relationship="StudentModel.LocalHelpRegisterEntry" FromRole="RegisterEntry" ToRole="LocalHelp" />
+          <Property Type="Int32" Name="LocalHelpId" Nullable="false" />
+        </EntityType>
+        <Association Name="NewStudentRegisterEntry">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
+          <End Type="StudentModel.RegisterEntry" Role="RegisterEntry" Multiplicity="*" />
+        </Association>
+        <Association Name="RegisterEntryGuestParticipant">
+          <End Type="StudentModel.RegisterEntry" Role="RegisterEntry" Multiplicity="1" />
+          <End Type="StudentModel.GuestParticipant" Role="GuestParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegisterEntry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GuestParticipant">
+              <PropertyRef Name="RegisterEntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LocalHelpRegisterEntry">
+          <End Type="StudentModel.LocalHelp" Role="LocalHelp" Multiplicity="1" />
+          <End Type="StudentModel.RegisterEntry" Role="RegisterEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocalHelp">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RegisterEntry">
+              <PropertyRef Name="LocalHelpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganizationLocalHelp">
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="StudentModel.LocalHelp" Role="LocalHelp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocalHelp">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmailHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="DateTime" Name="LastSend" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="true" />
+          <Property Type="String" Name="Body" Nullable="true" />
+          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
+          <Property Type="String" Name="ToEmail" Nullable="false" />
+          <NavigationProperty Name="NewStudent" Relationship="StudentModel.NewStudentEmailHistory" FromRole="EmailHistory" ToRole="NewStudent" />
+          <Property Type="Int32" Name="NewStudentId" Nullable="false" />
+        </EntityType>
+        <Association Name="NewStudentEmailHistory">
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="1" />
+          <End Type="StudentModel.EmailHistory" Role="EmailHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewStudent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailHistory">
+              <PropertyRef Name="NewStudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LocalHelpVolunteer">
+          <End Type="StudentModel.LocalHelp" Role="LocalHelp" Multiplicity="*" />
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StudentModelStoreContainer" CdmEntityContainer="StudentModelContainer">
+    <EntitySetMapping Name="NewStudents">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.NewStudent)">
+        <MappingFragment StoreEntitySet="NewStudents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Term" ColumnName="Term" />
+          <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+          <ScalarProperty Name="Flight" ColumnName="Flight" />
+          <ScalarProperty Name="NeedPickup" ColumnName="NeedPickup" />
+          <ScalarProperty Name="NeedTempHousing" ColumnName="NeedTempHousing" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="EntryPort" ColumnName="EntryPort" />
+          <ScalarProperty Name="ComeFrom" ColumnName="ComeFrom" />
+          <ScalarProperty Name="CnName" ColumnName="CnName" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="HasApt" ColumnName="HasApt" />
+          <ScalarProperty Name="WhenApt" ColumnName="WhenApt" />
+          <ScalarProperty Name="WhereApt" ColumnName="WhereApt" />
+          <ScalarProperty Name="WillingToHelp" ColumnName="WillingToHelp" />
+          <ScalarProperty Name="HelpNote" ColumnName="HelpNote" />
+          <ScalarProperty Name="Marked" ColumnName="Marked" />
+          <ScalarProperty Name="DaysOfHousing" ColumnName="DaysOfHousing" />
+          <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="IsManualAssigned" ColumnName="IsManualAssigned" />
+          <ScalarProperty Name="ManualAssignedPickup" ColumnName="ManualAssignedPickup" />
+          <ScalarProperty Name="ManualAssignedHost" ColumnName="ManualAssignedHost" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Volunteers">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Volunteer)">
+        <MappingFragment StoreEntitySet="Volunteers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="BriefIntro" ColumnName="BriefIntro" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="HelpType" ColumnName="HelpType" />
+          <ScalarProperty Name="RelationToUTD" ColumnName="RelationToUTD" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Organizations">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Organization)">
+        <MappingFragment StoreEntitySet="Organizations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Passcode" ColumnName="Passcode" />
+          <ScalarProperty Name="ModelType" ColumnName="ModelType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrgRequests">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.OrgRequest)">
+        <MappingFragment StoreEntitySet="OrgRequests">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NumOfNews" ColumnName="NumOfNews" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Reply" ColumnName="Reply" />
+          <ScalarProperty Name="Progress" ColumnName="Progress" />
+          <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocalHelps">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.LocalHelp)">
+        <MappingFragment StoreEntitySet="LocalHelps">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Restriction" ColumnName="Restriction" />
+          <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GuestParticipants">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.GuestParticipant)">
+        <MappingFragment StoreEntitySet="GuestParticipants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsChristian" ColumnName="IsChristian" />
+          <ScalarProperty Name="RegisterEntryId" ColumnName="RegisterEntryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManualAssignInfoes">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.ManualAssignInfo)">
+        <MappingFragment StoreEntitySet="ManualAssignInfoes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="VolName" ColumnName="VolName" />
+          <ScalarProperty Name="VolGender" ColumnName="VolGender" />
+          <ScalarProperty Name="VolEmail" ColumnName="VolEmail" />
+          <ScalarProperty Name="VolPhone" ColumnName="VolPhone" />
+          <ScalarProperty Name="VolAddr" ColumnName="VolAddr" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="NewStudentId" ColumnName="NewStudentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Passcode" ColumnName="Passcode" />
+          <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OperationRecords">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.OperationRecord)">
+        <MappingFragment StoreEntitySet="OperationRecords">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Arg1" ColumnName="Arg1" />
+          <ScalarProperty Name="Arg2" ColumnName="Arg2" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TempPools">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.TempPool)">
+        <MappingFragment StoreEntitySet="TempPools">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegisterEntries">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.RegisterEntry)">
+        <MappingFragment StoreEntitySet="RegisterEntries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="LocalHelpId" ColumnName="LocalHelpId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmailHistories">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.EmailHistory)">
+        <MappingFragment StoreEntitySet="EmailHistories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="LastSend" ColumnName="LastSend" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+          <ScalarProperty Name="ToEmail" ColumnName="ToEmail" />
+          <ScalarProperty Name="NewStudentId" ColumnName="NewStudentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="NewStudentVolunteer" TypeName="StudentModel.NewStudentVolunteer" StoreEntitySet="NewStudents">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="PickupVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="NewStudentVolunteer1" TypeName="StudentModel.NewStudentVolunteer1" StoreEntitySet="NewStudents">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="TempHouseVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="TempHouseVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="NewStudentOrg" TypeName="StudentModel.NewStudentOrg" StoreEntitySet="NewStudents">
+      <EndProperty Name="Organization">
+        <ScalarProperty Name="Id" ColumnName="Organization_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Organization_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AdminOrganization" TypeName="StudentModel.AdminOrganization" StoreEntitySet="Volunteers">
+      <EndProperty Name="Organization">
+        <ScalarProperty Name="Id" ColumnName="AdminOrg_Id" />
+      </EndProperty>
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="AdminOrg_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrgRequestOrganization" TypeName="StudentModel.OrgRequestOrganization" StoreEntitySet="OrgRequests">
+      <EndProperty Name="Organization">
+        <ScalarProperty Name="Id" ColumnName="Organization_Id" />
+      </EndProperty>
+      <EndProperty Name="OrgRequest">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VolunteerAdminGroup" TypeName="StudentModel.VolunteerAdminGroup" StoreEntitySet="Volunteers">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="AdminGroup_Id" />
+      </EndProperty>
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="AdminGroup_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupNewStudent" TypeName="StudentModel.GroupNewStudent" StoreEntitySet="NewStudents">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Group_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Group_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TempPoolNewStudent" TypeName="StudentModel.TempPoolNewStudent" StoreEntitySet="NewStudents">
+      <EndProperty Name="TempPool">
+        <ScalarProperty Name="Id" ColumnName="TempPool_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="TempPool_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="NewStudentRegisterEntry" TypeName="StudentModel.NewStudentRegisterEntry" StoreEntitySet="NewStudentRegisterEntry">
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="NewStudents_Id" />
+      </EndProperty>
+      <EndProperty Name="RegisterEntry">
+        <ScalarProperty Name="Id" ColumnName="RegisterEntries_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LocalHelpVolunteer" TypeName="StudentModel.LocalHelpVolunteer" StoreEntitySet="LocalHelpVolunteer">
+      <EndProperty Name="LocalHelp">
+        <ScalarProperty Name="Id" ColumnName="LocalHelps_Id" />
+      </EndProperty>
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="Volunteers_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="StudentModel" ZoomLevel="97" >
+        <EntityTypeShape EntityType="StudentModel.NewStudent" Width="1.5" PointX="3.780249938266468" PointY="10.485778038616189" />
+        <EntityTypeShape EntityType="StudentModel.Volunteer" Width="1.5" PointX="6.125" PointY="6.125" Height="4.8648079427083317" />
+        <EntityTypeShape EntityType="StudentModel.Organization" Width="1.5" PointX="8.375" PointY="6.125" Height="2.9417936197916648" />
+        <EntityTypeShape EntityType="StudentModel.OrgRequest" Width="1.5" PointX="10.5" PointY="6.125" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="StudentModel.LocalHelp" Width="1.5" PointX="10.125" PointY="10.375" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="StudentModel.GuestParticipant" Width="1.5" PointX="12.375" PointY="15.5" Height="2.3648893229166656" />
+        <EntityTypeShape EntityType="StudentModel.ManualAssignInfo" Width="1.5" PointX="6.25" PointY="16.5" Height="2.9417936197916674" />
+        <EntityTypeShape EntityType="StudentModel.Group" Width="1.5" PointX="6.125" PointY="12" Height="2.7494921874999996" />
+        <AssociationConnector Association="StudentModel.NewStudentVolunteer" >
+          <ConnectorPoint PointX="5.25" PointY="10.868175192276635" />
+          <ConnectorPoint PointX="6.125" PointY="10.868175192276635" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.NewStudentVolunteer1" >
+          <ConnectorPoint PointX="5.25" PointY="10.621587596138317" />
+          <ConnectorPoint PointX="6.125" PointY="10.621587596138317" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.NewStudentOrg" >
+          <ConnectorPoint PointX="5.25" PointY="15.39037109375" />
+          <ConnectorPoint PointX="8.86523515625" PointY="15.39037109375" />
+          <ConnectorPoint PointX="8.86523515625" PointY="9.2590950520833317" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.AdminOrganization" >
+          <ConnectorPoint PointX="8.375" PointY="7.5958968098958319" />
+          <ConnectorPoint PointX="7.625" PointY="7.5958968098958319" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.OrgRequestOrganization" >
+          <ConnectorPoint PointX="10.5" PointY="7.3074446614583328" />
+          <ConnectorPoint PointX="9.875" PointY="7.3074446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.OrganizationVolunteer" >
+          <ConnectorPoint PointX="8.375" PointY="6.797948404947916" />
+          <ConnectorPoint PointX="7.625" PointY="6.797948404947916" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.NewStudentManualAssignInfo" >
+          <ConnectorPoint PointX="5.25" PointY="17.566966145833334" />
+          <ConnectorPoint PointX="6.25" PointY="17.566966145833334" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.OrganizationGroup" >
+          <ConnectorPoint PointX="9.2389096813964855" PointY="9.2590950520833317" />
+          <ConnectorPoint PointX="9.2389096813964855" PointY="13.726229248046874" />
+          <ConnectorPoint PointX="8.9485684895833337" PointY="13.726229248046874" />
+          <ConnectorPoint PointX="8.7819018229166659" PointY="13.726229248046874" />
+          <ConnectorPoint PointX="7.625" PointY="13.726229248046874" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.VolunteerAdminGroup" >
+          <ConnectorPoint PointX="6.875" PointY="12" />
+          <ConnectorPoint PointX="6.875" PointY="10.989807942708332" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.GroupNewStudent" >
+          <ConnectorPoint PointX="6.125" PointY="13.37474609375" />
+          <ConnectorPoint PointX="5.25" PointY="13.37474609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.GroupVolunteer" >
+          <ConnectorPoint PointX="7.3125" PointY="12" />
+          <ConnectorPoint PointX="7.3125" PointY="10.989807942708332" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.OperationRecord" Width="1.5" PointX="1.25" PointY="6.625" Height="2.5571907552083335" />
+        <EntityTypeShape EntityType="StudentModel.TempPool" Width="1.5" PointX="1.25" PointY="10.5" Height="1.7879850260416657" />
+        <AssociationConnector Association="StudentModel.TempPoolNewStudent">
+          <ConnectorPoint PointX="2.75" PointY="11.393992513020834" />
+          <ConnectorPoint PointX="3.75" PointY="11.393992513020834" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.RegisterEntry" Width="1.5" PointX="10.25" PointY="15.5" Height="2.3648893229166674" />
+        <AssociationConnector Association="StudentModel.NewStudentRegisterEntry">
+          <ConnectorPoint PointX="5.25" PointY="15.96875" />
+          <ConnectorPoint PointX="10.25" PointY="15.96875" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.RegisterEntryGuestParticipant">
+          <ConnectorPoint PointX="11.75" PointY="15.96875" />
+          <ConnectorPoint PointX="12.375" PointY="15.96875" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.LocalHelpRegisterEntry">
+          <ConnectorPoint PointX="10.9375" PointY="12.739889322916667" />
+          <ConnectorPoint PointX="10.9375" PointY="15.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.OrganizationLocalHelp">
+          <ConnectorPoint PointX="9.5882073406982435" PointY="9.2590950520833317" />
+          <ConnectorPoint PointX="9.5882073406982435" PointY="11.807297363281249" />
+          <ConnectorPoint PointX="10.125" PointY="11.807297363281249" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.EmailHistory" Width="1.5" PointX="1.25" PointY="15.375" Height="2.3648893229166674" />
+        <AssociationConnector Association="StudentModel.NewStudentEmailHistory">
+          <ConnectorPoint PointX="3.75" PointY="16.74974609375" />
+          <ConnectorPoint PointX="2.75" PointY="16.74974609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.LocalHelpVolunteer">
+          <ConnectorPoint PointX="10.125" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="9.6715406740315775" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="9.50487400736491" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="9.32224301472982" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="9.1555763480631516" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="8.9485684895833337" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="8.7819018229166659" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="7.625" PointY="10.778554687500002" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ccbs.Models.NewStudentViewModel>
+@{
+    ViewBag.Title = "未分配的新生";
+}
+<div id="content-no-sidebar">
+    <div>
+        <div>
+            <h3>
+                未分配的新生&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a onclick="window.history.go(-1);return false;">返回</a></h3>
+        </div>
+        <br />
+        <br />
+        <div>
+            @{Html.Telerik().Grid<ccbs.Models.NewStudentViewModel>()
+        .Name("NewstudentGrid")
+        .DataKeys(keys =>
+            {
+                keys.Add(s => s.Id);
+            })
+        .ToolBar(commands =>
+            {
+                commands.Custom()
+                    .Text("Export to Excel")
+                    .Action("ExportExcelAllUnassigned", "NewStudent");
+            })
+        .Columns(columns =>
+        {
+            columns.Bound(s => s.Id)
+                   .ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' />")
+                   .Title("")
+                   .Width(80)
+                   .HtmlAttributes(new { style = "text-align:center" })
+                   .Aggregate(aggregates => aggregates.Count())
+                   .ClientFooterTemplate("Total: <#= Count #>")
+                   .ClientGroupFooterTemplate("Count: <#= Count #>");
+            columns.Bound(s => s.Name).Width(100);
+            columns.Bound(s => s.Gender).Width(80);
+            columns.Bound(s => s.Flight).Width(100);
+            columns.Bound(s => s.ArrivalTime).Title("Arrive").Width(100);
+            columns.Bound(s => s.Note).Width(150);
+            columns.Bound(s => s.PickupStatus).Width(100).Title("Pickup");
+            columns.Bound(s => s.TempHousingStatus).Width(100).Title("Housing");
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax().Select("_AllUnassignedNewStudentList", "NewStudent");
+            })
+        .Pageable(paging => paging.Enabled(false))
+        .Scrollable(c => c.Height("500px"))
+        .Sortable()
+        .Filterable()
+        .Groupable(grouping => grouping.Enabled(true))
+        .Render();}
+        </div>
+    </div>
+    <div style="padding-top: 20px;">
+        <div style="float: left; padding-right: 10px;">
+            <button class="t-button t-state-default" onclick="displaySelectedRecords()" style="height: 30px;">
+                将选择的新生分配给
+            </button>
+        </div>
+        <div>
+            @(Html.Telerik().DropDownList()
+                    .Name("DropDownList_Organizations")
+                    .BindTo(ViewBag.DropDownList_Organizations)
+                    .HtmlAttributes(new { style = "width: 300px;" })
+                    .Placeholder("Select Organization...")
+            )
+        </div>
+        <script type="text/javascript">
+            function displaySelectedRecords() {
+                var $checkedRecords = $(':checked');
+                if ($checkedRecords.length < 1) {
+                    alert('Please select a few students first.');
+                    return;
+                }
+                var $org = document.getElementById("DropDownList_Organizations").value;
+                if ($org.length < 1) {
+                    alert('Please select an organization.');
+                    return;
+                }
+                $checkedRecords.push(parseInt($org));
+                $('#result').load('/NewStudent/AssignRecordsToOrg?org=' + $org, $checkedRecords, function () {
+                    $(".t-grid .t-refresh").trigger('click');
+                });
+            }
+        </script>
+    </div>
+    <div id="result">
+    </div>
+    <br class="clearfix" />
+</div>

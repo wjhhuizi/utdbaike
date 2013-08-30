@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ccbs.Models.VolunteerViewModel>
+@{
+    Layout = null;
+    int orgId = ViewBag.orgId;
+}
+<h4 id="displayedTitle">
+    志愿者列表
+</h4>
+<br />
+<div>
+    @{Html.Telerik().Grid<ccbs.Models.VolunteerViewModel>()
+        .Name("OrgVolunteerGrid")
+        .DataKeys(keys =>
+            {
+                keys.Add(s => s.Id);
+            })
+        .ToolBar(commands =>
+            {
+                commands.Custom()
+                    .Text("导出表格")
+                    .Action("OrgVolunteersExportExcel", "Volunteer", new { orgId = orgId });
+            })
+        .Columns(columns =>
+        {
+            columns.Bound(s => s.Id)
+                   .Title("ID")
+                   .Width(50)
+                   .HtmlAttributes(new { style = "text-align:center" })
+                   .Aggregate(aggregates => aggregates.Count())
+                   .ClientFooterTemplate("共: <#= Count #>")
+                   .ClientGroupFooterTemplate("共: <#= Count #>");
+            columns.Bound(s => s.Name).Width(90).Title("姓名");
+            columns.Bound(s => s.Gender).Width(60).Title("性别");
+            columns.Bound(s => s.Phone).Title("手机").Width(100);
+            columns.Bound(s => s.Address).Width(90).Title("地址");
+            columns.Bound(s => s.HelpType).Width(90).Title("帮助类型");
+            columns.Bound(s => s.Note).Width(120).Title("备注");
+            columns.Bound(s => s.Relation).Width(100).Title("与UTD关系");
+            columns.Bound(s => s.RegTime).Width(70).Title("注册时间");
+            columns.Command(commands =>
+            {
+                commands.Custom("viewVolunteerDetails")
+                    .ButtonType(GridButtonType.Image)
+                    .HtmlAttributes(new { @class = "detailsCommand" })
+                    .DataRouteValues(route => route.Add(o => o.Id).RouteKey("volId"))
+                    // Make ajax requests
+                    .Ajax(true)
+                    // Which action method to call
+                    .Action("_ViewDetails", "Volunteer");
+                commands.Edit().ButtonType(GridButtonType.Image);
+                commands.Delete().ButtonType(GridButtonType.Image);
+            }).Width(100).Title("编辑");
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax().Select("_OrgVolunteerList", "VolunteerOrganization", new { orgId = ViewBag.orgId })
+                .Update("_SaveVolunteerAjaxEditing", "VolunteerOrganization")
+                .Delete("_DeleteVolunteerAjaxEditing", "VolunteerOrganization");
+            })
+            .ClientEvents(events =>
+                {
+                    events.OnEdit("onVolunteerEdit")
+                        .OnComplete("onVolunteerComplete");
+                })
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Pageable(paging => paging.Enabled(false))
+        .Scrollable(c => c.Height("600px"))
+        .Sortable()
+        .Filterable()
+        .Groupable(grouping => grouping.Enabled(true))
+        .Render();}
+</div>
+<div>
+    @{Html.Telerik().Window()
+                .Name("volunteer-detail-Window")
+                .Title("志愿者信息")
+                .Width(800)
+                .Draggable(true)
+                .Modal(true)
+               .Visible(false).Render();}
+</div>
+<script type="text/javascript">
+    onVolunteerEdit = function (e) {
+        $('div.t-edit-form-container').find('#Id').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#Id').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#RegTime').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#RegTime').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#HelpType').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#HelpType').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#RelationToUTD').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#RelationToUTD').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+    }
+
+    function onVolunteerComplete(e) {
+        if (e.name == "viewVolunteerDetails") {
+            var detailWindow = $("#volunteer-detail-Window").data("tWindow");
+            var PartialViewHtml = e.response.PartialViewHtml;
+            detailWindow.content(PartialViewHtml).center().open();
+        }
+    }
+</script>

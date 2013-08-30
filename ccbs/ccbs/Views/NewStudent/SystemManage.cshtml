@@ -1,0 +1,344 @@
+﻿@model IEnumerable<ccbs.Models.NewStudentViewModel>
+@{
+    ViewBag.Title = "系统注册新生列表";
+    string YellowDay = DateTime.Today.AddDays(10).ToString("MM/dd/yyyy HH:mm");
+    string RedDay = DateTime.Today.AddDays(7).ToString("MM/dd/yyyy HH:mm");
+    string GreenDay = DateTime.Today.ToString("MM/dd/yyyy HH:mm");
+}
+<div id="content-no-sidebar">
+    <div>
+        <div>
+            <h3>
+                系统注册新生列表&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a onclick="window.history.go(-1);return false;">
+                    返回</a></h3>
+        </div>
+        <br />
+        <br />
+        <div>
+            @{Html.Telerik().Grid(Model)
+        .Name("NewstudentGrid")
+        .DataKeys(keys =>
+        {
+            keys.Add(s => s.Id);
+        })
+        .ToolBar(toolBar => toolBar.Template(
+                @<text>
+                <label class="Organization-label" for="Organizations-input">
+                    选择显示:
+                </label>
+                @(Html.Telerik().ComboBox()
+                    .Name("Organizations")
+                            .DataBinding(binding => binding.Ajax().Select("_GetOrganizations", "NewStudent"))
+                    .AutoFill(true)
+                    .Filterable(filtering =>
+                    {
+                        filtering.FilterMode(AutoCompleteFilterMode.StartsWith);
+                    })
+                    .HtmlAttributes(new { style = "width: 200px" })
+                    .HighlightFirstMatch(true)
+                    .SelectedIndex(0)
+                    .ClientEvents(events => events.OnChange("organizationChange").OnLoad("onComboBoxLoad"))
+            )
+                @item.CustomCommandToolBarButton("ExportToExcel", "导出表格", "", "", null, true, GridButtonType.Text)
+                </text>))
+        .Columns(columns =>
+        {
+            columns.Bound(s => s.Id)
+                   .Title("")
+                   .Width(70)
+                   .HtmlAttributes(new { style = "text-align:center" })
+                   .Aggregate(aggregates => aggregates.Count())
+                   .ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' />")
+                   .ClientFooterTemplate("共: <#= Count #>")
+                   .ClientGroupFooterTemplate("共: <#= Count #>");
+            columns.Bound(s => s.CnName).Width(70).Title("姓名");
+            columns.Bound(s => s.Gender).Width(60).Title("性别");
+            columns.Bound(s => s.Flight).Width(80).Title("航班");
+            columns.Bound(s => s.ArrivalTime).Title("到达时间").Width(80)
+            .Aggregate(aggregates => aggregates.Count())
+            .ClientGroupHeaderTemplate("<#= Title #>: <#= Key #> (Count: <#= Count #>)");
+            columns.Bound(s => s.Note).Width(130).Title("备注");
+            columns.Bound(s => s.RegTime).Width(80).Title("注册时间");
+            columns.Bound(s => s.AssignedOrg).Width(90).Title("分配给");
+            columns.Bound(s => s.PickupStatus).Width(90).Title("接机");
+            columns.Bound(s => s.TempHousingStatus).Width(90).Title("临住");
+            columns.Bound(s => s.Confirmed).Width(70).Title("进度");
+            columns.Command(commands =>
+            {
+                commands.Custom("viewDetails")
+                    .ButtonType(GridButtonType.Image)
+                    .HtmlAttributes(new { @class = "detailsCommand" })
+                    .DataRouteValues(route => route.Add(o => o.Id).RouteKey("studId"))
+                    // Make ajax requests
+                    .Ajax(true)
+                    // Which action method to call
+                    .Action("ViewDetails", "NewStudent");
+                commands.Edit().ButtonType(GridButtonType.Image);
+                commands.Delete().ButtonType(GridButtonType.Image);
+                commands.Custom("manualAssign")
+                    .ButtonType(GridButtonType.Text)
+                    .Text("接机手动分")
+                    //.HtmlAttributes(new { @class = "manualAssignCommand" })
+                    .DataRouteValues(route => route.Add(o => o.Id).RouteKey("studId"))
+                    // Make ajax requests
+                    .Ajax(true)
+                    // Which action method to call
+                    .Action("PickupManualAssign", "NewStudent");
+                commands.Custom("manualAssign")
+                    .ButtonType(GridButtonType.Text)
+                    .Text("临住手动分")
+                    //.HtmlAttributes(new { @class = "manualAssignCommand" })
+                    .DataRouteValues(route => route.Add(o => o.Id).RouteKey("studId"))
+                    // Make ajax requests
+                    .Ajax(true)
+                    // Which action method to call
+                    .Action("HousingManualAssign", "NewStudent");
+
+            }).Width(130).Title("编辑");
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax().Select("_SystemManage", "NewStudent")
+                .Update("_SaveAjaxEditing", "NewStudent")
+                .Delete("_DeleteAjaxEditing", "NewStudent");
+            })
+        .ClientEvents(events =>
+            {
+                events.OnEdit("onEdit")
+                    .OnDataBinding("dataBinding")
+                    .OnComplete("onComplete")
+                    .OnCommand("onCommand");
+            })
+        .Editable(editing => editing.Mode(GridEditMode.PopUp))
+        .Pageable(paging => paging.Enabled(false))
+        .Resizable(resizing => resizing.Columns(true))
+        .Scrollable(c => c.Height("600px"))
+        .Sortable()
+        .Filterable()
+        .Groupable(grouping => grouping.Enabled(true))
+        .Render();}
+        </div>
+    </div>
+    <div style="padding-top: 20px;">
+        <div style="float: left; padding-right: 10px;">
+            <button class="t-button t-state-default" onclick="assignedSelectedStudentsToOrg()"
+                style="height: 30px;">
+                将选择的新生分配给
+            </button>
+            @(Html.Telerik().DropDownList()
+                    .Name("DropDownList_Organizations")
+                    .BindTo(ViewBag.DropDownList_Organizations)
+                    .HtmlAttributes(new { style = "width: 200px;" })
+                    .Placeholder("选择志愿者机构...")
+            )
+            <span id="result"></span>
+        </div>
+        <div style="float: right; padding-left: 70px;">
+            <button class="t-button t-state-default" onclick="returnSelectedRecords()">
+                将选择的新生退回系统
+            </button>
+        </div>
+    </div>
+    @(Html.Telerik().Window()
+    .Name("student-detail-window")
+    .Visible(false)
+    .Title("Student Details")
+    .Modal(true)
+    .Width(440)
+    .Height(250)
+    .Content(@<text>
+    <div id="student-details">
+        <div style="float: left; padding-left: 15px; width: 200px;">
+            <p id="student-name">
+            </p>
+            <p id="student-gender">
+            </p>
+            <p id="student-email">
+            </p>
+            <p id="student-phone">
+            </p>
+            <p id="student-major">
+            </p>
+            <p id="student-comefrom">
+            </p>
+            <p id="student-status">
+            </p>
+        </div>
+        <div style="float: right; padding-right: 15px; width: 200px;">
+            <p id="student-flight">
+            </p>
+            <p id="student-arrive">
+            </p>
+            <p id="student-entry">
+            </p>
+            <p id="student-assignedorg">
+            </p>
+            <p id="student-pickup">
+            </p>
+            <p id="student-housing">
+            </p>
+            <p id="student-daysofhousing">
+            </p>
+        </div>
+    </div>
+    </text>)
+)
+    @{Html.Telerik().Window()
+        .Name("Manual-Assign-Window")
+        .Title("手动分配的志愿者信息")
+        .Width(320)
+        .Height(550)
+        .Draggable(true)
+        .Modal(true)
+        .Visible(false).Render();
+    }
+    <div id="manualAssignEditor">
+    </div>
+    <br class="clearfix" />
+</div>
+<script type="text/javascript">
+    onEdit = function (e) {
+        $('div.t-edit-form-container').find('#Id').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#Id').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#PickupStatus').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#PickupStatus').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#TempHousingStatus').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#TempHousingStatus').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#AssignedOrg').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#AssignedOrg').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#AssignedGrp').closest('div.editor-field').css('visibility', 'hidden').css('position', 'absolute');
+        $('div.t-edit-form-container').find('#AssignedGrp').closest('div.editor-field').prev('div.editor-label').css('visibility', 'hidden').css('position', 'absolute');
+    }
+
+    function organizationChange() {
+        $("#NewstudentGrid").data("tGrid").rebind();
+    }
+    function dataBinding(args) {
+        var orgId = $("#Organizations").data("tComboBox").value();
+        args.data = $.extend(args.data, { orgId: orgId });
+    }
+    function selectedOrganization() {
+        return $("#Organizations").data("tComboBox").value();
+    }
+    function onComboBoxLoad() {
+        $(this).data("tComboBox").fill();
+    }
+    function onCommand(e) {
+        if (e.name == "ExportToExcel") {
+            //send the selected orgId to the server
+            var orgId = $("#Organizations").data("tComboBox").value();
+            if (!orgId) {
+                e.preventDefault();
+                alert("Please select a organization!");
+                return;
+            }
+            window.location = "../NewStudent/ExportExcelForSystemOrg?orgId=" + orgId;
+        }
+    }
+    function onComplete(e) {
+        if (e.name == "viewDetails") {
+            var detailWindow = $("#student-detail-window").data("tWindow");
+            var student = e.response.student;
+            $("#student-details")
+                .find("p#student-name")
+                .text("Name: " + student.CnName)
+                .end()
+                .find("p#student-gender")
+                .text("Gender: " + student.Gender)
+                .end()
+                .find("p#student-email")
+                .text("Email: " + student.Email)
+                .end()
+                .find("p#student-phone")
+                .text("Phone: " + student.Phone)
+                .end()
+                .find("p#student-major")
+                .text("Major: " + student.Major)
+                .end()
+                .find("p#student-comefrom")
+                .text("From: " + student.ComeFrom)
+                .end()
+                .find("p#student-status")
+                .text("Status: " + student.Confirmed)
+                .end()
+                .find("p#student-flight")
+                .text("Flight: " + student.Flight)
+                .end()
+                .find("p#student-arrive")
+                .text("Arrive at: " + student.ArrivalTime)
+                .end()
+                .find("p#student-entry")
+                .text("Entry Port: " + student.EntryPort)
+                .end()
+                .find("p#student-assignedorg")
+                .text("Assigned To: " + student.AssignedOrg)
+                .end()
+                .find("p#student-pickup")
+                .text("Pickup: " + student.PickupStatus)
+                .end()
+                .find("p#student-housing")
+                .text("Housing: " + student.TempHousingStatus)
+                .end()
+                .find("p#student-daysofhousing")
+                .text("Days: " + student.DaysOfHousing);
+            detailWindow.center().open();
+        }
+
+        if (e.name == "manualAssign") {
+            var manualAssignEditor = e.response.PartialViewHtml;
+            var manualAssignWindow = $("#Manual-Assign-Window").data("tWindow");
+            manualAssignWindow.content(manualAssignEditor).center().open();
+        }
+    }
+
+    function assignedSelectedStudentsToOrg() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var $org = document.getElementById("DropDownList_Organizations").value;
+        if ($org.length < 1) {
+            alert('Please select an organization.');
+            return;
+        }
+        var str = "确定将选择的新生分配给该机构吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $checkedRecords.push(parseInt($org));
+        $('#result').load('/NewStudent/AssignRecordsToOrg?org=' + $org, $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+
+    function returnSelectedRecords() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var str = "确定将选择的新生退回到系统吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $('#result').load('@Url.Action("ReturnRecordsToSystem", "NewStudent")', $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+
+    function ManualAssign_OnComplete(context) {
+
+        var manualAssignWindow = $("#Manual-Assign-Window").data("tWindow");
+        var JsonAdd = context.get_response().get_object();
+        manualAssignWindow.close();
+        if (JsonAdd.Success) {
+            alert("Manual assign complete");
+        } else {
+            alert("Manual assign cannot complete");
+        }
+        $(".t-grid .t-refresh").trigger('click');
+    }
+</script>

@@ -1,0 +1,10 @@
+﻿@model List<ccbs.Models.Section>
+@{
+    Layout = null;
+}
+@foreach (var section in Model)
+{
+    <div>
+        @{Html.RenderPartial("_ShowSection", section);}
+    </div>
+}

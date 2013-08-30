@@ -1,0 +1,35 @@
+﻿@model ccbs.Models.Paragraph
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Paragraph</legend>
+
+    <div class="display-label">SubTitle</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SubTitle)
+    </div>
+
+    <div class="display-label">Image</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Image)
+    </div>
+
+    <div class="display-label">TextContent</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TextContent)
+    </div>
+
+    <div class="display-label">News</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.News.Title)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

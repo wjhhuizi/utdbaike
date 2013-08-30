@@ -1,0 +1,50 @@
+﻿@model ccbs.Models.Meeting
+@{
+    ViewBag.Title = "Details";
+}
+<div id="content">
+    <div>
+        @Html.ActionLink("返回", "Index")
+    </div>
+    <div>
+        <fieldset>
+            <legend>会议记录</legend>
+            <div class="display-label">
+                会议日期</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Date)
+            </div>
+            <div class="display-label">
+                参与人数</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.NumOfAtt)
+            </div>
+            <div class="display-label">
+                人员名单</div>
+            <div class="display-field">
+                <textarea rows="4" cols="80" readonly="readonly" class="text-area-display">@Model.AttNames</textarea>
+            </div>
+            <div class="display-label">
+                会议议题</div>
+            <div class="display-field">
+                <textarea rows="10" cols="80" readonly="readonly" class="text-area-display">@Model.Agenda</textarea>
+            </div>
+            <div class="display-label">
+                会议纪要</div>
+            <div class="display-field">
+                <textarea rows="20" cols="80" readonly="readonly" class="text-area-display">@Model.Content</textarea>
+            </div>
+        </fieldset>
+        <p>
+            @if (User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.LWSFRoles.coworker))
+            {
+                <span>@Html.ActionLink("编辑", "Edit", new { id = Model.Id }) |</span>
+            }
+            <a onclick="window.history.go(-1);return false;">返回</a>
+        </p>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

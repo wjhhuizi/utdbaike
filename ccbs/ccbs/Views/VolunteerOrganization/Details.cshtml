@@ -1,0 +1,249 @@
+﻿@model ccbs.Models.Organization
+@{
+    ViewBag.Title = @Model.Name;
+}
+<div id="content-no-sidebar">
+    <div class="box-small-padding" style="width: 450px; float: left; padding-top: 30px;">
+        <h4>
+            @Model.Name
+        </h4>
+        <br />
+        <p>
+            简介</p>
+        <p>@Model.Description</p>
+        <br />
+        <p>
+            PassCode: @Model.Passcode</p>
+        <br />
+        @Html.ActionLink("编辑", "Edit", new { id = Model.Id, returnUrl = Request.RawUrl })
+    </div>
+    <div class="box-small-padding" style="width: 450px; float: right; padding-top: 30px;">
+        <div class="arrowLinks">
+            <h4>
+                管理工具
+            </h4>
+            <br />
+            <ul>
+                @if (Model.ModelType == ccbs.Models.OrgModelType.IntGrouped)
+                {
+                    <li>
+                        @Ajax.ActionLink("查看志愿者小组", "ShowOrgGroups", "VolunteerOrganization", new { orgId = Model.Id }, new AjaxOptions { OnComplete = "ShowOrgInfo_OnComplete" })
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Ajax.ActionLink("查看志愿者列表", "ShowOrgVolunteers", "VolunteerOrganization", new { orgId = Model.Id }, new AjaxOptions { OnComplete = "ShowOrgInfo_OnComplete" })
+                    </li>
+                }
+                <li>
+                    @Ajax.ActionLink("查看新生列表", "ShowOrgNewStudents", "VolunteerOrganization", new { orgId = Model.Id }, new AjaxOptions { OnComplete = "ShowOrgInfo_OnComplete" })
+                </li>
+                <li>@Html.ActionLink("挑选新生进入本机构", "AllUnassignedNewStudentList", "NewStudent", null, null)</li>
+                <li><a onclick="openOperationRecordsWindow()" href="#">显示历史分配记录</a> </li>
+                <li>@Html.ActionLink("Local Help", "Manage", "LocalHelp", new { orgId = Model.Id }, null)</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        @(Html.Telerik().Window()
+        .Name("OperationRecordsWindow")
+        .Visible(false)
+        .Title("新生分配历史记录")
+        .LoadContentFrom("ShowOrgOperationRecords", "NewStudent", new { orgId = Model.Id })
+        .Buttons(buttons => buttons.Refresh().Maximize().Close())
+        .Width(450)
+        .Height(500)
+        .Draggable(true))
+    </div>
+    <br class="clearfix" />
+    <div style="padding-top: 20px;">
+        <a onclick="window.history.go(-1);return false;">Go Back</a>
+    </div>
+    <br />
+    <div id="displayedContent">
+        @if (Model.ModelType == ccbs.Models.OrgModelType.IntGrouped)
+        {
+            Html.RenderAction("_ShowOrgGroups", new { orgId = Model.Id });
+        }
+        else
+        {
+            Html.RenderAction("_ShowOrgVolunteers", new { orgId = Model.Id });
+        }
+    </div>
+    <br class="clearfix" />
+</div>
+<script type="text/javascript">
+    function ShowOrgInfo_OnComplete(context) {
+
+        var JsonAdd = context.get_response().get_object();
+
+        if (JsonAdd.Success) {
+            $("#displayedContent").html(JsonAdd.PartialViewHtml);
+        }
+    }
+
+    function onComplete(e) {
+        if (e.name == "viewDetails") {
+            var detailWindow = $("#student-detail-window").data("tWindow");
+            var student = e.response.student;
+            $("#student-details")
+                .find("p#student-name")
+                .text("Name: " + student.CnName)
+                .end()
+                .find("p#student-gender")
+                .text("Gender: " + student.Gender)
+                .end()
+                .find("p#student-email")
+                .text("Email: " + student.Email)
+                .end()
+                .find("p#student-phone")
+                .text("Phone: " + student.Phone)
+                .end()
+                .find("p#student-major")
+                .text("Major: " + student.Major)
+                .end()
+                .find("p#student-comefrom")
+                .text("From: " + student.ComeFrom)
+                .end()
+                .find("p#student-status")
+                .text("Status: " + student.Confirmed)
+                .end()
+                .find("p#student-flight")
+                .text("Flight: " + student.Flight)
+                .end()
+                .find("p#student-arrive")
+                .text("Arrive at: " + student.ArrivalTime)
+                .end()
+                .find("p#student-entry")
+                .text("Entry Port: " + student.EntryPort)
+                .end()
+                .find("p#student-assignedorg")
+                .text("Assigned To: " + student.AssignedOrg)
+                .end()
+                .find("p#student-pickup")
+                .text("Pickup: " + student.PickupStatus)
+                .end()
+                .find("p#student-housing")
+                .text("Housing: " + student.TempHousingStatus)
+                .end()
+                .find("p#student-daysofhousing")
+                .text("Days: " + student.DaysOfHousing);
+            detailWindow.center().open();
+        }
+
+        if (e.name == "manualAssign") {
+            var manualAssignEditor = e.response.PartialViewHtml;
+            var manualAssignWindow = $("#Manual-Assign-Window").data("tWindow");
+            manualAssignWindow.content(manualAssignEditor).center().open();
+        }
+    }
+
+    function setConfirmedStageForSelectedStudents() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var $confirmstage = document.getElementById("DropDownList_ConfirmedStages").value;
+        if ($confirmstage.length < 1) {
+            alert('请选择一个进度.');
+            return;
+        }
+        var str = "确定改变选择的新生分配进度吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $checkedRecords.push(parseInt($confirmstage));
+        $('#result').load('/VolunteerOrganization/SetNewStudentConfirmStage?confirmstage=' + $confirmstage, $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+
+    function volunteerGroupChange() {
+        //$("#NewstudentGrid").data("tGrid").rebind();
+        //if ($(".t-grid .t-refresh").exists()) {
+        $(".t-grid .t-refresh").trigger('click');
+        // }
+    }
+    function dataBinding(args) {
+        var grpId = $("#VolunteerGroups").data("tComboBox").value();
+        args.data = $.extend(args.data, { grpId: grpId });
+    }
+    function selectedOrganization() {
+        return $("#VolunteerGroups").data("tComboBox").value();
+    }
+    function onComboBoxLoad() {
+        $(this).data("tComboBox").fill();
+    }
+    function onCommand(e) {
+        if (e.name == "ExportToExcel") {
+            //send the selected orgId to the server
+            var orgId = "@ViewBag.orgId";
+            var grpId = $("#VolunteerGroups").data("tComboBox").value();
+            if (!grpId) {
+                e.preventDefault();
+                alert("Please select a group!");
+                return;
+            }
+            window.location = "../../NewStudent/ExportExcelForSystemGrp?orgId=" + orgId + "&grpId=" + grpId;
+        }
+    }
+
+    function assignedSelectedStudentsToGrp() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var $grp = document.getElementById("DropDownList_VolunteerGroups").value;
+        if ($grp.length < 1) {
+            alert('Please select a group.');
+            return;
+        }
+        var str = "确定将选择的新生分配给该小组吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $checkedRecords.push(parseInt($grp));
+        $('#result').load('/NewStudent/AssignRecordsToGrp?grp=' + $grp, $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+
+    function returnSelectedRecords() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var str = "确定将选择的新生从小组退回吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $('#result').load('@Url.Action("GrpReturnRecordsToOrg", "NewStudent")', $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+
+    function ManualAssign_OnComplete(context) {
+
+        var manualAssignWindow = $("#Manual-Assign-Window").data("tWindow");
+        var JsonAdd = context.get_response().get_object();
+        manualAssignWindow.close();
+        if (JsonAdd.Success) {
+            alert("Manual assign complete");
+        } else {
+            alert(JsonAdd.Message);
+        }
+        $(".t-grid .t-refresh").trigger('click');
+    }
+
+    function openOperationRecordsWindow() {
+        var window = $("#OperationRecordsWindow").data("tWindow");
+        window.center().open().refresh();
+    }
+</script>

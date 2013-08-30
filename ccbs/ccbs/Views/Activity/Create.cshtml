@@ -1,0 +1,74 @@
+﻿@model ccbs.Models.Activity
+@{
+    ViewBag.Title = "Create";
+}
+<div id="content">
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <div>
+        @Html.ActionLink("返回", "Manage")
+    </div>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>新加事件</legend>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Title, "主题")
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Title)
+                    @Html.ValidationMessageFor(model => model.Title)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TimeFrom, "开始时间")
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.TimeFrom)
+                    @Html.ValidationMessageFor(model => model.TimeFrom)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TimeTo, "结束时间")
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.TimeTo)
+                    @Html.ValidationMessageFor(model => model.TimeTo)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Address, "活动地点")
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Address, new { @class = "multiedit" })
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Description, "活动简介")
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "text-area-edit" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Picture, "宣传图(optional)")
+                </div>
+                <div class="editor-field">
+                    @(Html.Telerik().Upload()
+                            .Name("flyerPhotos")
+                            .Multiple((bool)false))
+                </div>
+                <br />
+                <p>
+                    <input type="submit" value="保存" />
+                </p>
+            </fieldset>
+        }
+        <div>
+            @Html.ActionLink("返回", "Manage")
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

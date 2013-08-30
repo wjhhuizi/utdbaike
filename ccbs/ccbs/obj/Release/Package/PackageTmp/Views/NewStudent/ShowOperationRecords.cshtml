@@ -1,0 +1,36 @@
+﻿@model List<ccbs.Models.OperationRecord>
+@{
+    Layout = null;
+}
+<div>
+    <p style="font-size: larger; text-align: center; font-weight: bold;">
+        新生分配历史记录</p>
+    <br />
+    <table>
+        <tr>
+            <th>
+                日期
+            </th>
+            <th>
+                操作
+            </th>
+            <th>
+                表格下载
+            </th>
+        </tr>
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>
+                    @record.CreatedDate.ToString("MM/dd/yyyy hh:mm tt")
+                </td>
+                <td>
+                    @record.Description
+                </td>
+                <td>
+                    <a href="@record.Link">下载</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,19 @@
+v1.0:
+  * Initial release
+
+v1.0.1:
+  * Fixed bug in jd.gallery.js that prevented more than 10 images in
+    carousel.
+  * Fixed bug in resizer.php that prevented filenames with extensions in
+    uppercase.
+v1.2:
+  * Fixed thumbGenerator name
+  * Fixed jumping thumbnails bug
+  * In options:
+    - Added useExternalCarousel (boolean, with carouselElement as an element)
+    - Added populateFrom option (element)
+    - Added showCarouselLabel option (boolean)
+    - Added activateCarouselScroller (boolean)
+    - Added slideInfoZoneSlide (boolean)
+  * Switched to mootools 1.0
+  * Added plugin support for digitarald's history manager (requires mootools 1.1 to be activated)

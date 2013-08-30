@@ -1,0 +1,44 @@
+﻿@model List<MembershipUser>
+@{
+    Layout = null;
+}
+<table>
+    <tr>
+        <th>
+            用户名
+        </th>
+        <th>
+            邮箱
+        </th>
+        <th>
+            在线？
+        </th>
+        <th>
+            上次登录
+        </th>
+        <th>
+            设置
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        string isChecked = item.IsOnline ? "checked" : "";
+        <tr>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                <input type="checkbox" disabled="disabled"  value="" @isChecked/>
+            </td>
+            <td>
+                @item.LastLoginDate.ToString("MM/dd/yyyy hh:mm tt")
+            </td>
+            <td>
+                @Html.ActionLink("设置权限", "SetRoles", "Account", new { username = item.UserName }, null)
+            </td>
+        </tr>
+    }
+</table>

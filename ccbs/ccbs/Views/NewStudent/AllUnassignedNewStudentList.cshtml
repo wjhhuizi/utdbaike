@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ccbs.Models.NewStudentViewModel>
+@{
+    ViewBag.Title = "系统中未分配到教会的新生";
+}
+<div id="content-no-sidebar">
+    <div>
+        <div>
+            <h3>
+                系统中未分配到教会的新生&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a onclick="window.history.go(-1);return false;">返回</a></h3>
+        </div>
+        <br />
+        <br />
+        <div>
+            @{Html.Telerik().Grid<ccbs.Models.NewStudentViewModel>()
+        .Name("NewstudentGrid")
+        .DataKeys(keys =>
+            {
+                keys.Add(s => s.Id);
+            })
+        .ToolBar(commands =>
+            {
+                commands.Custom()
+                    .Text("Export to Excel")
+                    .Action("ExportExcelAllUnassigned", "NewStudent");
+            })
+        .Columns(columns =>
+        {
+            columns.Bound(s => s.Id)
+                   .Title("")
+                   .Width(70)
+                   .HtmlAttributes(new { style = "text-align:center" })
+                   .Aggregate(aggregates => aggregates.Count())
+                   .ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' />")
+                   .ClientFooterTemplate("共: <#= Count #>")
+                   .ClientGroupFooterTemplate("共: <#= Count #>");
+            columns.Bound(s => s.HelpNote).Width(100).Title("Admin备注");
+            columns.Bound(s => s.CnName).Width(70).Title("姓名");
+            columns.Bound(s => s.Gender).Width(60).Title("性别");
+            columns.Bound(s => s.ComeFrom).Width(80).Title("来自");
+            columns.Bound(s => s.Flight).Width(80).Title("航班");
+            columns.Bound(s => s.ArrivalTime).Title("到达时间").Width(80)
+            .Aggregate(aggregates => aggregates.Count())
+            .ClientGroupHeaderTemplate("<#= Title #>: <#= Key #> (Count: <#= Count #>)");
+            columns.Bound(s => s.PickupStatus).Width(80).Title("接机");
+            columns.Bound(s => s.TempHousingStatus).Width(80).Title("临住");
+            columns.Bound(s => s.Note).Width(130).Title("新生备注");
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax().Select("_AllUnassignedNewStudentList", "NewStudent");
+            })
+        .Pageable(paging => paging.Enabled(false))
+        .Scrollable(c => c.Height("500px"))
+        .Sortable()
+        .Filterable()
+        .Groupable(grouping => grouping.Enabled(true))
+        .Render();}
+        </div>
+    </div>
+    <div style="padding-top: 20px;">
+        <div style="float: left;">
+            <button class="t-button t-state-default" onclick="SelectStudentsToMyOrg()" style="height: 30px;">
+                将选择的新生加入本机构
+            </button>
+        </div>
+        <div id="result" style="float: left; padding-left: 30px;">
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<script type="text/javascript">
+    function SelectStudentsToMyOrg() {
+        var $checkedRecords = $(':checked');
+        if ($checkedRecords.length < 1) {
+            alert('Please select a few students first.');
+            return;
+        }
+        var str = "确定将选择的新生加入本机构吗？";
+        var r = confirm(str);
+        if (r == false) {
+            return;
+        }
+        $('#result').load('/NewStudent/SelectRecordsToMyOrg', $checkedRecords, function () {
+            $(".t-grid .t-refresh").trigger('click');
+        });
+    }
+</script>

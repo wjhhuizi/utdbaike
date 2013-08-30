@@ -1,0 +1,10 @@
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\ccbs.Tests.dll.config
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\ccbs.Tests.dll
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\ccbs.Tests.pdb
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\ccbs.dll
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\EntityFramework.dll
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\ccbs.pdb
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\bin\Debug\EntityFramework.xml
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\obj\Debug\ResolveAssemblyReference.cache
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\obj\Debug\ccbs.Tests.dll
+E:\study\Web-Design\asp.mvc\ccbs\ccbs.Tests\obj\Debug\ccbs.Tests.pdb

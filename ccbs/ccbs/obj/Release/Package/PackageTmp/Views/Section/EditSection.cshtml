@@ -1,0 +1,49 @@
+﻿@model ccbs.Models.Section
+@{
+    ViewBag.Title = "Edit Section";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div id="content-no-sidebar">
+    <div class="box" style="width: 400px; margin-left: auto; margin-right: auto;">
+        <h4>
+            Edit section</h4>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Id)
+            <div class="editor-field">
+                @Html.LabelFor(model => model.IsOnHomePage, "Section for on Homepage ?")
+                @Html.EditorFor(model => model.IsOnHomePage)
+                @Html.ValidationMessageFor(model => model.IsOnHomePage)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Title)
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.TitleColor, "Color")
+                <input value="@Model.TitleColor" type="color" name="TitleColor" id="TitleColor"/>
+                @Html.ValidationMessageFor(model => model.TitleColor)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Order)
+                @Html.EditorFor(model => model.Order)
+                @Html.ValidationMessageFor(model => model.Order)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Capacity)
+                @Html.EditorFor(model => model.Capacity)
+                @Html.ValidationMessageFor(model => model.Capacity)
+            </div>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>

@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "fileupload";
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="@Url.Content("~/Scripts/blueimp/js/vendor/jquery.ui.widget.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/blueimp/js/jquery.iframe-transport.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/blueimp/js/jquery.fileupload.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            url: '@Url.Action("fileupload")',
+            done: function (e, data) {
+                $.each(data.result, function (index, file) {
+                    $('<p/>').text(file.name).appendTo(document.body);
+                });
+            }
+        });
+    });
+</script>
+<h2>
+    fileupload</h2>
+<div>
+    <input id="fileupload" type="file" name="files" multiple="multiple" />
+</div>

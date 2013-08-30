@@ -1,0 +1,43 @@
+﻿@model ccbs.Models.Activity
+@{
+    ViewBag.Title = "Details";
+}
+<div id="content">
+    <div id="box">
+        <div class="arrowLinks">
+            <fieldset>
+                <legend>@Model.Title</legend>
+                <div class="display-label">
+                    开始时间</div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.TimeFrom)
+                </div>
+                <div class="display-label">
+                    结束时间</div>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.TimeTo)
+                </div>
+                <div class="display-label">
+                    活动地点</div>
+                <div class="display-field">
+                    <textarea rows="4" cols="80" readonly="readonly" class="text-area-display">@Model.Address</textarea>
+                </div>
+                <div class="display-label">
+                    活动简介</div>
+                <div class="display-field">
+                    <textarea rows="20" cols="80" readonly="readonly" class="text-area-display">@Model.Description</textarea>
+                </div>
+                @if (!String.IsNullOrEmpty(Model.Picture))
+                {
+                    <div class="display-field">
+                        <img src="@Model.Picture" alt="flyer"/>
+                    </div>
+                }
+            </fieldset>
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

@@ -1,0 +1,43 @@
+﻿@model ccbs.Models.Coworker
+@{
+    ViewBag.Title = "Delete";
+}
+<div id="content">
+    <h3>
+        确定删除 @Model.Name 的信息吗?</h3>
+    <fieldset>
+        <legend>@Model.Name</legend>
+        <div class="display-label">
+            Gender</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Gender)
+        </div>
+        <div class="display-label">
+            Email</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
+        <div class="display-label">
+            开始服侍日期</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.BeginDate)
+        </div>
+        <div class="display-label">
+            离开团契日期</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LeaveDate)
+        </div>
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        <p>
+            <input type="submit" value="删除" />
+            |
+            @Html.ActionLink("返回", "Index")
+        </p>
+    }
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

@@ -1,0 +1,76 @@
+﻿@model ccbs.Models.NewStudent
+@{
+    ViewBag.Title = "个人信息";
+}
+<div id="content">
+    <fieldset>
+        <legend>@Model.CnName</legend>
+        <div class="box">
+            @if (Model.Confirmed==ccbs.Models.ConfirmedStage.UnConfirmed)
+            {
+                <p>注册成功! 请确认您注册的信息准确无误，如果信息有改动请及时的登录本网站进行更改，谢谢!</p><br />
+                <p style="color: Red;">
+                    重要：请务必确认下面的信息准确无误，确认后请点击下面的“信息已确认按钮”</p>
+                <p style="color: Red;">
+                    若有任何修改，请 @Html.ActionLink("编辑信息", "Edit", "NewStudent", new { id = Model.Id, returnUrl = Request.RawUrl }, null)</p>
+                <br />
+            }
+            <div class="display-label">
+                姓名</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+            <div class="display-label">
+                邮箱</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Email)
+            </div>
+            <div class="display-label">
+                手机号</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Phone)
+            </div>
+            <div class="display-label">
+                航班号</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Flight)
+            </div>
+            <div class="display-label">
+                到达时间</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.ArrivalTime)
+            </div>
+            <div class="display-label">
+                是否需要接机？</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.NeedPickup)
+            </div>
+            <div class="display-label">
+                是否需要临住？</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.NeedTempHousing)
+            </div>
+            <div class="display-label">
+                备注</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Note)
+            </div>
+            <br />
+            @if (Model.Confirmed!=ccbs.Models.ConfirmedStage.UnConfirmed)
+            {
+                <p style="color: Red;">
+                    信息已确认!</p>
+            }
+            else
+            {
+                <button onclick="window.location.href='../StudentInfoConfirmation/'+@Model.Id" >
+                    <b style="font-size: large; color: Blue;">确认信息准确无误</b></button> <span>&nbsp&nbsp&nbsp</span>
+                @Html.ActionLink("编辑信息", "Edit", "NewStudent", new { id = Model.Id, returnUrl = Request.RawUrl }, null)
+            }
+        </div>
+    </fieldset>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

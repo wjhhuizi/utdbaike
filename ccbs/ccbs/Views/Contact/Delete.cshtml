@@ -1,0 +1,45 @@
+﻿@model ccbs.Models.Contact
+@{
+    ViewBag.Title = "Delete";
+}
+<div id="content-no-sidebar">
+    <div class="box" style="width: 400px; margin-left: auto; margin-right: auto;">
+        <fieldset>
+            <legend>Are you sure you want to delete this?</legend>
+            <div class="display-label">
+                Name</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+            <div class="display-label">
+                Title</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Title)
+            </div>
+            <div class="display-label">
+                Function</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Function)
+            </div>
+            <div class="display-label">
+                Email</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Email)
+            </div>
+            <div class="display-label">
+                Phone</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Phone)
+            </div>
+        </fieldset>
+        @using (Html.BeginForm())
+        {
+            <p>
+                <input type="submit" value="Delete" />
+                |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        }
+        <br class="clearfix" />
+    </div>
+</div>

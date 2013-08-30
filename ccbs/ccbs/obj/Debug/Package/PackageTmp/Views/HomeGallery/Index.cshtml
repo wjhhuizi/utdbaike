@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ccbs.Models.HomeGallery>
+@{
+    ViewBag.Title = "主页照片";
+}
+<div id="content-no-sidebar-no-padding">
+    <h2>
+        主页照片</h2>
+    <div>
+        <p>
+            效果展示</p>
+        <div>
+            <script type="text/javascript">
+                function startGallery() {
+                    var myGallery = new gallery(Moo.$('myGallery'), {
+                        timed: true
+                    });
+                }
+                window.onDomReady(startGallery);
+            </script>
+        </div>
+        <div id="myGallery">
+            @foreach (var pic in Model)
+            {
+                <div class="imageElement">
+                    @if (!String.IsNullOrEmpty(pic.Title))
+                    {
+                        <h3>
+                            @pic.Title</h3>
+                    }
+                    @if (!String.IsNullOrEmpty(pic.Description))
+                    {
+                        <p>
+                            @pic.Description</p>
+                    }
+                    @if (!String.IsNullOrEmpty(pic.HyperLink))
+                    {
+                        <a href="@pic.HyperLink" title="open image" class="open"></a>
+                    }
+                    <img src="@pic.Picture" class="full" />
+                    <img src="@ccbs.Controllers.HomeGalleryController.ToThumbnailPath(pic.Picture)"
+                    class="thumbnail" />
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        <p>
+            @Html.ActionLink("新加图片", "Create")
+        </p>
+        <table>
+            <tr>
+                <th>
+                    图片
+                </th>
+                <th>
+                    标题
+                </th>
+                <th>
+                    描述
+                </th>
+                <th>
+                    链接
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@ccbs.Controllers.HomeGalleryController.ToThumbnailPath(item.Picture)" alt="@item.Title"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HyperLink)
+                    </td>
+                    <td>
+                        @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("删除", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br class="clearfix" />
+</div>
