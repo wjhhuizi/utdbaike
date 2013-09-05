@@ -18,8 +18,12 @@
     <EntitySet Name="TempPools" EntityType="StudentModel.Store.TempPools" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RegisterEntries" EntityType="StudentModel.Store.RegisterEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EmailHistories" EntityType="StudentModel.Store.EmailHistories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Students" EntityType="StudentModel.Store.Students" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ManualVolunteers" EntityType="StudentModel.Store.ManualVolunteers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FacssDepartments" EntityType="StudentModel.Store.FacssDepartments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NewStudentRegisterEntry" EntityType="StudentModel.Store.NewStudentRegisterEntry" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LocalHelpVolunteer" EntityType="StudentModel.Store.LocalHelpVolunteer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RegisterEntryStudent" EntityType="StudentModel.Store.RegisterEntryStudent" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="NewStudentVolunteer" Association="StudentModel.Store.NewStudentVolunteer">
       <End Role="NewStudent" EntitySet="NewStudents" />
       <End Role="Volunteer" EntitySet="Volunteers" />
@@ -100,6 +104,42 @@
       <End Role="Volunteer" EntitySet="Volunteers" />
       <End Role="LocalHelpVolunteer" EntitySet="LocalHelpVolunteer" />
     </AssociationSet>
+    <AssociationSet Name="VolunteerStudent" Association="StudentModel.Store.VolunteerStudent">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="HostStudent" Association="StudentModel.Store.HostStudent">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="HostOrganization" Association="StudentModel.Store.HostOrganization">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="GroupHostStudent" Association="StudentModel.Store.GroupHostStudent">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="ManualPickupAssign" Association="StudentModel.Store.ManualPickupAssign">
+      <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="ManualHostAssign" Association="StudentModel.Store.ManualHostAssign">
+      <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RegisterEntryStudent_RegisterEntry" Association="StudentModel.Store.FK_RegisterEntryStudent_RegisterEntry">
+      <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+      <End Role="RegisterEntryStudent" EntitySet="RegisterEntryStudent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RegisterEntryStudent_Student" Association="StudentModel.Store.FK_RegisterEntryStudent_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="RegisterEntryStudent" EntitySet="RegisterEntryStudent" />
+    </AssociationSet>
+    <AssociationSet Name="ApplyForFacssDepartment" Association="StudentModel.Store.ApplyForFacssDepartment">
+      <End Role="FacssDepartment" EntitySet="FacssDepartments" />
+      <End Role="NewStudent" EntitySet="NewStudents" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="NewStudents">
     <Key>
@@ -140,6 +180,7 @@
     <Property Name="Organization_Id" Type="int" Nullable="true" />
     <Property Name="Group_Id" Type="int" Nullable="true" />
     <Property Name="TempPool_Id" Type="int" Nullable="true" />
+    <Property Name="ApplyFacssDepartment_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Volunteers">
     <Key>
@@ -274,6 +315,52 @@
     <Property Name="ToEmail" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NewStudentId" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Major" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Term" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ComeFrom" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CnName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="PickupVolunteer_Id" Type="int" Nullable="true" />
+    <Property Name="HostVolunteer_Id" Type="int" Nullable="true" />
+    <Property Name="HostOrganization_Id" Type="int" Nullable="true" />
+    <Property Name="HostGroup_Id" Type="int" Nullable="true" />
+    <Property Name="ManualPickupVolunteer_Id" Type="int" Nullable="true" />
+    <Property Name="ManualHostVolunteer_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ManualVolunteers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FacssDepartments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Introduction" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IsOpenForApply" Type="bit" Nullable="false" />
+    <Property Name="ApplyNotification" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
   <EntityType Name="NewStudentRegisterEntry">
     <Key>
       <PropertyRef Name="NewStudents_Id" />
@@ -289,6 +376,14 @@
     </Key>
     <Property Name="LocalHelps_Id" Type="int" Nullable="false" />
     <Property Name="Volunteers_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RegisterEntryStudent">
+    <Key>
+      <PropertyRef Name="RegisterEntries_Id" />
+      <PropertyRef Name="Students_Id" />
+    </Key>
+    <Property Name="RegisterEntries_Id" Type="int" Nullable="false" />
+    <Property Name="Students_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="NewStudentVolunteer">
     <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
@@ -482,6 +577,90 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="VolunteerStudent">
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="PickupVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HostStudent">
+    <End Role="Volunteer" Type="StudentModel.Store.Volunteers" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="HostVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HostOrganization">
+    <End Role="Organization" Type="StudentModel.Store.Organizations" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="HostOrganization_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupHostStudent">
+    <End Role="Group" Type="StudentModel.Store.Groups" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="HostGroup_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ManualPickupAssign">
+    <End Role="ManualVolunteer" Type="StudentModel.Store.ManualVolunteers" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManualVolunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="ManualPickupVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ManualHostAssign">
+    <End Role="ManualVolunteer" Type="StudentModel.Store.ManualVolunteers" Multiplicity="0..1" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ManualVolunteer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="ManualHostVolunteer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ApplyForFacssDepartment">
+    <End Role="FacssDepartment" Type="StudentModel.Store.FacssDepartments" Multiplicity="0..1" />
+    <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FacssDepartment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewStudent">
+        <PropertyRef Name="ApplyFacssDepartment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_NewStudentRegisterEntry_NewStudent">
     <End Role="NewStudent" Type="StudentModel.Store.NewStudents" Multiplicity="1" />
     <End Role="NewStudentRegisterEntry" Type="StudentModel.Store.NewStudentRegisterEntry" Multiplicity="*" />
@@ -527,6 +706,30 @@
       </Principal>
       <Dependent Role="LocalHelpVolunteer">
         <PropertyRef Name="Volunteers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RegisterEntryStudent_RegisterEntry">
+    <End Role="RegisterEntry" Type="StudentModel.Store.RegisterEntries" Multiplicity="1" />
+    <End Role="RegisterEntryStudent" Type="StudentModel.Store.RegisterEntryStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RegisterEntry">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RegisterEntryStudent">
+        <PropertyRef Name="RegisterEntries_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RegisterEntryStudent_Student">
+    <End Role="RegisterEntryStudent" Type="StudentModel.Store.RegisterEntryStudent" Multiplicity="*" />
+    <End Role="Student" Type="StudentModel.Store.Students" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RegisterEntryStudent">
+        <PropertyRef Name="Students_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -619,6 +822,41 @@
             <End Role="LocalHelp" EntitySet="LocalHelps" />
             <End Role="Volunteer" EntitySet="Volunteers" />
           </AssociationSet>
+          <EntitySet Name="Students" EntityType="StudentModel.Student" />
+          <AssociationSet Name="VolunteerStudent" Association="StudentModel.VolunteerStudent">
+            <End Role="Volunteer" EntitySet="Volunteers" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="HostStudent" Association="StudentModel.HostStudent">
+            <End Role="Volunteer" EntitySet="Volunteers" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="HostOrganization" Association="StudentModel.HostOrganization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="GroupHostStudent" Association="StudentModel.GroupHostStudent">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <EntitySet Name="ManualVolunteers" EntityType="StudentModel.ManualVolunteer" />
+          <AssociationSet Name="ManualPickupAssign" Association="StudentModel.ManualPickupAssign">
+            <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="ManualHostAssign" Association="StudentModel.ManualHostAssign">
+            <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="RegisterEntryStudent" Association="StudentModel.RegisterEntryStudent">
+            <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <EntitySet Name="FacssDepartments" EntityType="StudentModel.FacssDepartment" />
+          <AssociationSet Name="ApplyForFacssDepartment" Association="StudentModel.ApplyForFacssDepartment">
+            <End Role="FacssDepartment" EntitySet="FacssDepartments" />
+            <End Role="NewStudent" EntitySet="NewStudents" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="NewStudent">
           <Key>
@@ -662,6 +900,7 @@
           <NavigationProperty Name="TempPool" Relationship="StudentModel.TempPoolNewStudent" FromRole="NewStudent" ToRole="TempPool" />
           <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.NewStudentRegisterEntry" FromRole="NewStudent" ToRole="RegisterEntry" />
           <NavigationProperty Name="EmailHistories" Relationship="StudentModel.NewStudentEmailHistory" FromRole="NewStudent" ToRole="EmailHistory" />
+          <NavigationProperty Name="ApplyFacssDepartment" Relationship="StudentModel.ApplyForFacssDepartment" FromRole="NewStudent" ToRole="FacssDepartment" />
         </EntityType>
         <EntityType Name="Volunteer">
           <Key>
@@ -688,6 +927,8 @@
           <NavigationProperty Name="AdminGroup" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Volunteer" ToRole="Group" />
           <NavigationProperty Name="Group" Relationship="StudentModel.GroupVolunteer" FromRole="Volunteer" ToRole="Group" />
           <NavigationProperty Name="LocalHelps" Relationship="StudentModel.LocalHelpVolunteer" FromRole="Volunteer" ToRole="LocalHelp" />
+          <NavigationProperty Name="PickedUpStudents" Relationship="StudentModel.VolunteerStudent" FromRole="Volunteer" ToRole="Student" />
+          <NavigationProperty Name="HostedStudents" Relationship="StudentModel.HostStudent" FromRole="Volunteer" ToRole="Student" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -704,6 +945,7 @@
           <NavigationProperty Name="Volunteers" Relationship="StudentModel.OrganizationVolunteer" FromRole="Organization" ToRole="Volunteer" />
           <NavigationProperty Name="Groups" Relationship="StudentModel.OrganizationGroup" FromRole="Organization" ToRole="Group" />
           <NavigationProperty Name="LocalHelps" Relationship="StudentModel.OrganizationLocalHelp" FromRole="Organization" ToRole="LocalHelp" />
+          <NavigationProperty Name="HostedStudents" Relationship="StudentModel.HostOrganization" FromRole="Organization" ToRole="Student" />
         </EntityType>
         <EntityType Name="OrgRequest">
           <Key>
@@ -770,6 +1012,7 @@
           <NavigationProperty Name="Leader" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Group" ToRole="Volunteer" />
           <NavigationProperty Name="NewStudents" Relationship="StudentModel.GroupNewStudent" FromRole="Group" ToRole="NewStudent" />
           <NavigationProperty Name="Volunteers" Relationship="StudentModel.GroupVolunteer" FromRole="Group" ToRole="Volunteer" />
+          <NavigationProperty Name="HostedStudents" Relationship="StudentModel.GroupHostStudent" FromRole="Group" ToRole="Student" />
         </EntityType>
         <Association Name="NewStudentVolunteer">
           <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
@@ -886,6 +1129,7 @@
           <Property Type="Boolean" Name="IsActive" Nullable="false" />
           <NavigationProperty Name="LocalHelp" Relationship="StudentModel.LocalHelpRegisterEntry" FromRole="RegisterEntry" ToRole="LocalHelp" />
           <Property Type="Int32" Name="LocalHelpId" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="StudentModel.RegisterEntryStudent" FromRole="RegisterEntry" ToRole="Student" />
         </EntityType>
         <Association Name="NewStudentRegisterEntry">
           <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
@@ -956,6 +1200,88 @@
         <Association Name="LocalHelpVolunteer">
           <End Type="StudentModel.LocalHelp" Role="LocalHelp" Multiplicity="*" />
           <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="Gender" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Phone" Nullable="true" />
+          <Property Type="String" Name="Major" Nullable="true" />
+          <Property Type="Int32" Name="Year" Nullable="false" />
+          <Property Type="String" Name="Term" Nullable="false" />
+          <Property Type="String" Name="ComeFrom" Nullable="true" />
+          <Property Type="String" Name="CnName" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="false" />
+          <Property Type="DateTime" Name="RegDate" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+          <NavigationProperty Name="PickupVolunteer" Relationship="StudentModel.VolunteerStudent" FromRole="Student" ToRole="Volunteer" />
+          <NavigationProperty Name="HostVolunteer" Relationship="StudentModel.HostStudent" FromRole="Student" ToRole="Volunteer" />
+          <NavigationProperty Name="HostOrganization" Relationship="StudentModel.HostOrganization" FromRole="Student" ToRole="Organization" />
+          <NavigationProperty Name="HostGroup" Relationship="StudentModel.GroupHostStudent" FromRole="Student" ToRole="Group" />
+          <NavigationProperty Name="ManualPickupVolunteer" Relationship="StudentModel.ManualPickupAssign" FromRole="Student" ToRole="ManualVolunteer" />
+          <NavigationProperty Name="ManualHostVolunteer" Relationship="StudentModel.ManualHostAssign" FromRole="Student" ToRole="ManualVolunteer" />
+          <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.RegisterEntryStudent" FromRole="Student" ToRole="RegisterEntry" />
+        </EntityType>
+        <Association Name="VolunteerStudent">
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <Association Name="HostStudent">
+          <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <Association Name="HostOrganization">
+          <End Type="StudentModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <Association Name="GroupHostStudent">
+          <End Type="StudentModel.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ManualVolunteer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="Gender" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="true" />
+          <Property Type="String" Name="Phone" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" />
+          <NavigationProperty Name="ManualPickupStudent" Relationship="StudentModel.ManualPickupAssign" FromRole="ManualVolunteer" ToRole="Student" />
+          <NavigationProperty Name="ManualHostStudent" Relationship="StudentModel.ManualHostAssign" FromRole="ManualVolunteer" ToRole="Student" />
+        </EntityType>
+        <Association Name="ManualPickupAssign">
+          <End Type="StudentModel.ManualVolunteer" Role="ManualVolunteer" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ManualHostAssign">
+          <End Type="StudentModel.ManualVolunteer" Role="ManualVolunteer" Multiplicity="0..1" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="0..1" />
+        </Association>
+        <Association Name="RegisterEntryStudent">
+          <End Type="StudentModel.RegisterEntry" Role="RegisterEntry" Multiplicity="*" />
+          <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FacssDepartment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Introduction" Nullable="true" />
+          <NavigationProperty Name="AppliedNewStudents" Relationship="StudentModel.ApplyForFacssDepartment" FromRole="FacssDepartment" ToRole="NewStudent" />
+          <Property Type="Boolean" Name="IsOpenForApply" Nullable="false" />
+          <Property Type="String" Name="ApplyNotification" Nullable="true" />
+        </EntityType>
+        <Association Name="ApplyForFacssDepartment">
+          <End Type="StudentModel.FacssDepartment" Role="FacssDepartment" Multiplicity="0..1" />
+          <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1140,6 +1466,49 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Student)">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Term" ColumnName="Term" />
+          <ScalarProperty Name="ComeFrom" ColumnName="ComeFrom" />
+          <ScalarProperty Name="CnName" ColumnName="CnName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManualVolunteers">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.ManualVolunteer)">
+        <MappingFragment StoreEntitySet="ManualVolunteers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FacssDepartments">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.FacssDepartment)">
+        <MappingFragment StoreEntitySet="FacssDepartments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Introduction" ColumnName="Introduction" />
+          <ScalarProperty Name="IsOpenForApply" ColumnName="IsOpenForApply" />
+          <ScalarProperty Name="ApplyNotification" ColumnName="ApplyNotification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="NewStudentVolunteer" TypeName="StudentModel.NewStudentVolunteer" StoreEntitySet="NewStudents">
       <EndProperty Name="Volunteer">
         <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
@@ -1227,6 +1596,77 @@
         <ScalarProperty Name="Id" ColumnName="Volunteers_Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="VolunteerStudent" TypeName="StudentModel.VolunteerStudent" StoreEntitySet="Students">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="PickupVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="HostStudent" TypeName="StudentModel.HostStudent" StoreEntitySet="Students">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="HostVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="HostOrganization" TypeName="StudentModel.HostOrganization" StoreEntitySet="Students">
+      <EndProperty Name="Organization">
+        <ScalarProperty Name="Id" ColumnName="HostOrganization_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostOrganization_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupHostStudent" TypeName="StudentModel.GroupHostStudent" StoreEntitySet="Students">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="HostGroup_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostGroup_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ManualPickupAssign" TypeName="StudentModel.ManualPickupAssign" StoreEntitySet="Students">
+      <EndProperty Name="ManualVolunteer">
+        <ScalarProperty Name="Id" ColumnName="ManualPickupVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ManualPickupVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ManualHostAssign" TypeName="StudentModel.ManualHostAssign" StoreEntitySet="Students">
+      <EndProperty Name="ManualVolunteer">
+        <ScalarProperty Name="Id" ColumnName="ManualHostVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ManualHostVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RegisterEntryStudent" TypeName="StudentModel.RegisterEntryStudent" StoreEntitySet="RegisterEntryStudent">
+      <EndProperty Name="RegisterEntry">
+        <ScalarProperty Name="Id" ColumnName="RegisterEntries_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Students_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ApplyForFacssDepartment" TypeName="StudentModel.ApplyForFacssDepartment" StoreEntitySet="NewStudents">
+      <EndProperty Name="FacssDepartment">
+        <ScalarProperty Name="Id" ColumnName="ApplyFacssDepartment_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ApplyFacssDepartment_Id" IsNull="false" />
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -1247,100 +1687,182 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="StudentModel" ZoomLevel="97" >
-        <EntityTypeShape EntityType="StudentModel.NewStudent" Width="1.5" PointX="3.780249938266468" PointY="10.485778038616189" />
-        <EntityTypeShape EntityType="StudentModel.Volunteer" Width="1.5" PointX="6.125" PointY="6.125" Height="4.8648079427083317" />
-        <EntityTypeShape EntityType="StudentModel.Organization" Width="1.5" PointX="8.375" PointY="6.125" Height="2.9417936197916648" />
-        <EntityTypeShape EntityType="StudentModel.OrgRequest" Width="1.5" PointX="10.5" PointY="6.125" Height="2.3648893229166656" />
-        <EntityTypeShape EntityType="StudentModel.LocalHelp" Width="1.5" PointX="10.125" PointY="10.375" Height="2.3648893229166674" />
-        <EntityTypeShape EntityType="StudentModel.GuestParticipant" Width="1.5" PointX="12.375" PointY="15.5" Height="2.3648893229166656" />
-        <EntityTypeShape EntityType="StudentModel.ManualAssignInfo" Width="1.5" PointX="6.25" PointY="16.5" Height="2.9417936197916674" />
-        <EntityTypeShape EntityType="StudentModel.Group" Width="1.5" PointX="6.125" PointY="12" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="StudentModel.NewStudent" Width="1.5" PointX="3.875" PointY="6" IsExpanded="true" Height="8.3262337239583335" />
+        <EntityTypeShape EntityType="StudentModel.Volunteer" Width="1.5" PointX="6.375" PointY="4.125" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.Organization" Width="1.5" PointX="8.375" PointY="6.125" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel.OrgRequest" Width="1.5" PointX="8.375" PointY="5.25" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.LocalHelp" Width="1.5" PointX="10.125" PointY="10.375" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.GuestParticipant" Width="1.5" PointX="10.125" PointY="12.5" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.ManualAssignInfo" Width="1.5" PointX="5.625" PointY="14" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.Group" Width="1.5" PointX="5.75" PointY="9.625" Height="2.9417936197916674" IsExpanded="true" />
         <AssociationConnector Association="StudentModel.NewStudentVolunteer" >
-          <ConnectorPoint PointX="5.25" PointY="10.868175192276635" />
-          <ConnectorPoint PointX="6.125" PointY="10.868175192276635" />
+          <ConnectorPoint PointX="4.625" PointY="6" />
+          <ConnectorPoint PointX="4.625" PointY="4.325" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="4.3249999999999993" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="4.325" />
+          <ConnectorPoint PointX="6.375" PointY="4.325" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentVolunteer1" >
-          <ConnectorPoint PointX="5.25" PointY="10.621587596138317" />
-          <ConnectorPoint PointX="6.125" PointY="10.621587596138317" />
+          <ConnectorPoint PointX="5.0312525" PointY="6" />
+          <ConnectorPoint PointX="5.0312525" PointY="4.4562525000000015" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="4.4562525000000006" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="4.4562525000000015" />
+          <ConnectorPoint PointX="6.375" PointY="4.4562525000000015" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentOrg" >
-          <ConnectorPoint PointX="5.25" PointY="15.39037109375" />
-          <ConnectorPoint PointX="8.86523515625" PointY="15.39037109375" />
-          <ConnectorPoint PointX="8.86523515625" PointY="9.2590950520833317" />
+          <ConnectorPoint PointX="5.375" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="6.3619782291666676" PointY="8.4651959813964854" />
+          <ConnectorPoint PointX="6.8489564583333324" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="6.9088538541666678" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="7.0755205208333338" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="7.416666666666667" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="7.583333333333333" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="8.375" PointY="8.4651959813964872" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.AdminOrganization" >
-          <ConnectorPoint PointX="8.375" PointY="7.5958968098958319" />
-          <ConnectorPoint PointX="7.625" PointY="7.5958968098958319" />
+          <ConnectorPoint PointX="8.375" PointY="7.94084322990723" />
+          <ConnectorPoint PointX="7.583333333333333" PointY="7.9408432299072294" />
+          <ConnectorPoint PointX="7.416666666666667" PointY="7.94084322990723" />
+          <ConnectorPoint PointX="7.21875125" PointY="7.94084322990723" />
+          <ConnectorPoint PointX="7.21875125" PointY="4.525" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrgRequestOrganization" >
-          <ConnectorPoint PointX="10.5" PointY="7.3074446614583328" />
-          <ConnectorPoint PointX="9.875" PointY="7.3074446614583328" />
+          <ConnectorPoint PointX="9.125" PointY="5.65" />
+          <ConnectorPoint PointX="9.125" PointY="6.125" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrganizationVolunteer" >
-          <ConnectorPoint PointX="8.375" PointY="6.797948404947916" />
-          <ConnectorPoint PointX="7.625" PointY="6.797948404947916" />
+          <ConnectorPoint PointX="8.375" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="7.583333333333333" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="7.416666666666667" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="7.0755205208333338" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="6.9088538541666678" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="6.765623125" PointY="8.9895487328857442" />
+          <ConnectorPoint PointX="6.765623125" PointY="4.525" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentManualAssignInfo" >
-          <ConnectorPoint PointX="5.25" PointY="17.566966145833334" />
-          <ConnectorPoint PointX="6.25" PointY="17.566966145833334" />
+          <ConnectorPoint PointX="5.375" PointY="14.163116861979166" />
+          <ConnectorPoint PointX="5.625" PointY="14.163116861979166" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrganizationGroup" >
-          <ConnectorPoint PointX="9.2389096813964855" PointY="9.2590950520833317" />
-          <ConnectorPoint PointX="9.2389096813964855" PointY="13.726229248046874" />
-          <ConnectorPoint PointX="8.9485684895833337" PointY="13.726229248046874" />
-          <ConnectorPoint PointX="8.7819018229166659" PointY="13.726229248046874" />
-          <ConnectorPoint PointX="7.625" PointY="13.726229248046874" />
+          <ConnectorPoint PointX="8.375" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="7.583333333333333" PointY="6.5320823074768066" />
+          <ConnectorPoint PointX="7.416666666666667" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="7.3020845833333334" PointY="6.5320823074768066" />
+          <ConnectorPoint PointX="7.1354179166666674" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="7.0755205208333338" PointY="6.5320823074768066" />
+          <ConnectorPoint PointX="6.9088538541666678" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="6.8489564583333333" PointY="6.5320823074768066" />
+          <ConnectorPoint PointX="6.5221340104166678" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="6.4453115625000006" PointY="6.5320823074768075" />
+          <ConnectorPoint PointX="6.4453115625000006" PointY="9.625" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.VolunteerAdminGroup" >
-          <ConnectorPoint PointX="6.875" PointY="12" />
-          <ConnectorPoint PointX="6.875" PointY="10.989807942708332" />
+          <ConnectorPoint PointX="6.9921871875000008" PointY="9.625" />
+          <ConnectorPoint PointX="6.9921871875000008" PointY="4.525" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.GroupNewStudent" >
-          <ConnectorPoint PointX="6.125" PointY="13.37474609375" />
-          <ConnectorPoint PointX="5.25" PointY="13.37474609375" />
+          <ConnectorPoint PointX="5.75" PointY="11.095896809895834" />
+          <ConnectorPoint PointX="5.375" PointY="11.095896809895834" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.GroupVolunteer" >
-          <ConnectorPoint PointX="7.3125" PointY="12" />
-          <ConnectorPoint PointX="7.3125" PointY="10.989807942708332" />
+          <ConnectorPoint PointX="6.60546734375" PointY="9.625" />
+          <ConnectorPoint PointX="6.60546734375" PointY="4.525" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="StudentModel.OperationRecord" Width="1.5" PointX="1.25" PointY="6.625" Height="2.5571907552083335" />
-        <EntityTypeShape EntityType="StudentModel.TempPool" Width="1.5" PointX="1.25" PointY="10.5" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="StudentModel.OperationRecord" Width="1.5" PointX="1.25" PointY="6.625" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.TempPool" Width="1.5" PointX="1.25" PointY="10.5" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.TempPoolNewStudent">
-          <ConnectorPoint PointX="2.75" PointY="11.393992513020834" />
-          <ConnectorPoint PointX="3.75" PointY="11.393992513020834" />
+          <ConnectorPoint PointX="2.75" PointY="10.7" />
+          <ConnectorPoint PointX="3.875" PointY="10.7" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="StudentModel.RegisterEntry" Width="1.5" PointX="10.25" PointY="15.5" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="StudentModel.RegisterEntry" Width="1.5" PointX="10.125" PointY="11.5" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.NewStudentRegisterEntry">
-          <ConnectorPoint PointX="5.25" PointY="15.96875" />
-          <ConnectorPoint PointX="10.25" PointY="15.96875" />
+          <ConnectorPoint PointX="4.218748" PointY="6" />
+          <ConnectorPoint PointX="4.218748" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="4.541666666666667" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="4.708333333333333" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="4.9479191666666669" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="5.1145858333333329" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="6.522134010416667" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="6.8489564583333342" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="6.9088538541666678" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="7.0755205208333338" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="7.1354179166666674" PointY="5.7499999999999982" />
+          <ConnectorPoint PointX="7.3020845833333334" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="7.5" PointY="5.7499999999999991" />
+          <ConnectorPoint PointX="7.5" PointY="11.7" />
+          <ConnectorPoint PointX="10.125" PointY="11.7" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.RegisterEntryGuestParticipant">
-          <ConnectorPoint PointX="11.75" PointY="15.96875" />
-          <ConnectorPoint PointX="12.375" PointY="15.96875" />
+          <ConnectorPoint PointX="10.875" PointY="11.9" />
+          <ConnectorPoint PointX="10.875" PointY="12.5" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.LocalHelpRegisterEntry">
-          <ConnectorPoint PointX="10.9375" PointY="12.739889322916667" />
-          <ConnectorPoint PointX="10.9375" PointY="15.5" />
+          <ConnectorPoint PointX="10.875" PointY="10.775" />
+          <ConnectorPoint PointX="10.875" PointY="11.5" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrganizationLocalHelp">
-          <ConnectorPoint PointX="9.5882073406982435" PointY="9.2590950520833317" />
-          <ConnectorPoint PointX="9.5882073406982435" PointY="11.807297363281249" />
-          <ConnectorPoint PointX="10.125" PointY="11.807297363281249" />
+          <ConnectorPoint PointX="9.125" PointY="9.451396484375" />
+          <ConnectorPoint PointX="9.125" PointY="10.575" />
+          <ConnectorPoint PointX="10.125" PointY="10.575" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="StudentModel.EmailHistory" Width="1.5" PointX="1.25" PointY="15.375" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="StudentModel.EmailHistory" Width="1.5" PointX="1.25" PointY="15.375" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.NewStudentEmailHistory">
-          <ConnectorPoint PointX="3.75" PointY="16.74974609375" />
-          <ConnectorPoint PointX="2.75" PointY="16.74974609375" />
+          <ConnectorPoint PointX="3.876152846153845" PointY="14.326233723958334" />
+          <ConnectorPoint PointX="3.5" PointY="14.702386570112179" />
+          <ConnectorPoint PointX="3.5" PointY="15.575" />
+          <ConnectorPoint PointX="2.75" PointY="15.575" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.LocalHelpVolunteer">
-          <ConnectorPoint PointX="10.125" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="9.6715406740315775" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="9.50487400736491" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="9.32224301472982" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="9.1555763480631516" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="8.9485684895833337" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="8.7819018229166659" PointY="10.778554687500002" />
-          <ConnectorPoint PointX="7.625" PointY="10.778554687500002" />
+          <ConnectorPoint PointX="10.718748" PointY="10.375" />
+          <ConnectorPoint PointX="10.718748" PointY="4.325" />
+          <ConnectorPoint PointX="7.875" PointY="4.325" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.Student" Width="1.5" PointX="11.375" PointY="2.75" Height="0.4" IsExpanded="false" />
+        <AssociationConnector Association="StudentModel.VolunteerStudent">
+          <ConnectorPoint PointX="7.125" PointY="4.125" />
+          <ConnectorPoint PointX="7.125" PointY="2.95" />
+          <ConnectorPoint PointX="11.375" PointY="2.95" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.HostStudent">
+          <ConnectorPoint PointX="7.5312525" PointY="4.125" />
+          <ConnectorPoint PointX="7.5312525" PointY="3.0812525" />
+          <ConnectorPoint PointX="11.375" PointY="3.0812525" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.HostOrganization">
+          <ConnectorPoint PointX="9.875" PointY="7.7881982421875" />
+          <ConnectorPoint PointX="10.635414666666666" PointY="7.7881982421874989" />
+          <ConnectorPoint PointX="10.802081333333334" PointY="7.7881982421875" />
+          <ConnectorPoint PointX="11.640625" PointY="7.7881982421875" />
+          <ConnectorPoint PointX="11.640625" PointY="3.15" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.GroupHostStudent">
+          <ConnectorPoint PointX="6.03125" PointY="9.625" />
+          <ConnectorPoint PointX="6.03125" PointY="2.8187475" />
+          <ConnectorPoint PointX="11.375" PointY="2.8187475" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.ManualVolunteer" Width="1.5" PointX="11.375" PointY="1.25" Height="0.4" IsExpanded="false" />
+        <AssociationConnector Association="StudentModel.ManualPickupAssign">
+          <ConnectorPoint PointX="11.8515625" PointY="1.65" />
+          <ConnectorPoint PointX="11.8515625" PointY="2.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.ManualHostAssign">
+          <ConnectorPoint PointX="12.42578125" PointY="1.65" />
+          <ConnectorPoint PointX="12.42578125" PointY="2.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="StudentModel.RegisterEntryStudent">
+          <ConnectorPoint PointX="11.625" PointY="11.7" />
+          <ConnectorPoint PointX="12.289065" PointY="11.7" />
+          <ConnectorPoint PointX="12.289065" PointY="3.15" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.FacssDepartment" Width="1.5" PointX="14.625" PointY="2.625" Height="2.1725878906249996" />
+        <AssociationConnector Association="StudentModel.ApplyForFacssDepartment">
+          <ConnectorPoint PointX="15.375" PointY="4.797587890625" />
+          <ConnectorPoint PointX="15.375" PointY="13.45" />
+          <ConnectorPoint PointX="5.375" PointY="13.45" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

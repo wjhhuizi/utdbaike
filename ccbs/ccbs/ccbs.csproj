@@ -366,6 +366,7 @@
     <Compile Include="Controllers\EmailAccountController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EmailRecordController.cs" />
+    <Compile Include="Controllers\FacssDepartmentController.cs" />
     <Compile Include="Controllers\HomeGalleryController.cs" />
     <Compile Include="Controllers\ImageBrowserController.cs" />
     <Compile Include="Controllers\LocalHelpController.cs" />
@@ -448,6 +449,9 @@
     <Compile Include="Models\EmailRecord.cs">
       <DependentUpon>WebModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FacssDepartment.cs">
+      <DependentUpon>StudentModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GalleryItem.cs">
       <DependentUpon>WebModel.tt</DependentUpon>
     </Compile>
@@ -467,6 +471,9 @@
       <DependentUpon>BangbangDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManualAssignInfo.cs">
+      <DependentUpon>StudentModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManualVolunteer.cs">
       <DependentUpon>StudentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Meeting.cs">
@@ -508,6 +515,9 @@
     </Compile>
     <Compile Include="Models\SMMessage.cs">
       <DependentUpon>WebModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Student.cs">
+      <DependentUpon>StudentModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StudentModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1953,6 +1963,13 @@
     <Content Include="Views\Merchant\Edit.cshtml" />
     <Content Include="Views\Merchant\Delete.cshtml" />
     <Content Include="Views\Merchant\_MerchantList.cshtml" />
+    <Content Include="Views\FacssDepartment\Index.cshtml" />
+    <Content Include="Views\FacssDepartment\Details.cshtml" />
+    <Content Include="Views\FacssDepartment\Create.cshtml" />
+    <Content Include="Views\FacssDepartment\Edit.cshtml" />
+    <Content Include="Views\FacssDepartment\Delete.cshtml" />
+    <Content Include="Views\FacssDepartment\RegistrationDetails.cshtml" />
+    <Content Include="Views\FacssDepartment\_ApplyNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cache\" />

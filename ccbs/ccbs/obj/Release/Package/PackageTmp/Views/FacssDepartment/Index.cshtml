@@ -1,0 +1,127 @@
+﻿@model IEnumerable<ccbs.Models.FacssDepartment>
+@{
+    ViewBag.Title = "UTD Facss 部门一览";
+    ccbs.Models.NewStudent currentStudent = ViewBag.currentStudent;
+    bool isAuthorizedAdmin = User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.LWSFRoles.newStudentAdmin);
+}
+<div id="middle-content">
+    <div>
+        <h3 style="text-align: center;">
+            UTD Facss 部门一览</h3>
+    </div>
+    @if (isAuthorizedAdmin)
+    {
+        <div>
+            <div>
+                @Html.ActionLink("新加部门", "Create")
+            </div>
+        </div>
+    }
+    <div style="padding-top: 20px;">
+        @foreach (var item in Model)
+        {
+            <div class="box-small-padding">
+                <div style="text-align: center;">
+                    <h4>
+                        @if (isAuthorizedAdmin)
+                        {                         
+                            <span>@Html.ActionLink(@item.Name, "Edit", "FacssDepartment", new { id = item.Id }, new { title = "点击编辑部门信息" })</span>
+                        }
+                        else
+                        {
+                            <span>@item.Name</span>
+                        }
+                        &nbsp&nbsp&nbsp&nbsp&nbsp
+                        @if (item.IsOpenForApply)
+                        {
+                            if (currentStudent != null)
+                            {
+                                if (item.AppliedNewStudents.Contains(currentStudent))
+                                {
+                            <span class="button-simulator">@Html.ActionLink("取消报名", "CancelApplication", "FacssDepartment", new { Did = item.Id, Sid = currentStudent.Id, returnUrl = Request.RawUrl }, new { title = "点击取消我的报名" })</span>
+                                }
+                                else
+                                {
+                            <span class="button-simulator">@Ajax.ActionLink("我要报名", "ApplyForDepartment", "FacssDepartment", new { Did = item.Id, Sid = currentStudent.Id, returnUrl = Request.RawUrl }, new AjaxOptions { OnComplete = "Apply_OnCompleted" }, new { title = "点击我要报名参加" })</span>
+                                }
+                            }
+                            else if (!Request.IsAuthenticated)
+                            {
+                            <span style="color: Gray;">@Html.ActionLink("登录后可报名", "LogOn", "Account", new { returnUrl = Request.RawUrl }, null)</span>
+                            }
+                        }
+                    </h4>
+                </div>
+                <div>
+                    @Html.Raw(HttpUtility.HtmlDecode(item.Introduction))
+                </div>
+                @if (isAuthorizedAdmin)
+                {
+                    <div style="padding-top: 20px;">
+                        <div style="float: left;">
+                            <span>已报名人数: @item.AppliedNewStudents.Count</span>
+                        </div>
+                        <div style="float: left; padding-left: 30px;">
+                            @Html.ActionLink("报名名单", "RegistrationDetails", "FacssDepartment", new { id = item.Id }, new { title = "点击查看报名名单" })
+                        </div>
+                        <div style="float: left; padding-left: 30px;">
+                            @Html.ActionLink("编辑", "Edit", "FacssDepartment", new { id = item.Id }, new { title = "点击编辑部门信息" })
+                        </div>
+                        <div style="float: left; padding-left: 30px;">
+                            @Html.ActionLink("删除", "Delete", "FacssDepartment", new { id = item.Id }, new { title = "点击删除部门信息" })
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+@if (currentStudent != null)
+{
+    <div style="position: fixed; left: 10px; top: 100px; width: 150px; background-color: #F0F0F0;">
+        <h3 style="background-color: Orange; color: #FFFFFF;">
+            目前报名的部门(只能报一个)</h3>
+        @if (currentStudent.ApplyFacssDepartment != null)
+        {
+            <div style="padding-left: 5px; padding-top: 5px;">
+                <span>@currentStudent.ApplyFacssDepartment.Name</span>
+            </div>
+            <div style="padding-left: 5px; padding-top: 5px;">
+                <span class="button-simulator">@Html.ActionLink("取消报名", "CancelApplication", "FacssDepartment", new { Did = currentStudent.ApplyFacssDepartment.Id, Sid = currentStudent.Id, returnUrl = Request.RawUrl }, new { title = "点击取消我的报名" })</span>
+            </div>
+            <div style="padding-left: 5px; padding-top: 5px;">
+                <span style="color: Red;">@Html.ActionLink("更新个人信息", "SelfEdit", "NewStudent", new { returnUrl = Request.RawUrl }, null)</span>
+            </div>
+        }
+        else
+        {
+            <div style="padding-left: 5px; padding-top: 5px;">
+                <span>Empty</span>
+            </div>
+        }
+    </div>
+}
+@{Html.Telerik().Window()
+      .Name("ApplyNotification-Window")
+      .Title("新生提问")
+      .Width(320)
+      .Draggable(true)
+      .Modal(true)
+      .Visible(false)
+      .ClientEvents(events => events.OnClose("onCloseApplyNotification"))
+      .Render();}
+<script type="text/javascript">
+    function Apply_OnCompleted(context) {
+
+        var JsonAdd = context.get_response().get_object();
+
+        if (JsonAdd.Success) {
+            var notification = JsonAdd.PartialViewHtml;
+            var notificationWindows = $("#ApplyNotification-Window").data("tWindow");
+            notificationWindows.content(notification).center().open();
+        }
+    }
+    function onCloseApplyNotification(e) {
+        location.reload();
+    }
+</script>

@@ -1,0 +1,14 @@
+﻿@model ccbs.Models.FacssDepartment
+<div>
+    <h4 style="text-align: center;">
+        报名成功!非常感谢您报名 @Model.Name . 请仔细阅读以下提醒:</h4>
+</div>
+<div style="padding-top: 20px;">
+    <span style="color: Red;">为了方便我们联系到您，请及时的更新您在系统中的联系方式(邮箱，手机). 如果需要更新，你点击 @Html.ActionLink("更新个人信息", "SelfEdit", "NewStudent", new { returnUrl = Request.RawUrl }, null)</span>
+</div>
+@if (!String.IsNullOrEmpty(Model.ApplyNotification))
+{
+    <div style="padding-top: 20px;">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.ApplyNotification))
+    </div>
+}

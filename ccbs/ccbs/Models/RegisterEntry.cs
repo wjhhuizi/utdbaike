@@ -18,6 +18,7 @@ namespace ccbs.Models
         {
             this.NewStudents = new HashSet<NewStudent>();
             this.GuestParticipants = new HashSet<GuestParticipant>();
+            this.Students = new HashSet<Student>();
         }
     
         public int Id { get; set; }
@@ -30,6 +31,7 @@ namespace ccbs.Models
         public virtual ICollection<NewStudent> NewStudents { get; set; }
         public virtual ICollection<GuestParticipant> GuestParticipants { get; set; }
         public virtual LocalHelp LocalHelp { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
     
 }

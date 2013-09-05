@@ -22,6 +22,7 @@ namespace ccbs.Models
             this.Volunteers = new HashSet<Volunteer>();
             this.Groups = new HashSet<Group>();
             this.LocalHelps = new HashSet<LocalHelp>();
+            this.HostedStudents = new HashSet<Student>();
         }
     
         public int Id { get; set; }
@@ -36,6 +37,7 @@ namespace ccbs.Models
         public virtual ICollection<Volunteer> Volunteers { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<LocalHelp> LocalHelps { get; set; }
+        public virtual ICollection<Student> HostedStudents { get; set; }
     }
     
 }

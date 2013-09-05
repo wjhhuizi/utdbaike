@@ -1,0 +1,26 @@
+﻿@model ccbs.Models.FacssDepartment
+@{
+    ViewBag.Title = "Delete";
+}
+<div id="middle-content">
+    <div class="box-small-padding">
+        <h3>
+            Are you sure you want to delete this?</h3>
+        <fieldset>
+            <legend>FacssDepartment</legend>
+            <div class="display-label">
+                Name</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </fieldset>
+        @using (Html.BeginForm())
+        {
+            <p>
+                <input type="submit" value="删除" />
+                |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        }
+    </div>
+</div>

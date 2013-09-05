@@ -66,6 +66,7 @@ namespace ccbs.Models
         public virtual TempPool TempPool { get; set; }
         public virtual ICollection<RegisterEntry> RegisterEntries { get; set; }
         public virtual ICollection<EmailHistory> EmailHistories { get; set; }
+        public virtual FacssDepartment ApplyFacssDepartment { get; set; }
     }
     
 }

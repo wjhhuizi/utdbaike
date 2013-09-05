@@ -178,6 +178,49 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Student)">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Term" ColumnName="Term" />
+          <ScalarProperty Name="ComeFrom" ColumnName="ComeFrom" />
+          <ScalarProperty Name="CnName" ColumnName="CnName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManualVolunteers">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.ManualVolunteer)">
+        <MappingFragment StoreEntitySet="ManualVolunteers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FacssDepartments">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.FacssDepartment)">
+        <MappingFragment StoreEntitySet="FacssDepartments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Introduction" ColumnName="Introduction" />
+          <ScalarProperty Name="IsOpenForApply" ColumnName="IsOpenForApply" />
+          <ScalarProperty Name="ApplyNotification" ColumnName="ApplyNotification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="NewStudentVolunteer" TypeName="StudentModel.NewStudentVolunteer" StoreEntitySet="NewStudents">
       <EndProperty Name="Volunteer">
         <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
@@ -264,6 +307,77 @@
       <EndProperty Name="Volunteer">
         <ScalarProperty Name="Id" ColumnName="Volunteers_Id" />
       </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VolunteerStudent" TypeName="StudentModel.VolunteerStudent" StoreEntitySet="Students">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="PickupVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="HostStudent" TypeName="StudentModel.HostStudent" StoreEntitySet="Students">
+      <EndProperty Name="Volunteer">
+        <ScalarProperty Name="Id" ColumnName="HostVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="HostOrganization" TypeName="StudentModel.HostOrganization" StoreEntitySet="Students">
+      <EndProperty Name="Organization">
+        <ScalarProperty Name="Id" ColumnName="HostOrganization_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostOrganization_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupHostStudent" TypeName="StudentModel.GroupHostStudent" StoreEntitySet="Students">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="HostGroup_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="HostGroup_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ManualPickupAssign" TypeName="StudentModel.ManualPickupAssign" StoreEntitySet="Students">
+      <EndProperty Name="ManualVolunteer">
+        <ScalarProperty Name="Id" ColumnName="ManualPickupVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ManualPickupVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ManualHostAssign" TypeName="StudentModel.ManualHostAssign" StoreEntitySet="Students">
+      <EndProperty Name="ManualVolunteer">
+        <ScalarProperty Name="Id" ColumnName="ManualHostVolunteer_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ManualHostVolunteer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RegisterEntryStudent" TypeName="StudentModel.RegisterEntryStudent" StoreEntitySet="RegisterEntryStudent">
+      <EndProperty Name="RegisterEntry">
+        <ScalarProperty Name="Id" ColumnName="RegisterEntries_Id" />
+      </EndProperty>
+      <EndProperty Name="Student">
+        <ScalarProperty Name="Id" ColumnName="Students_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ApplyForFacssDepartment" TypeName="StudentModel.ApplyForFacssDepartment" StoreEntitySet="NewStudents">
+      <EndProperty Name="FacssDepartment">
+        <ScalarProperty Name="Id" ColumnName="ApplyFacssDepartment_Id" />
+      </EndProperty>
+      <EndProperty Name="NewStudent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ApplyFacssDepartment_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

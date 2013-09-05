@@ -245,6 +245,14 @@ ul h4
     width: 760px; /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/ /*border: dotted 2px rgb(230, 233, 249);*/
 }
 
+#middle-content
+{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 760px; /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/ /*border: dotted 2px rgb(230, 233, 249);*/
+}
+
 #content-fullview
 {
     /*background: #EAEEF2 url(images/img05.jpg) top left repeat-x;*/

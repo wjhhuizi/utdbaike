@@ -23,6 +23,8 @@ namespace ccbs.Models
             this.PickupNewStudents = new HashSet<NewStudent>();
             this.TempHouseNewStudents = new HashSet<NewStudent>();
             this.LocalHelps = new HashSet<LocalHelp>();
+            this.PickedUpStudents = new HashSet<Student>();
+            this.HostedStudents = new HashSet<Student>();
         }
     
         public int Id { get; set; }
@@ -47,6 +49,8 @@ namespace ccbs.Models
         public virtual Group AdminGroup { get; set; }
         public virtual Group Group { get; set; }
         public virtual ICollection<LocalHelp> LocalHelps { get; set; }
+        public virtual ICollection<Student> PickedUpStudents { get; set; }
+        public virtual ICollection<Student> HostedStudents { get; set; }
     }
     
 }

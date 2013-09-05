@@ -1,0 +1,59 @@
+﻿@model ccbs.Models.FacssDepartment
+@{
+    ViewBag.Title = "申请 " + @Model.Name + " 同学名单";
+}
+<div id="content-no-sidebar">
+    <div>
+        <h4>
+            申请 @Model.Name 同学名单 &nbsp&nbsp&nbsp @Html.ActionLink("Export to Excel", "ExportExcelAppliedStudents", "FacssDepartment", new { id = Model.Id }, null)
+            &nbsp&nbsp&nbsp <a onclick="window.history.go(-1);return false;">返回</a></h4>
+    </div>
+    <div style="padding-top: 20px;">
+        <table>
+            <tr>
+                <th>
+                    姓名
+                </th>
+                <th>
+                    性别
+                </th>
+                <th>
+                    专业
+                </th>
+                <th>
+                    邮箱
+                </th>
+                <th>
+                    手机
+                </th>
+                <th>
+                    Total: @Model.AppliedNewStudents.Count
+                </th>
+            </tr>
+            @foreach (var item in Model.AppliedNewStudents)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CnName)
+                    </td>
+                    <td>
+                        @ccbs.Models.SystemGender.ToStringGender(item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Major)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.ActionLink("取消", "CancelApplication", "FacssDepartment", new { Did = Model.Id, Sid = item.Id, returnUrl = Request.RawUrl }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br class="clearfix" />
+</div>

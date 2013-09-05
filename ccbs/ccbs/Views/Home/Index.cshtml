@@ -8,6 +8,15 @@
         @{Html.RenderAction("_ShowHomeGallery", "HomeGallery");}
     </div>
     <div>
+        <div id="section-box">
+            <h3>
+                @HomeResources.Section_RAs_Title</h3>
+            <div class="mainpart">
+                <div style="padding-left: 3px; padding-top: 3px;">
+                    @{Html.RenderAction("_RecentLocalHelps", "LocalHelp", null);}
+                </div>
+            </div>
+        </div>
         @{Html.RenderAction("_ShowHomeSections", "Section", null);}
         <br class="clearfix" />
     </div>

@@ -85,6 +85,41 @@
       <End Role="LocalHelp" EntitySet="LocalHelps" />
       <End Role="Volunteer" EntitySet="Volunteers" />
     </AssociationSet>
+    <EntitySet Name="Students" EntityType="StudentModel.Student" />
+    <AssociationSet Name="VolunteerStudent" Association="StudentModel.VolunteerStudent">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="HostStudent" Association="StudentModel.HostStudent">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="HostOrganization" Association="StudentModel.HostOrganization">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="GroupHostStudent" Association="StudentModel.GroupHostStudent">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <EntitySet Name="ManualVolunteers" EntityType="StudentModel.ManualVolunteer" />
+    <AssociationSet Name="ManualPickupAssign" Association="StudentModel.ManualPickupAssign">
+      <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="ManualHostAssign" Association="StudentModel.ManualHostAssign">
+      <End Role="ManualVolunteer" EntitySet="ManualVolunteers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="RegisterEntryStudent" Association="StudentModel.RegisterEntryStudent">
+      <End Role="RegisterEntry" EntitySet="RegisterEntries" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <EntitySet Name="FacssDepartments" EntityType="StudentModel.FacssDepartment" />
+    <AssociationSet Name="ApplyForFacssDepartment" Association="StudentModel.ApplyForFacssDepartment">
+      <End Role="FacssDepartment" EntitySet="FacssDepartments" />
+      <End Role="NewStudent" EntitySet="NewStudents" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="NewStudent">
     <Key>
@@ -128,6 +163,7 @@
     <NavigationProperty Name="TempPool" Relationship="StudentModel.TempPoolNewStudent" FromRole="NewStudent" ToRole="TempPool" />
     <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.NewStudentRegisterEntry" FromRole="NewStudent" ToRole="RegisterEntry" />
     <NavigationProperty Name="EmailHistories" Relationship="StudentModel.NewStudentEmailHistory" FromRole="NewStudent" ToRole="EmailHistory" />
+    <NavigationProperty Name="ApplyFacssDepartment" Relationship="StudentModel.ApplyForFacssDepartment" FromRole="NewStudent" ToRole="FacssDepartment" />
   </EntityType>
   <EntityType Name="Volunteer">
     <Key>
@@ -154,6 +190,8 @@
     <NavigationProperty Name="AdminGroup" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Volunteer" ToRole="Group" />
     <NavigationProperty Name="Group" Relationship="StudentModel.GroupVolunteer" FromRole="Volunteer" ToRole="Group" />
     <NavigationProperty Name="LocalHelps" Relationship="StudentModel.LocalHelpVolunteer" FromRole="Volunteer" ToRole="LocalHelp" />
+    <NavigationProperty Name="PickedUpStudents" Relationship="StudentModel.VolunteerStudent" FromRole="Volunteer" ToRole="Student" />
+    <NavigationProperty Name="HostedStudents" Relationship="StudentModel.HostStudent" FromRole="Volunteer" ToRole="Student" />
   </EntityType>
   <EntityType Name="Organization">
     <Key>
@@ -170,6 +208,7 @@
     <NavigationProperty Name="Volunteers" Relationship="StudentModel.OrganizationVolunteer" FromRole="Organization" ToRole="Volunteer" />
     <NavigationProperty Name="Groups" Relationship="StudentModel.OrganizationGroup" FromRole="Organization" ToRole="Group" />
     <NavigationProperty Name="LocalHelps" Relationship="StudentModel.OrganizationLocalHelp" FromRole="Organization" ToRole="LocalHelp" />
+    <NavigationProperty Name="HostedStudents" Relationship="StudentModel.HostOrganization" FromRole="Organization" ToRole="Student" />
   </EntityType>
   <EntityType Name="OrgRequest">
     <Key>
@@ -236,6 +275,7 @@
     <NavigationProperty Name="Leader" Relationship="StudentModel.VolunteerAdminGroup" FromRole="Group" ToRole="Volunteer" />
     <NavigationProperty Name="NewStudents" Relationship="StudentModel.GroupNewStudent" FromRole="Group" ToRole="NewStudent" />
     <NavigationProperty Name="Volunteers" Relationship="StudentModel.GroupVolunteer" FromRole="Group" ToRole="Volunteer" />
+    <NavigationProperty Name="HostedStudents" Relationship="StudentModel.GroupHostStudent" FromRole="Group" ToRole="Student" />
   </EntityType>
   <Association Name="NewStudentVolunteer">
     <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
@@ -352,6 +392,7 @@
     <Property Type="Boolean" Name="IsActive" Nullable="false" />
     <NavigationProperty Name="LocalHelp" Relationship="StudentModel.LocalHelpRegisterEntry" FromRole="RegisterEntry" ToRole="LocalHelp" />
     <Property Type="Int32" Name="LocalHelpId" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="StudentModel.RegisterEntryStudent" FromRole="RegisterEntry" ToRole="Student" />
   </EntityType>
   <Association Name="NewStudentRegisterEntry">
     <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
@@ -422,5 +463,87 @@
   <Association Name="LocalHelpVolunteer">
     <End Type="StudentModel.LocalHelp" Role="LocalHelp" Multiplicity="*" />
     <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Gender" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="false" />
+    <Property Type="String" Name="Phone" Nullable="true" />
+    <Property Type="String" Name="Major" Nullable="true" />
+    <Property Type="Int32" Name="Year" Nullable="false" />
+    <Property Type="String" Name="Term" Nullable="false" />
+    <Property Type="String" Name="ComeFrom" Nullable="true" />
+    <Property Type="String" Name="CnName" Nullable="true" />
+    <Property Type="String" Name="UserName" Nullable="false" />
+    <Property Type="DateTime" Name="RegDate" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+    <NavigationProperty Name="PickupVolunteer" Relationship="StudentModel.VolunteerStudent" FromRole="Student" ToRole="Volunteer" />
+    <NavigationProperty Name="HostVolunteer" Relationship="StudentModel.HostStudent" FromRole="Student" ToRole="Volunteer" />
+    <NavigationProperty Name="HostOrganization" Relationship="StudentModel.HostOrganization" FromRole="Student" ToRole="Organization" />
+    <NavigationProperty Name="HostGroup" Relationship="StudentModel.GroupHostStudent" FromRole="Student" ToRole="Group" />
+    <NavigationProperty Name="ManualPickupVolunteer" Relationship="StudentModel.ManualPickupAssign" FromRole="Student" ToRole="ManualVolunteer" />
+    <NavigationProperty Name="ManualHostVolunteer" Relationship="StudentModel.ManualHostAssign" FromRole="Student" ToRole="ManualVolunteer" />
+    <NavigationProperty Name="RegisterEntries" Relationship="StudentModel.RegisterEntryStudent" FromRole="Student" ToRole="RegisterEntry" />
+  </EntityType>
+  <Association Name="VolunteerStudent">
+    <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <Association Name="HostStudent">
+    <End Type="StudentModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <Association Name="HostOrganization">
+    <End Type="StudentModel.Organization" Role="Organization" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <Association Name="GroupHostStudent">
+    <End Type="StudentModel.Group" Role="Group" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <EntityType Name="ManualVolunteer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Type" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Gender" Nullable="false" />
+    <Property Type="String" Name="Email" Nullable="true" />
+    <Property Type="String" Name="Phone" Nullable="true" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <NavigationProperty Name="ManualPickupStudent" Relationship="StudentModel.ManualPickupAssign" FromRole="ManualVolunteer" ToRole="Student" />
+    <NavigationProperty Name="ManualHostStudent" Relationship="StudentModel.ManualHostAssign" FromRole="ManualVolunteer" ToRole="Student" />
+  </EntityType>
+  <Association Name="ManualPickupAssign">
+    <End Type="StudentModel.ManualVolunteer" Role="ManualVolunteer" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="0..1" />
+  </Association>
+  <Association Name="ManualHostAssign">
+    <End Type="StudentModel.ManualVolunteer" Role="ManualVolunteer" Multiplicity="0..1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="0..1" />
+  </Association>
+  <Association Name="RegisterEntryStudent">
+    <End Type="StudentModel.RegisterEntry" Role="RegisterEntry" Multiplicity="*" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+  </Association>
+  <EntityType Name="FacssDepartment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Introduction" Nullable="true" />
+    <NavigationProperty Name="AppliedNewStudents" Relationship="StudentModel.ApplyForFacssDepartment" FromRole="FacssDepartment" ToRole="NewStudent" />
+    <Property Type="Boolean" Name="IsOpenForApply" Nullable="false" />
+    <Property Type="String" Name="ApplyNotification" Nullable="true" />
+  </EntityType>
+  <Association Name="ApplyForFacssDepartment">
+    <End Type="StudentModel.FacssDepartment" Role="FacssDepartment" Multiplicity="0..1" />
+    <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
   </Association>
 </Schema>

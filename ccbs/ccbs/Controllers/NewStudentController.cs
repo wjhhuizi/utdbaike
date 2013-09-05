@@ -1147,6 +1147,15 @@ namespace ccbs.Controllers
 
         //
         // GET: /NewStudent/Edit/5
+        [Authorize(Roles = LWSFRoles.newStudent)]
+        public ActionResult SelfEdit(string returnUrl)
+        {
+            var newstudent = GetCurrentNewStudent();
+            return RedirectToAction("Edit", "NewStudent", new { id = newstudent.Id, returnUrl = returnUrl });
+        }
+
+        //
+        // GET: /NewStudent/Edit/5
         [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudent + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Edit(int id)
         {
@@ -1402,7 +1411,7 @@ namespace ccbs.Controllers
                 var newStudent = NewStudentRegister.GetNewStudentModel();
                 db.NewStudents.Add(newStudent);
                 db.SaveChanges();
-                sendFirstLetterToNewStudent(newStudent.Email);
+                //sendFirstLetterToNewStudent(newStudent.Email);
                 return RedirectToAction("Details", new { id = newStudent.Id });
             }
 

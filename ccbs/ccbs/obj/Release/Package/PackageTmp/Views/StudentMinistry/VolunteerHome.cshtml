@@ -85,6 +85,9 @@
                         <li style="padding: 5px;">
                             @Html.ActionLink(@MyResources.CP_StudentManage, "Index", "NewStudent")
                         </li>
+                        <li style="padding: 5px;">
+                            @Html.ActionLink("学生会招新管理", "Index", "FacssDepartment")
+                        </li>
                     }
                     @if (!Model.Organization.Name.Contains("FACSS"))
                     {

@@ -37,5 +37,8 @@ namespace ccbs.Models
         public DbSet<TempPool> TempPools { get; set; }
         public DbSet<RegisterEntry> RegisterEntries { get; set; }
         public DbSet<EmailHistory> EmailHistories { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<ManualVolunteer> ManualVolunteers { get; set; }
+        public DbSet<FacssDepartment> FacssDepartments { get; set; }
     }
 }
