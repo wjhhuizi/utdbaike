@@ -35,14 +35,14 @@
                 @Html.ActionLink(@MyResources.PI_ChangePsw, "ChangePassword", "Account")
             </div>
         </div>
-        <div class="box-small-padding">
+        @*<div class="box-small-padding">
             <h4 class="box-head">
                 系统通知</h4>
             <div style="background-color: Silver;">
                 <p>
                     目前新生正在注册中，过一阵子就可以登录网站选择要接送或者临住的新生了. 我们届时会邮件通知，所以请确保你们的联系方式正确无误，非常感谢</p>
             </div>
-        </div>
+        </div>*@
     </div>
     <div style="float: right; padding-left: 40px; padding-top: 10px; width: 350px;">
         <div style="font-size: small;">
@@ -130,9 +130,6 @@
                         </li>
                         <li style="padding: 5px;">
                             @Html.ActionLink("主页板块", "Index", "Section")
-                        </li>
-                        <li style="padding: 5px;">
-                            @Html.ActionLink("商家页面", "Index", "Merchant")
                         </li>
                     }
                 </ul>

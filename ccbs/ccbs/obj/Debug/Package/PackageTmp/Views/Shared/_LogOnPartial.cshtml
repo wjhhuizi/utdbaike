@@ -1,9 +1,0 @@
-﻿@if (Request.IsAuthenticated)
-{
-    <b><small>Welcome <span style="color: Orange; font-weight: bold;">@User.Identity.Name</span>&nbsp&nbsp[@Html.ActionLink("Log Off", "LogOff", "Account")]</small>
-    </b>
-}
-else
-{
-    @:[ @Html.ActionLink("Log On", "LogOn", "Account") ]
-}

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ccbs.Models.EmailAccount>
+@{
+    ViewBag.Title = "Index";
+}
+<div id="content-no-sidebar">
+    <h4>
+        SMTP Email Accounts</h4>
+    <p>
+        @Html.ActionLink("Add a new SMTP Email Account", "Create")
+    </p>
+    <table>
+        <tr>
+            <th>
+                Nickname
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Email Addr
+            </th>
+            <th>
+                Daily Limit
+            </th>
+            <th>
+                PerTime Limit
+            </th>
+            <th>
+            </th>
+            <th>
+                Verificaton Message
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SmtpDailyLimit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SmtpPerTimeLimit)
+                </td>
+                <td>
+                    @Html.ActionLink("Verify >>", "Verify", new { id = item.Id })
+                </td>
+                <td>
+                    @if (item.Verified)
+                    {
+                        <span style="color: Blue;">@item.VerifyMessage</span>
+                    }
+                    else
+                    {
+                        <span style="color: Red;">@item.VerifyMessage</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("More", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

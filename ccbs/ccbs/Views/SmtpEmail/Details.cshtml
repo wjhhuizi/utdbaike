@@ -1,0 +1,81 @@
+﻿@model ccbs.Models.EmailAccount
+@{
+    ViewBag.Title = "Details";
+}
+<div id="content-no-sidebar">
+    <fieldset>
+        <legend>SMTP Email Account Details</legend>
+        <div class="display-label">
+            Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Name, "Nickname")
+        </div>
+        <div class="display-label">
+            Host</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Host)
+        </div>
+        <div class="display-label">
+            Port</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Port)
+        </div>
+        <div class="display-label">
+            Username</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Username)
+        </div>
+        <div class="display-label">
+            Password</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Password)
+        </div>
+        <div class="display-label">
+            From</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.From, "Email Address")
+        </div>
+        <div class="display-label">
+            SmtpDailyLimit</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SmtpDailyLimit, "Daily Limit")
+        </div>
+        <div class="display-label">
+            SmtpPerTimeLimit</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SmtpPerTimeLimit, "Per Time Limit")
+        </div>
+        <div class="display-label">
+            Verified</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Verified)
+        </div>
+    </fieldset>
+    <div>
+        <table>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Email#
+                </th>
+            </tr>
+            @foreach (var dailyCount in Model.DailyCounts.OrderByDescending(d => d.WhichDate).ToList())
+            {
+                <tr>
+                    <td>
+                        @dailyCount.WhichDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @dailyCount.Count
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

@@ -16,6 +16,7 @@ namespace ccbs.Models
     public static class LWSFRoles
     {
         public const string admin = "Administrator";
+        public const string student = "Student";
         public const string newStudentAdmin = "NewStudentAdmin";
         public const string localhelpAdmin = "LocalhelpAdmin";
         public const string bangbangAdmin = "BangbangAdmin";
@@ -27,7 +28,6 @@ namespace ccbs.Models
         public const string worshipManager = "WorshipManager";
         public const string bibleStudyManager = "BibleStudyManager";
         public const string emailAdmin = "EmailAdmin";
-
         public const string BBUser = "BBUser";
     }
 
@@ -154,6 +154,30 @@ namespace ccbs.Models
                 CreatedDate = DateTime.Now,
             };
             return record;
+        }
+
+        public static Student NewStudentToStudent(NewStudent newStudent)
+        {
+            var student = new Student
+            {
+                Name = newStudent.Name,
+                CnName = newStudent.CnName,
+                Gender = newStudent.Gender,
+                Email = newStudent.Email,
+                Phone = newStudent.Phone,
+                Major = newStudent.Major,
+                Year = newStudent.Year,
+                Term = newStudent.Term,
+                ComeFrom = newStudent.ComeFrom,
+                UserName = newStudent.UserName,
+                RegDate = newStudent.RegTime,
+                LastUpdate = newStudent.LastUpdate,
+                PickupVolunteer = newStudent.PickupVolunteer,
+                HostVolunteer = newStudent.TempHouseVolunteer,
+                HostGroup = newStudent.Group,
+                HostOrganization = newStudent.Organization,
+            };
+            return student;
         }
     }
 
@@ -715,8 +739,8 @@ namespace ccbs.Models
                 ComeFrom = ComeFrom,
                 RegTime = this.RegTime,
                 LastUpdate = this.LastUpdate,
-                Year = 2013,
-                Term = "Fall",
+                Year = Semester.this_year(),
+                Term = Semester.this_semester(),
                 Confirmed = ConfirmedStage.UnConfirmed,
             };
             return newStudent;
@@ -743,8 +767,8 @@ namespace ccbs.Models
             newStudent.ComeFrom = this.ComeFrom;
             newStudent.RegTime = this.RegTime;
             newStudent.LastUpdate = this.LastUpdate;
-            newStudent.Year = 2013;
-            newStudent.Term = "Fall";
+            newStudent.Year = Semester.this_year();
+            newStudent.Term = Semester.this_semester();
 
             return newStudent;
         }
@@ -1069,6 +1093,13 @@ namespace ccbs.Models
             this.OrgPasscode = "1234";
         }
 
+        public VolunteerRegisterModel(Volunteer vol)
+            : base(vol)
+        {
+            this.RegTime = DateTime.Now;
+            this.OrgPasscode = "1234";
+        }
+
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -1120,7 +1151,7 @@ namespace ccbs.Models
 
             this.VolunteerOrganizationId = vol.OrganizationId;
             this.VolunteerGroupId = (vol.GroupId != null) ? vol.GroupId.Value : 0;
-            this.OrgPasscode = vol.Organization.Passcode;
+            this.OrgPasscode = (vol.Organization != null) ? vol.Organization.Passcode : "";
 
             this.Address = vol.Address;
             this.BriefIntro = vol.BriefIntro;
@@ -1511,176 +1542,35 @@ namespace ccbs.Models
         }
     }
 
-    public class EmailSentModel
+    public static class Semester
     {
-        public int Count { get; set; }
-        public List<string> To { get; set; }
-        public List<string> Cc { get; set; }
-        public List<string> Bcc { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-
-        private string smtpServer = SystemEmailAccount.DefaultEmailAccount;
-
-        public EmailSentModel(string smtpServer)
+        public static int this_year()
         {
-            this.Count = 0;
-            this.To = new List<string>();
-            this.Cc = new List<string>();
-            this.Bcc = new List<string>();
-            this.smtpServer = smtpServer;
+            return DateTime.Now.Year;
         }
 
-        public EmailSentModel()
+        public static string this_semester()
         {
-            this.Count = 0;
-            this.To = new List<string>();
-            this.Cc = new List<string>();
-            this.Bcc = new List<string>();
+            int month = DateTime.Now.Month;
+            switch (month)
+            {
+                case 10:
+                case 11:
+                case 12:
+                case 1:
+                case 2:
+                    return "Spring";
+                case 3:
+                case 4:
+                case 5:
+                    return "Summer";
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    return "Fall";
+            }
+            return "Spring";
         }
-
-        public bool Send()
-        {
-            MailMessage email = new MailMessage();
-
-            foreach (var to in this.To)
-            {
-                if (IsValidEmail(to))
-                {
-                    email.To.Add(new MailAddress(to));
-                    this.Count++;
-                }
-            }
-            foreach (var cc in this.Cc)
-            {
-                if (IsValidEmail(cc))
-                {
-                    email.CC.Add(new MailAddress(cc));
-                    this.Count++;
-                }
-            }
-            foreach (var bcc in this.Bcc)
-            {
-                if (IsValidEmail(bcc))
-                {
-                    email.Bcc.Add(new MailAddress(bcc));
-                    this.Count++;
-                }
-            }
-            email.Subject = this.Subject;
-            email.Body = this.Body;
-
-            email.IsBodyHtml = true;
-
-            return SyncSend(email);
-        }
-
-        public void AsyncSend()
-        {
-
-        }
-
-        public bool SyncSend(MailMessage email)
-        {
-            var web_db = new WebModelContainer();
-            EmailAccount smtp = web_db.EmailAccounts.Where(s => s.Name == this.smtpServer).FirstOrDefault();
-
-            try
-            {
-                SmtpClient smtpClient = new SmtpClient();
-
-                if (smtp != null)
-                {
-                    email.From = new MailAddress(smtp.From);
-                    smtpClient.Host = smtp.Host;
-                    smtpClient.Port = smtp.Port;
-                    smtpClient.Credentials = new System.Net.NetworkCredential(smtp.Username, smtp.Password);
-                }
-
-                smtpClient.EnableSsl = true;  //must be here, otherwise there will be execption
-                smtpClient.Send(email);
-                email.Dispose();
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool IsValidEmail(string email)
-        {
-            if (!email.Contains("@"))
-            {
-                return false;
-            }
-            if (!email.Contains("."))
-            {
-                return false;
-            }
-            return true;
-        }
-    }
-
-    public class ValidateEmail
-    {
-        bool invalid = false;
-
-        public bool IsValidEmail(string strIn)
-        {
-            invalid = false;
-            if (String.IsNullOrEmpty(strIn))
-                return false;
-
-            // Use IdnMapping class to convert Unicode domain names. 
-            try
-            {
-                strIn = Regex.Replace(strIn, @"(@)(.+)$", this.DomainMapper, RegexOptions.None);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-            if (invalid)
-                return false;
-
-            // Return true if strIn is in valid e-mail format. 
-            try
-            {
-                return Regex.IsMatch(strIn,
-                      @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                      @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$",
-                      RegexOptions.IgnoreCase);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
-        private string DomainMapper(Match match)
-        {
-            // IdnMapping class with default property values.
-            IdnMapping idn = new IdnMapping();
-
-            string domainName = match.Groups[2].Value;
-            try
-            {
-                domainName = idn.GetAscii(domainName);
-            }
-            catch (ArgumentException)
-            {
-                invalid = true;
-            }
-            return match.Groups[1].Value + domainName;
-        }
-    }
-
-    public class SystemEmailAccount
-    {
-        public const string DefaultEmailAccount = "Facss";
-        public const string FacssEmailAccount = "Facss";
-        public const string UTDBaikeEmailAccount = "UtdBaike";
     }
 }

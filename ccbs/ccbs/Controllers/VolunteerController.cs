@@ -133,6 +133,85 @@ namespace ccbs.Controllers
             return View(volunteer);
         }
 
+        [Authorize(Roles = LWSFRoles.student)]
+        public ActionResult TransferToVolunteer()
+        {
+            var student = GetCurrentStudent();
+            if (student == null)
+            {
+                return RedirectToAction("Index", "Home", null);
+            }
+
+            var volunteer = new Volunteer
+            {
+                Name = student.Name,
+                UserName = student.UserName,
+                Gender = student.Gender,
+                Email = student.Email,
+                Phone = student.Phone,
+                Address = "",
+                HelpType = ccbs.Models.VolunteerHelpType.StringAnyHelp,
+                RegTime = DateTime.Now,
+                RelationToUTD = ccbs.Models.RelationToUTD.StringCurrStud,
+                Note = "",
+                BriefIntro = "",
+                
+            };
+            ViewBag.VolunteerOrganizationId = new SelectList(db.Organizations, "Id", "Name");
+            var regModel = new VolunteerRegisterModel(volunteer);
+            regModel.Password = "123456";
+            regModel.ConfirmPassword = "123456";
+            return View(regModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = LWSFRoles.student)]
+        public ActionResult TransferToVolunteer(VolunteerRegisterModel volunteerRegister)
+        {
+            ViewBag.VolunteerOrganizationId = new SelectList(db.Organizations, "Id", "Name");
+            ////ViewBag.Gender = new SelectList(new List<string>{"male", "female"});
+
+            if (ModelState.IsValid)
+            {
+                var org = db.Organizations.Find(volunteerRegister.VolunteerOrganizationId);
+
+                if ((org.Groups != null) && (org.Groups.Count > 0))
+                {
+                    if (volunteerRegister.VolunteerGroupId < 1)
+                    {
+                        ModelState.AddModelError("", "您所在的志愿者机构采用分组的方式，请选择您所在的小组");
+                        return View(volunteerRegister);
+                    }
+                    else
+                    {
+                        var group = db.Groups.Find(volunteerRegister.VolunteerGroupId);
+                        if (group.Passcode != volunteerRegister.OrgPasscode)
+                        {
+                            ModelState.AddModelError("", "Wrong access passcode! If you don't know, please ask your group leader");
+                            return View(volunteerRegister);
+                        }
+                    }
+                }
+                else
+                {
+                    if (org.Passcode != volunteerRegister.OrgPasscode)
+                    {
+                        ModelState.AddModelError("", "Wrong access passcode! If you don't know, please ask your organization coordinator");
+                        return View(volunteerRegister);
+                    }
+                }
+
+                Roles.AddUserToRole(volunteerRegister.UserName, LWSFRoles.volunteer);
+                db.Volunteers.Add(volunteerRegister.GetVolunteerModel());
+                db.SaveChanges();
+
+                return RedirectToAction("MyHomePage", "Account");
+
+            }
+
+            return View(volunteerRegister);
+        }
+
         //
         // GET: /Volunteer/Create
 
@@ -433,6 +512,13 @@ namespace ccbs.Controllers
             byte[] ByteFile = System.IO.File.ReadAllBytes(physicalPath);
             MemoryStream m = new MemoryStream(ByteFile);
             return File(m, "application/vnd.ms-excel", filename);
+        }
+
+        private Student GetCurrentStudent()
+        {
+            string userName = User.Identity.Name;
+            var currStudent = db.Students.Where(v => v.UserName == userName).FirstOrDefault();
+            return currStudent;
         }
     }
 }

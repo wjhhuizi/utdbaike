@@ -1,0 +1,75 @@
+﻿@model ccbs.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Student</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">Gender</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Gender)
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">Major</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Major)
+    </div>
+
+    <div class="display-label">Year</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Year)
+    </div>
+
+    <div class="display-label">Term</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Term)
+    </div>
+
+    <div class="display-label">ComeFrom</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ComeFrom)
+    </div>
+
+    <div class="display-label">CnName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CnName)
+    </div>
+
+    <div class="display-label">UserName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">RegDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RegDate)
+    </div>
+
+    <div class="display-label">LastUpdate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastUpdate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

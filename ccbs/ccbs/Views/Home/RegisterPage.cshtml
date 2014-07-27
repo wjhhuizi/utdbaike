@@ -1,10 +1,13 @@
 ﻿@using myResources = ccbs.Views.Home.HomeResources
 @{
-    ViewBag.Title = myResources.Reg_Tite;
+    var year = ccbs.Models.Semester.this_year();
+    var semester = ccbs.Models.Semester.this_semester();
+    var title = year + " " + semester + " " + myResources.Reg_Tite;
+    ViewBag.Title = title;
 }
 <div id="content-no-sidebar">
     <h2 style="text-align: center;">
-        @myResources.Reg_Tite</h2>
+        @title</h2>
     <div style="padding-left: 150px; padding-top: 50px;">
         <ul>
             <li style="display: inline;">
@@ -13,7 +16,7 @@
                     <b style="font-size: large; color: Blue;">@myResources.Reg_Volunteer</b></button>
             </li>
             <li style="display: inline; padding-left: 50px;">
-                <button onclick="window.location.href='../NewStudent/NewStudentRegister'" style="width: 350px;
+                <button onclick="window.location.href='../NewStudent/Disclaimer'" style="width: 350px;
                     height: 60px;">
                     <b style="font-size: large; color: Blue;">@myResources.Reg_NewStudent</b></button>
             </li>

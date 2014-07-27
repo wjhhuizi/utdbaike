@@ -11,7 +11,7 @@
             @Html.Label(@Resources.UTDBaikeResources.LogOn_UserName)
         </div>
         <div class="editor-field">
-            @Html.TextBox("UserName", "", new { style = "width: 210px;" })
+            @Html.TextBox("UserName", "", new { style = "width: 210px;", value = "username or email", onblur = "if (this.value == '') {this.value = 'username or email';}", onfocus = "if (this.value == 'username or email') {this.value = '';}" })
             @Html.ValidationMessage("UserName")
         </div>
         <div class="editor-label">

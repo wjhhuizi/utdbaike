@@ -44,5 +44,7 @@ namespace ccbs.Models
         public DbSet<GalleryItem> GalleryItems { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Merchant> Merchants { get; set; }
+        public DbSet<EmailSendEntry> EmailSendEntries { get; set; }
+        public DbSet<DailyCount> DailyCounts { get; set; }
     }
 }

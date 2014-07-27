@@ -1,0 +1,30 @@
+﻿@model ccbs.Models.Student
+@{
+    ViewBag.Title = "我的首页";
+}
+<div id="content-no-sidebar">
+    <h3 style="text-align: center; color: Gray;">
+        我的首页</h3>
+    <br class="clearfix" />
+    <div id="volunteer-details" style="float: left; padding-top: 30px; width: 250px;">
+        <div class="box-small-padding">
+            <h4 class="box-head">
+                个人信息
+            </h4>
+            <br />
+            <p>
+                姓名: @Model.CnName<br />
+                性别: @ccbs.Models.SystemGender.ToStringGender(Model.Gender)<br />
+                邮箱: @Model.Email<br />
+                手机: @Model.Phone<br />
+            </p>
+            <br />
+            <div>
+                @Html.ActionLink("修改密码", "ChangePassword", "Account")
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 30px; float: right; width: 530px;">
+        @Html.ActionLink("请将我转换成接机志愿者", "TransferToVolunteer", "Volunteer", null, new { @class = "TextOkButton" })
+    </div>
+</div>

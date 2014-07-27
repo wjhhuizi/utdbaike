@@ -39,7 +39,7 @@
                 <li>
                     @Ajax.ActionLink("查看新生列表", "ShowOrgNewStudents", "VolunteerOrganization", new { orgId = Model.Id }, new AjaxOptions { OnComplete = "ShowOrgInfo_OnComplete" })
                 </li>
-                <li>@Html.ActionLink("挑选新生进入本机构", "AllUnassignedNewStudentList", "NewStudent", null, null)</li>
+                @*<li>@Html.ActionLink("挑选新生进入本机构", "AllUnassignedNewStudentList", "NewStudent", null, null)</li>*@
                 <li><a onclick="openOperationRecordsWindow()" href="#">显示历史分配记录</a> </li>
                 <li>@Html.ActionLink("Local Help", "Manage", "LocalHelp", new { orgId = Model.Id }, null)</li>
             </ul>

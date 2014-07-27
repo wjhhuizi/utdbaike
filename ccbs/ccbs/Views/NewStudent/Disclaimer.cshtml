@@ -1,0 +1,27 @@
+﻿@model ccbs.Models.Disclaimer
+@{
+    ViewBag.Title = "Disclaimer";
+}
+<div id="content">
+    <div>
+        <div style="text-align: center;">
+            <b>@Model.Title</b>
+        </div>
+        <div style="padding-top: 20px;">
+            @Html.Raw(Model.Description)
+        </div>
+        <br class="clearfix" />
+    </div>
+    <div>
+        <div style="float: left; padding-left: 150px;">
+            @Html.ActionLink("不同意以上声明", "Index", "Home", null, new { @class = "TextCancelButton" })
+        </div>
+        <div style="float: right; padding-right: 150px;">
+            @Html.ActionLink("阅读并同意以上声明", "NewStudentRegister", "NewStudent", null, new { @class = "TextOkButton" })
+        </div>
+    </div>
+    <br class="clearfix" />
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

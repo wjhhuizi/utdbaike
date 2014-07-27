@@ -21,6 +21,7 @@
     <EntitySet Name="Students" EntityType="StudentModel.Store.Students" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ManualVolunteers" EntityType="StudentModel.Store.ManualVolunteers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FacssDepartments" EntityType="StudentModel.Store.FacssDepartments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Disclaimers" EntityType="StudentModel.Store.Disclaimers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NewStudentRegisterEntry" EntityType="StudentModel.Store.NewStudentRegisterEntry" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LocalHelpVolunteer" EntityType="StudentModel.Store.LocalHelpVolunteer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RegisterEntryStudent" EntityType="StudentModel.Store.RegisterEntryStudent" store:Type="Tables" Schema="dbo" />
@@ -360,6 +361,15 @@
     <Property Name="Introduction" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IsOpenForApply" Type="bit" Nullable="false" />
     <Property Name="ApplyNotification" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Disclaimers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="NewStudentRegisterEntry">
     <Key>
@@ -857,6 +867,7 @@
             <End Role="FacssDepartment" EntitySet="FacssDepartments" />
             <End Role="NewStudent" EntitySet="NewStudents" />
           </AssociationSet>
+          <EntitySet Name="Disclaimers" EntityType="StudentModel.Disclaimer" />
         </EntityContainer>
         <EntityType Name="NewStudent">
           <Key>
@@ -1283,6 +1294,15 @@
           <End Type="StudentModel.FacssDepartment" Role="FacssDepartment" Multiplicity="0..1" />
           <End Type="StudentModel.NewStudent" Role="NewStudent" Multiplicity="*" />
         </Association>
+        <EntityType Name="Disclaimer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1509,6 +1529,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Disclaimers">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.Disclaimer)">
+        <MappingFragment StoreEntitySet="Disclaimers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="NewStudentVolunteer" TypeName="StudentModel.NewStudentVolunteer" StoreEntitySet="NewStudents">
       <EndProperty Name="Volunteer">
         <ScalarProperty Name="Id" ColumnName="PickupVolunteer_Id" />
@@ -1686,91 +1716,72 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="StudentModel" ZoomLevel="97" >
+      <Diagram Name="StudentModel" ZoomLevel="95" >
         <EntityTypeShape EntityType="StudentModel.NewStudent" Width="1.5" PointX="3.875" PointY="6" IsExpanded="true" Height="8.3262337239583335" />
-        <EntityTypeShape EntityType="StudentModel.Volunteer" Width="1.5" PointX="6.375" PointY="4.125" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.Volunteer" Width="1.5" PointX="6.375" PointY="4.125" Height="5.4417122395833335" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentModel.Organization" Width="1.5" PointX="8.375" PointY="6.125" Height="3.3263964843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentModel.OrgRequest" Width="1.5" PointX="8.375" PointY="5.25" Height="0.4" IsExpanded="false" />
         <EntityTypeShape EntityType="StudentModel.LocalHelp" Width="1.5" PointX="10.125" PointY="10.375" Height="0.4" IsExpanded="false" />
         <EntityTypeShape EntityType="StudentModel.GuestParticipant" Width="1.5" PointX="10.125" PointY="12.5" Height="0.4" IsExpanded="false" />
-        <EntityTypeShape EntityType="StudentModel.ManualAssignInfo" Width="1.5" PointX="5.625" PointY="14" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.ManualAssignInfo" Width="1.5" PointX="5.625" PointY="14" Height="2.941793619791671" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentModel.Group" Width="1.5" PointX="5.75" PointY="9.625" Height="2.9417936197916674" IsExpanded="true" />
         <AssociationConnector Association="StudentModel.NewStudentVolunteer" >
-          <ConnectorPoint PointX="4.625" PointY="6" />
-          <ConnectorPoint PointX="4.625" PointY="4.325" />
-          <ConnectorPoint PointX="5.947916666666667" PointY="4.3249999999999993" />
-          <ConnectorPoint PointX="6.114583333333333" PointY="4.325" />
-          <ConnectorPoint PointX="6.375" PointY="4.325" />
+          <ConnectorPoint PointX="5.375" PointY="8.379717407226563" />
+          <ConnectorPoint PointX="5.604166666666667" PointY="8.379717407226563" />
+          <ConnectorPoint PointX="5.770833333333333" PointY="8.379717407226563" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="8.379717407226563" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="8.379717407226563" />
+          <ConnectorPoint PointX="6.375" PointY="8.379717407226563" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentVolunteer1" >
-          <ConnectorPoint PointX="5.0312525" PointY="6" />
-          <ConnectorPoint PointX="5.0312525" PointY="4.4562525000000015" />
-          <ConnectorPoint PointX="5.947916666666667" PointY="4.4562525000000006" />
-          <ConnectorPoint PointX="6.114583333333333" PointY="4.4562525000000015" />
-          <ConnectorPoint PointX="6.375" PointY="4.4562525000000015" />
+          <ConnectorPoint PointX="5.375" PointY="7.1273587036132815" />
+          <ConnectorPoint PointX="5.604166666666667" PointY="7.1273587036132806" />
+          <ConnectorPoint PointX="5.770833333333333" PointY="7.1273587036132815" />
+          <ConnectorPoint PointX="5.947916666666667" PointY="7.1273587036132806" />
+          <ConnectorPoint PointX="6.114583333333333" PointY="7.1273587036132815" />
+          <ConnectorPoint PointX="6.375" PointY="7.1273587036132815" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentOrg" >
-          <ConnectorPoint PointX="5.375" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="5.947916666666667" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="6.114583333333333" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="6.3619782291666676" PointY="8.4651959813964854" />
-          <ConnectorPoint PointX="6.8489564583333324" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="6.9088538541666678" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="7.0755205208333338" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="7.416666666666667" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="7.583333333333333" PointY="8.4651959813964872" />
-          <ConnectorPoint PointX="8.375" PointY="8.4651959813964872" />
+          <ConnectorPoint PointX="5.375" PointY="13.283396809895834" />
+          <ConnectorPoint PointX="8.7187475" PointY="13.283396809895834" />
+          <ConnectorPoint PointX="8.7187475" PointY="9.451396484375" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.AdminOrganization" >
-          <ConnectorPoint PointX="8.375" PointY="7.94084322990723" />
-          <ConnectorPoint PointX="7.583333333333333" PointY="7.9408432299072294" />
-          <ConnectorPoint PointX="7.416666666666667" PointY="7.94084322990723" />
-          <ConnectorPoint PointX="7.21875125" PointY="7.94084322990723" />
-          <ConnectorPoint PointX="7.21875125" PointY="4.525" />
+          <ConnectorPoint PointX="8.375" PointY="7.73137466510824" />
+          <ConnectorPoint PointX="7.875" PointY="7.73137466510824" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrgRequestOrganization" >
           <ConnectorPoint PointX="9.125" PointY="5.65" />
           <ConnectorPoint PointX="9.125" PointY="6.125" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrganizationVolunteer" >
-          <ConnectorPoint PointX="8.375" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="7.583333333333333" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="7.416666666666667" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="7.0755205208333338" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="6.9088538541666678" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="6.765623125" PointY="8.9895487328857442" />
-          <ConnectorPoint PointX="6.765623125" PointY="4.525" />
+          <ConnectorPoint PointX="8.375" PointY="8.65388557474162" />
+          <ConnectorPoint PointX="7.875" PointY="8.65388557474162" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.NewStudentManualAssignInfo" >
-          <ConnectorPoint PointX="5.375" PointY="14.163116861979166" />
-          <ConnectorPoint PointX="5.625" PointY="14.163116861979166" />
+          <ConnectorPoint PointX="5.375" PointY="14.259267578125" />
+          <ConnectorPoint PointX="5.625" PointY="14.259267578125" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.OrganizationGroup" >
-          <ConnectorPoint PointX="8.375" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="7.583333333333333" PointY="6.5320823074768066" />
-          <ConnectorPoint PointX="7.416666666666667" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="7.3020845833333334" PointY="6.5320823074768066" />
-          <ConnectorPoint PointX="7.1354179166666674" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="7.0755205208333338" PointY="6.5320823074768066" />
-          <ConnectorPoint PointX="6.9088538541666678" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="6.8489564583333333" PointY="6.5320823074768066" />
-          <ConnectorPoint PointX="6.5221340104166678" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="6.4453115625000006" PointY="6.5320823074768075" />
-          <ConnectorPoint PointX="6.4453115625000006" PointY="9.625" />
+          <ConnectorPoint PointX="9.5312525" PointY="9.451396484375" />
+          <ConnectorPoint PointX="9.5312525" PointY="11.570896809895833" />
+          <ConnectorPoint PointX="8.8020808333333331" PointY="11.570896809895833" />
+          <ConnectorPoint PointX="8.6354141666666653" PointY="11.570896809895833" />
+          <ConnectorPoint PointX="7.25" PointY="11.570896809895833" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.VolunteerAdminGroup" >
-          <ConnectorPoint PointX="6.9921871875000008" PointY="9.625" />
-          <ConnectorPoint PointX="6.9921871875000008" PointY="4.525" />
+          <ConnectorPoint PointX="6.990233671875" PointY="9.625" />
+          <ConnectorPoint PointX="6.990233671875" PointY="9.5667122395833335" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.GroupNewStudent" >
           <ConnectorPoint PointX="5.75" PointY="11.095896809895834" />
           <ConnectorPoint PointX="5.375" PointY="11.095896809895834" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.GroupVolunteer" >
-          <ConnectorPoint PointX="6.60546734375" PointY="9.625" />
-          <ConnectorPoint PointX="6.60546734375" PointY="4.525" />
+          <ConnectorPoint PointX="6.6201168359375" PointY="9.625" />
+          <ConnectorPoint PointX="6.6201168359375" PointY="9.5667122395833335" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="StudentModel.OperationRecord" Width="1.5" PointX="1.25" PointY="6.625" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.OperationRecord" Width="1.5" PointX="1.25" PointY="6.625" Height="2.5571907552083335" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentModel.TempPool" Width="1.5" PointX="1.25" PointY="10.5" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.TempPoolNewStudent">
           <ConnectorPoint PointX="2.75" PointY="10.7" />
@@ -1778,22 +1789,14 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="StudentModel.RegisterEntry" Width="1.5" PointX="10.125" PointY="11.5" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.NewStudentRegisterEntry">
-          <ConnectorPoint PointX="4.218748" PointY="6" />
-          <ConnectorPoint PointX="4.218748" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="4.541666666666667" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="4.708333333333333" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="4.9479191666666669" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="5.1145858333333329" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="5.947916666666667" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="6.114583333333333" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="6.522134010416667" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="6.8489564583333342" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="6.9088538541666678" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="7.0755205208333338" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="7.1354179166666674" PointY="5.7499999999999982" />
-          <ConnectorPoint PointX="7.3020845833333334" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="7.5" PointY="5.7499999999999991" />
-          <ConnectorPoint PointX="7.5" PointY="11.7" />
+          <ConnectorPoint PointX="4.625" PointY="6" />
+          <ConnectorPoint PointX="4.625" PointY="5.9375" />
+          <ConnectorPoint PointX="5.6875" PointY="5.9375" />
+          <ConnectorPoint PointX="5.6875" PointY="12.629293619791667" />
+          <ConnectorPoint PointX="8.6354141666666653" PointY="12.629293619791667" />
+          <ConnectorPoint PointX="8.8020808333333331" PointY="12.629293619791667" />
+          <ConnectorPoint PointX="10.03125" PointY="12.629293619791667" />
+          <ConnectorPoint PointX="10.03125" PointY="11.7" />
           <ConnectorPoint PointX="10.125" PointY="11.7" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.RegisterEntryGuestParticipant">
@@ -1807,63 +1810,66 @@
         <AssociationConnector Association="StudentModel.OrganizationLocalHelp">
           <ConnectorPoint PointX="9.125" PointY="9.451396484375" />
           <ConnectorPoint PointX="9.125" PointY="10.575" />
+          <ConnectorPoint PointX="9.4479191666666669" PointY="10.575" />
+          <ConnectorPoint PointX="9.6145858333333347" PointY="10.575" />
           <ConnectorPoint PointX="10.125" PointY="10.575" />
         </AssociationConnector>
         <EntityTypeShape EntityType="StudentModel.EmailHistory" Width="1.5" PointX="1.25" PointY="15.375" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.NewStudentEmailHistory">
-          <ConnectorPoint PointX="3.876152846153845" PointY="14.326233723958334" />
-          <ConnectorPoint PointX="3.5" PointY="14.702386570112179" />
-          <ConnectorPoint PointX="3.5" PointY="15.575" />
+          <ConnectorPoint PointX="4.625" PointY="14.51853515625" />
+          <ConnectorPoint PointX="4.625" PointY="15.575" />
           <ConnectorPoint PointX="2.75" PointY="15.575" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.LocalHelpVolunteer">
-          <ConnectorPoint PointX="10.718748" PointY="10.375" />
-          <ConnectorPoint PointX="10.718748" PointY="4.325" />
-          <ConnectorPoint PointX="7.875" PointY="4.325" />
+          <ConnectorPoint PointX="10.71875" PointY="10.375" />
+          <ConnectorPoint PointX="10.71875" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="9.6145858333333347" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="9.4479191666666669" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="9.2083333333333339" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="9.0416666666666661" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="8.8020808333333331" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="8.6354141666666653" PointY="9.5403043619791674" />
+          <ConnectorPoint PointX="7.875" PointY="9.5403043619791674" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="StudentModel.Student" Width="1.5" PointX="11.375" PointY="2.75" Height="0.4" IsExpanded="false" />
+        <EntityTypeShape EntityType="StudentModel.Student" Width="1.5" PointX="11.375" PointY="2.75" Height="4.8648079427083317" IsExpanded="true" />
         <AssociationConnector Association="StudentModel.VolunteerStudent">
-          <ConnectorPoint PointX="7.125" PointY="4.125" />
-          <ConnectorPoint PointX="7.125" PointY="2.95" />
-          <ConnectorPoint PointX="11.375" PointY="2.95" />
+          <ConnectorPoint PointX="7.875" PointY="4.9" />
+          <ConnectorPoint PointX="11.375" PointY="4.9" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.HostStudent">
-          <ConnectorPoint PointX="7.5312525" PointY="4.125" />
-          <ConnectorPoint PointX="7.5312525" PointY="3.0812525" />
-          <ConnectorPoint PointX="11.375" PointY="3.0812525" />
+          <ConnectorPoint PointX="7.875" PointY="4.45" />
+          <ConnectorPoint PointX="11.375" PointY="4.45" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.HostOrganization">
-          <ConnectorPoint PointX="9.875" PointY="7.7881982421875" />
-          <ConnectorPoint PointX="10.635414666666666" PointY="7.7881982421874989" />
-          <ConnectorPoint PointX="10.802081333333334" PointY="7.7881982421875" />
-          <ConnectorPoint PointX="11.640625" PointY="7.7881982421875" />
-          <ConnectorPoint PointX="11.640625" PointY="3.15" />
+          <ConnectorPoint PointX="9.875" PointY="6.8699039713541659" />
+          <ConnectorPoint PointX="11.375" PointY="6.8699039713541659" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.GroupHostStudent">
           <ConnectorPoint PointX="6.03125" PointY="9.625" />
-          <ConnectorPoint PointX="6.03125" PointY="2.8187475" />
-          <ConnectorPoint PointX="11.375" PointY="2.8187475" />
+          <ConnectorPoint PointX="6.03125" PointY="3.40625" />
+          <ConnectorPoint PointX="11.375" PointY="3.40625" />
         </AssociationConnector>
         <EntityTypeShape EntityType="StudentModel.ManualVolunteer" Width="1.5" PointX="11.375" PointY="1.25" Height="0.4" IsExpanded="false" />
         <AssociationConnector Association="StudentModel.ManualPickupAssign">
-          <ConnectorPoint PointX="11.8515625" PointY="1.65" />
-          <ConnectorPoint PointX="11.8515625" PointY="2.75" />
+          <ConnectorPoint PointX="12.5625" PointY="1.65" />
+          <ConnectorPoint PointX="12.5625" PointY="2.75" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.ManualHostAssign">
-          <ConnectorPoint PointX="12.42578125" PointY="1.65" />
-          <ConnectorPoint PointX="12.42578125" PointY="2.75" />
+          <ConnectorPoint PointX="11.90625" PointY="1.65" />
+          <ConnectorPoint PointX="11.90625" PointY="2.75" />
         </AssociationConnector>
         <AssociationConnector Association="StudentModel.RegisterEntryStudent">
           <ConnectorPoint PointX="11.625" PointY="11.7" />
-          <ConnectorPoint PointX="12.289065" PointY="11.7" />
-          <ConnectorPoint PointX="12.289065" PointY="3.15" />
+          <ConnectorPoint PointX="12.250000499999999" PointY="11.7" />
+          <ConnectorPoint PointX="12.250000499999999" PointY="7.6148079427083317" />
         </AssociationConnector>
         <EntityTypeShape EntityType="StudentModel.FacssDepartment" Width="1.5" PointX="14.625" PointY="2.625" Height="2.1725878906249996" />
         <AssociationConnector Association="StudentModel.ApplyForFacssDepartment">
           <ConnectorPoint PointX="15.375" PointY="4.797587890625" />
-          <ConnectorPoint PointX="15.375" PointY="13.45" />
-          <ConnectorPoint PointX="5.375" PointY="13.45" />
+          <ConnectorPoint PointX="15.375" PointY="13.641700904947918" />
+          <ConnectorPoint PointX="5.375" PointY="13.641700904947918" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="StudentModel.Disclaimer" Width="1.5" PointX="1.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

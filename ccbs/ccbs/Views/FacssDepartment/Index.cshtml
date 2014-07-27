@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ccbs.Models.FacssDepartment>
 @{
-    ViewBag.Title = "UTD Facss 部门一览";
+    ViewBag.Title = "UTD Facss 部门";
     ccbs.Models.NewStudent currentStudent = ViewBag.currentStudent;
     bool isAuthorizedAdmin = User.IsInRole(ccbs.Models.LWSFRoles.admin) || User.IsInRole(ccbs.Models.LWSFRoles.newStudentAdmin);
 }
 <div id="middle-content">
     <div>
         <h3 style="text-align: center;">
-            UTD Facss 部门一览</h3>
+            UTD Facss 部门</h3>
     </div>
     @if (isAuthorizedAdmin)
     {

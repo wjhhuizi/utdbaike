@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ccbs.Models;
 using System.Net.Mail;
+using utdbaike;
 
 
 namespace ccbs.Controllers
@@ -66,7 +67,7 @@ namespace ccbs.Controllers
         [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin + ", " + LWSFRoles.emailAdmin)]
         public ActionResult SendSystemEmail(EmailRecord record)
         {
-            EmailSentModel emailModel = new EmailSentModel();
+            var emailModel = new SmtpEmail();
             bool isSave;
             bool toNewStudents;
             bool toFacssVolunteers;

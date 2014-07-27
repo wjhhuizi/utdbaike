@@ -1,6 +1,8 @@
 ﻿@model ccbs.Models.NewStudentRegisterModel
 @{
     ViewBag.Title = "New Student Register";
+    var this_year = ccbs.Models.Semester.this_year();
+    var this_semester = ccbs.Models.Semester.this_semester();
 }
 <div id="content">
     <br />
@@ -11,7 +13,7 @@
         @Html.ValidationSummary(true, "注册出错啦！ 请更正下面的错误")
         <div>
             <fieldset>
-                <legend>2013 Fall 新生接机临住注册表格(本季度接机和临住安排已经结束！)</legend>
+                <legend>@this_year @this_semester 新生接机临住注册表格</legend>
                 <br />
                 <div class="box">
                     <div class="editor-label">
@@ -138,9 +140,6 @@
                         {
                             new SelectListItem{Value=ccbs.Models.TempHouseLength.Under3.ToString(), Text="小于3天"},
                             new SelectListItem{Value=ccbs.Models.TempHouseLength.From3To7.ToString(), Text="3~7天"},
-                            new SelectListItem{Value=ccbs.Models.TempHouseLength.From7To10.ToString(), Text="7~10天"},
-                            new SelectListItem{Value=ccbs.Models.TempHouseLength.Over10.ToString(), Text="10天以上"},
-                            new SelectListItem{Value=ccbs.Models.TempHouseLength.NotSure.ToString(), Text="稍后再定"},
                         })
                         @Html.ValidationMessageFor(m => m.DaysOfTempHousing)
                     </div>

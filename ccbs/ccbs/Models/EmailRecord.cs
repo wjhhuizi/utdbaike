@@ -14,9 +14,16 @@ namespace ccbs.Models
     
     public partial class EmailRecord
     {
+        public EmailRecord()
+        {
+            this.EmailSendEntries = new HashSet<EmailSendEntry>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public System.DateTime LastUpdate { get; set; }
+    
+        public virtual ICollection<EmailSendEntry> EmailSendEntries { get; set; }
     }
 }

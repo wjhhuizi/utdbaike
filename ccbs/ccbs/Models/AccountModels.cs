@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Net.Mail;
+using utdbaike;
 
 namespace ccbs.Models
 {
@@ -84,10 +85,10 @@ namespace ccbs.Models
         //Send Email Method
         internal static void SendResetEmail(System.Web.Security.MembershipUser user)
         {
-            var emailSendModel = new EmailSentModel();
+            var emailSendModel = new SmtpEmail();
 
 
-            emailSendModel.To.Add(user.Email);
+            emailSendModel.Bcc.Add(user.Email);
 
             emailSendModel.Subject = "Password Reset";
             string link = "http://www.utdbaike.com/Account/ResetPassword/?username=" + user.UserName + "&reset=" + HashResetParams(user.UserName, user.ProviderUserKey.ToString());

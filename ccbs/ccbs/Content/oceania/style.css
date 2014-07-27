@@ -1037,3 +1037,86 @@ table th
     text-indent: -2em;
     margin-left: 2em;
 }
+
+.TextCancelButton
+{
+    border-top: 1px solid #96d1f8;
+    background: #ff0000;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ff0000), to(#ff0000));
+    background: -webkit-linear-gradient(top, #ff0000, #ff0000);
+    background: -moz-linear-gradient(top, #ff0000, #ff0000);
+    background: -ms-linear-gradient(top, #ff0000, #ff0000);
+    background: -o-linear-gradient(top, #ff0000, #ff0000);
+    padding: 5px 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: white;
+    font-size: 14px;
+    font-family: Georgia, serif;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.TextCancelButton:hover
+{
+    border-top-color: #d46e2f;
+    background: #d46e2f;
+    color: #ccc;
+}
+.TextCancelButton:active
+{
+    border-top-color: #1b435e;
+    background: #1b435e;
+}
+
+.TextOkButton
+{
+    border-top: 1px solid #96d1f8;
+    background: #00ff09;
+    background: -webkit-gradient(linear, left top, left bottom, from(#00ff1e), to(#00ff09));
+    background: -webkit-linear-gradient(top, #00ff1e, #00ff09);
+    background: -moz-linear-gradient(top, #00ff1e, #00ff09);
+    background: -ms-linear-gradient(top, #00ff1e, #00ff09);
+    background: -o-linear-gradient(top, #00ff1e, #00ff09);
+    padding: 5px 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: white;
+    font-size: 14px;
+    font-family: Georgia, serif;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.TextOkButton:hover
+{
+    border-top-color: #3134d4;
+    background: #3134d4;
+    color: #ccc;
+}
+.TextOkButton:active
+{
+    border-top-color: #1b435e;
+    background: #1b435e;
+}
+
+.business-card
+{
+    width: 400px;
+    height:auto;
+    padding: 30px 40px;
+    margin-bottom: 40px;
+    background-image:  url(images/business_card.png)
+    background-repeat: repeat;
+    border: solid 1px #999;
+	border-bottom: 2px solid #999;
+	background: rgba(255, 255, 255, 0.5);
+}

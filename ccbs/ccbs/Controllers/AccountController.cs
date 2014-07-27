@@ -139,6 +139,10 @@ namespace ccbs.Controllers
             {
                 return RedirectToAction("NewStudentHome", "NewStudent", null);
             }
+            else if (User.IsInRole(LWSFRoles.student))
+            {
+                return RedirectToAction("StudentHome", "Student", null);
+            }
             return RedirectToAction("Index", "Home", null);
         }
 
@@ -157,12 +161,28 @@ namespace ccbs.Controllers
         public ActionResult LogOn(string returnUrl)
         {
             LogOnModel model = new LogOnModel();
+            string username;
 
             TryUpdateModel(model);
 
             if (ModelState.IsValid)
             {
                 var user = Membership.GetUser(model.UserName);
+
+                if (user == null)
+                {
+                    username = Membership.GetUserNameByEmail(model.UserName);
+                    if (!String.IsNullOrEmpty(username))
+                    {
+                        user = Membership.GetUser(username);
+                        if (user != null)
+                        {
+                            model.UserName = username;
+                        }
+                    }
+                }
+
+
                 if (user != null)
                 {
                     if (user.IsLockedOut)

@@ -14,6 +14,11 @@ namespace ccbs.Models
     
     public partial class EmailAccount
     {
+        public EmailAccount()
+        {
+            this.DailyCounts = new HashSet<DailyCount>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Host { get; set; }
@@ -21,5 +26,12 @@ namespace ccbs.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string From { get; set; }
+        public int SmtpDailyLimit { get; set; }
+        public int SmtpPerTimeLimit { get; set; }
+        public bool Verified { get; set; }
+        public System.DateTime LastVerifyDate { get; set; }
+        public string VerifyMessage { get; set; }
+    
+        public virtual ICollection<DailyCount> DailyCounts { get; set; }
     }
 }

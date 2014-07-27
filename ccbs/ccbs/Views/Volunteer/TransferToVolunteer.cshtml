@@ -1,0 +1,148 @@
+﻿@using MyResources = ccbs.Views.Volunteer.VolunteerResources
+@model ccbs.Models.VolunteerRegisterModel
+@{
+    ViewBag.Title = MyResources.Reg_Title;
+}
+<div id="content">
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, MyResources.Reg_Error)
+        <fieldset>
+            <legend>@MyResources.Reg_Title</legend>
+            @Html.HiddenFor(model => model.UserName)
+            @Html.HiddenFor(model => model.Password)
+            @Html.HiddenFor(model => model.ConfirmPassword)
+            <div class="box">
+                <h4>
+                    @MyResources.Reg_PI</h4>
+                <br />
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name, @MyResources.Reg_Name)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Gender, @MyResources.Reg_Gender)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Gender, new[]
+                {
+                   new SelectListItem{Value="0", Text="Single-Female"},
+                   new SelectListItem{Value="1", Text="Single-Male"}, 
+                   new SelectListItem{Value="2", Text="Family"}, 
+                })
+                    @Html.ValidationMessageFor(model => model.Gender)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Email, @MyResources.Reg_Email)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Phone, @MyResources.Reg_Phone)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Phone)
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.VolunteerOrganizationId, @MyResources.Reg_Org)
+                </div>
+                <div class="editor-field">
+                    @( Html.Telerik().DropDownList()
+                    .Name("VolunteerOrganizationId")
+                    .BindTo(ViewBag.VolunteerOrganizationId)
+                    .HtmlAttributes(new { style = "width:300px;" })
+                    .Placeholder("Select Organization...")
+                    .CascadeTo("VolunteerGroupId"))
+                    @Html.ValidationMessageFor(model => model.VolunteerOrganizationId)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.VolunteerGroupId, @MyResources.Reg_Group)
+                </div>
+                <div>
+                    @( Html.Telerik().DropDownList()
+                    .Name("VolunteerGroupId")
+                    .DataBinding(binding => binding.Ajax().Select("_GetDropDownListGroups", "Volunteer"))
+                    .HtmlAttributes(new { style = "width:300px;" })
+                    .Placeholder("Select Group...")
+            )
+                    @Html.ValidationMessageFor(model => model.VolunteerGroupId)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.OrgPasscode, @MyResources.Reg_Passcode)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.OrgPasscode)
+                    @Html.ValidationMessageFor(model => model.OrgPasscode)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Relation, @MyResources.Reg_RelationToUTD)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Relation, new[]
+                {
+                   new SelectListItem{Value="1", Text="FACSS member"},
+                   new SelectListItem{Value="2", Text="Current Student"},
+                   new SelectListItem{Value="3", Text="UTD Alumni"}, 
+                   new SelectListItem{Value="4", Text="Others"},
+                })
+                    @Html.ValidationMessageFor(model => model.Relation)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.OtherRelation, @MyResources.Reg_OtherRelation)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.OtherRelation)
+                    @Html.ValidationMessageFor(model => model.OtherRelation)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HelpType, @MyResources.Reg_HelpType)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.HelpType, new[]
+                {
+                   new SelectListItem{Value="1", Text="Airport Picking-up"},
+                   new SelectListItem{Value="2", Text="Temp Housing"},
+                   new SelectListItem{Value="3", Text="Local Help"}, 
+                   new SelectListItem{Value="4", Text="Any of the above"},
+                })
+                    @Html.ValidationMessageFor(model => model.HelpType)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Address, @MyResources.Reg_Address)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BriefIntro, @MyResources.Reg_SelfIntro)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.BriefIntro)
+                    @Html.ValidationMessageFor(model => model.BriefIntro)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Note, @MyResources.Reg_Note)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Note)
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="@MyResources.Reg_Submit" />
+            </p>
+        </fieldset>
+    }
+</div>
+<div>
+    @{Html.RenderPartial("_Sidebar");}
+</div>

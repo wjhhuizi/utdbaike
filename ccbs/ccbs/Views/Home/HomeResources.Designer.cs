@@ -79,7 +79,7 @@ namespace ccbs.Views.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UTD 2013 Fall 新生接机和临住注册.
+        ///   Looks up a localized string similar to 新生接机和临住注册.
         /// </summary>
         public static string Reg_Tite {
             get {

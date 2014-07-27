@@ -22,17 +22,8 @@ namespace ccbs.Controllers
         }
 
         //
-        // GET: /Contact/Details/5
-
-        public ViewResult Details(int id)
-        {
-            Contact contact = db.Contacts.Find(id);
-            return View(contact);
-        }
-
-        //
         // GET: /Contact/Create
-
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Create()
         {
             return View();
@@ -42,6 +33,7 @@ namespace ccbs.Controllers
         // POST: /Contact/Create
 
         [HttpPost]
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Create(Contact contact)
         {
             if (ModelState.IsValid)
@@ -56,7 +48,7 @@ namespace ccbs.Controllers
         
         //
         // GET: /Contact/Edit/5
- 
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Edit(int id)
         {
             Contact contact = db.Contacts.Find(id);
@@ -67,6 +59,7 @@ namespace ccbs.Controllers
         // POST: /Contact/Edit/5
 
         [HttpPost]
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Edit(Contact contact)
         {
             if (ModelState.IsValid)
@@ -80,7 +73,7 @@ namespace ccbs.Controllers
 
         //
         // GET: /Contact/Delete/5
- 
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult Delete(int id)
         {
             Contact contact = db.Contacts.Find(id);
@@ -91,6 +84,7 @@ namespace ccbs.Controllers
         // POST: /Contact/Delete/5
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult DeleteConfirmed(int id)
         {            
             Contact contact = db.Contacts.Find(id);

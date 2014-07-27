@@ -17,11 +17,6 @@
                 @Html.DisplayFor(model => model.Title)
             </div>
             <div class="display-label">
-                Function</div>
-            <div class="display-field">
-                @Html.DisplayFor(model => model.Function)
-            </div>
-            <div class="display-label">
                 Email</div>
             <div class="display-field">
                 @Html.DisplayFor(model => model.Email)
@@ -30,6 +25,11 @@
                 Phone</div>
             <div class="display-field">
                 @Html.DisplayFor(model => model.Phone)
+            </div>
+            <div class="display-label">
+                Function</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Function)
             </div>
         </fieldset>
         @using (Html.BeginForm())

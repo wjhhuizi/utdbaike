@@ -13,6 +13,7 @@ using System.Text;
 using OfficeOpenXml;
 using System.Web.Security;
 using System.Net.Mail;
+using utdbaike;
 
 namespace ccbs.Controllers
 {
@@ -287,43 +288,7 @@ namespace ccbs.Controllers
             var student = db.NewStudents.Find(id);
             if (student != null)
             {
-                //Delete the record
-                if (student.PickupVolunteer != null)
-                {
-                    student.PickupVolunteer.PickupNewStudents.Remove(student);
-                }
-                if (student.TempHouseVolunteer != null)
-                {
-                    student.TempHouseVolunteer.TempHouseNewStudents.Remove(student);
-                }
-                if (student.Group != null)
-                {
-                    student.Group.NewStudents.Remove(student);
-                }
-                if (student.Organization != null)
-                {
-                    student.Organization.NewStudents.Remove(student);
-                }
-                if (student.RegisterEntries != null)
-                {
-                    student.RegisterEntries.Clear();
-                }
-                if (student.ManualAssignInfoes != null)
-                {
-                    foreach (var a in student.ManualAssignInfoes.ToList())
-                    {
-                        db.ManualAssignInfoes.Remove(a);
-                    }
-                }
-                if (student.EmailHistories != null)
-                {
-                    foreach (var h in student.EmailHistories.ToList())
-                    {
-                        db.EmailHistories.Remove(h);
-                    }
-                }
-                db.NewStudents.Remove(student);
-                db.SaveChanges();
+                delete_new_student(id);
                 Membership.DeleteUser(student.UserName);
             }
 
@@ -360,7 +325,7 @@ namespace ccbs.Controllers
         //
         // GET: /NewStudent/Details/5
 
-        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin + "," + LWSFRoles.organizationLeader)]
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ViewResult AllUnassignedNewStudentList()
         {
             var students = NewStudentListOps._GetAllUnasignedNewStudent();
@@ -1350,28 +1315,87 @@ namespace ccbs.Controllers
         [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
         public ActionResult DeleteConfirmed(int id)
         {
-            NewStudent newstudent = db.NewStudents.Find(id);
-
-            if (newstudent.PickupVolunteer != null)
-            {
-                newstudent.PickupVolunteer.PickupNewStudents.Remove(newstudent);
-            }
-            if (newstudent.TempHouseVolunteer != null)
-            {
-                newstudent.TempHouseVolunteer.TempHouseNewStudents.Remove(newstudent);
-            }
-            if (newstudent.Organization != null)
-            {
-                newstudent.Organization.NewStudents.Remove(newstudent);
-            }
-
-            db.NewStudents.Remove(newstudent);
-            db.SaveChanges();
+            delete_new_student(id);
             return RedirectToAction("Index");
         }
 
-        // GET: /NewStudent/NewStudentRegister
+        [Authorize(Roles = LWSFRoles.admin + ", " + LWSFRoles.newStudentAdmin)]
+        public ActionResult Clear_NewStudents()
+        {
+            clearNewStudentPool();
+            return RedirectToAction("Index");
+        }
 
+        void clearNewStudentPool()
+        {
+            var allNewStudents = db.NewStudents.ToList();
+            foreach (var stud in allNewStudents)
+            {
+                if (stud.ArrivalTime < DateTime.Now)
+                {
+                    delete_new_student(stud.Id);
+                }
+            }
+        }
+
+        void delete_new_student(int id)
+        {
+            var student = db.NewStudents.Find(id);
+            if (student != null)
+            {
+                //Delete the record
+                if (student.PickupVolunteer != null)
+                {
+                    student.PickupVolunteer.PickupNewStudents.Remove(student);
+                }
+                if (student.TempHouseVolunteer != null)
+                {
+                    student.TempHouseVolunteer.TempHouseNewStudents.Remove(student);
+                }
+                if (student.Group != null)
+                {
+                    student.Group.NewStudents.Remove(student);
+                }
+                if (student.Organization != null)
+                {
+                    student.Organization.NewStudents.Remove(student);
+                }
+                if (student.RegisterEntries != null)
+                {
+                    student.RegisterEntries.Clear();
+                }
+                if (student.ManualAssignInfoes != null)
+                {
+                    foreach (var a in student.ManualAssignInfoes.ToList())
+                    {
+                        db.ManualAssignInfoes.Remove(a);
+                    }
+                }
+                if (student.EmailHistories != null)
+                {
+                    foreach (var h in student.EmailHistories.ToList())
+                    {
+                        db.EmailHistories.Remove(h);
+                    }
+                }
+                db.NewStudents.Remove(student);
+                db.SaveChanges();
+            }
+        }
+
+
+        public ActionResult Disclaimer()
+        {
+            var disclaimer = db.Disclaimers.FirstOrDefault();
+            if (disclaimer == null)
+            {
+                return RedirectToAction("NewStudentRegister");
+            }
+            disclaimer.Description = Server.HtmlDecode(disclaimer.Description);
+            return View(disclaimer);
+        }
+
+        // GET: /NewStudent/NewStudentRegister
         public ActionResult NewStudentRegister()
         {
             return View();
@@ -1411,7 +1435,7 @@ namespace ccbs.Controllers
                 var newStudent = NewStudentRegister.GetNewStudentModel();
                 db.NewStudents.Add(newStudent);
                 db.SaveChanges();
-                //sendFirstLetterToNewStudent(newStudent.Email);
+                sendFirstLetterToNewStudent(newStudent.Email);
                 return RedirectToAction("Details", new { id = newStudent.Id });
             }
 
@@ -1496,7 +1520,6 @@ namespace ccbs.Controllers
 
         public ActionResult SendNewStudentArrivalNotification()
         {
-            bool state = false;
             var checkDeadline = DateTime.Now.AddDays(SetupParameters.EmailNotificationDays);
 
             foreach (var stud in db.NewStudents.ToList())
@@ -1515,20 +1538,20 @@ namespace ccbs.Controllers
                     continue;
                 }
 
-                var emailSendModel = new EmailSentModel();
+                var emailSendModel = new SmtpEmail();
                 emailSendModel.Subject = "Last Notification: " + stud.CnName + " will arrive at " + stud.ArrivalTime.ToString("MM/dd/yyyy hh:mm tt") + "!";
                 emailSendModel.Body = RenderPartialViewToString("_ImportantDetails", stud);
-                emailSendModel.To.Add(stud.Email);
+                emailSendModel.Bcc.Add(stud.Email);
                 if (stud.NeedPickup)
                 {
                     var manualPickup = stud.ManualAssignInfoes.Where(m => m.Type == ManualAssignType.IntPickup).FirstOrDefault();
                     if (stud.PickupVolunteer != null)
                     {
-                        emailSendModel.Cc.Add(stud.PickupVolunteer.Email);
+                        emailSendModel.Bcc.Add(stud.PickupVolunteer.Email);
                     }
                     else if (manualPickup != null)
                     {
-                        emailSendModel.Cc.Add(manualPickup.VolEmail);
+                        emailSendModel.Bcc.Add(manualPickup.VolEmail);
                     }
                 }
                 if (stud.NeedTempHousing)
@@ -1536,14 +1559,14 @@ namespace ccbs.Controllers
                     var manualHousing = stud.ManualAssignInfoes.Where(m => m.Type == ManualAssignType.IntHousing).FirstOrDefault();
                     if (stud.TempHouseVolunteer != null)
                     {
-                        emailSendModel.Cc.Add(stud.TempHouseVolunteer.Email);
+                        emailSendModel.Bcc.Add(stud.TempHouseVolunteer.Email);
                     }
                     else if (manualHousing != null)
                     {
-                        emailSendModel.Cc.Add(manualHousing.VolEmail);
+                        emailSendModel.Bcc.Add(manualHousing.VolEmail);
                     }
                 }
-                state = emailSendModel.Send();
+                emailSendModel.Send();
             }
             return Content("Check finished at " + DateTime.Now);
         }
@@ -1557,7 +1580,7 @@ namespace ccbs.Controllers
             return Content("Check finished at " + DateTime.Now);
         }
 
-        public void CheckAndSendThreePartiesEmail(NewStudent student)
+        private void CheckAndSendThreePartiesEmail(NewStudent student)
         {
             var checkDeadline = DateTime.Now.AddDays(SetupParameters.ConfirmEmailDays);
             if (!student.NeedPickup && !student.NeedTempHousing)
@@ -1620,12 +1643,11 @@ namespace ccbs.Controllers
             }
         }
 
-        public bool SendStudentConfirmationEmail(NewStudent student, string emailAddr)
+        private void SendStudentConfirmationEmail(NewStudent student, string emailAddr)
         {
-            bool state = false;
-            var emailSendModel = new EmailSentModel();
-            emailSendModel.To.Add(emailAddr);
-            emailSendModel.Subject = "2013 Fall UTD New Student Pickup and Temp Housing";
+            var emailSendModel = new SmtpEmail();
+            emailSendModel.Bcc.Add(emailAddr);
+            emailSendModel.Subject = Semester.this_year() + " " + Semester.this_semester() + " UTD New Student Pickup and Temp Housing";
             ViewBag.confirmedRole = "student";
 
             string hashCode = ResetPasswordModel.HashResetParams(student.UserName, emailAddr);
@@ -1633,10 +1655,10 @@ namespace ccbs.Controllers
             ViewBag.hashCode = hashCode;
 
             emailSendModel.Body = RenderPartialViewToString("_FinalConfirmation", student);
-            state = emailSendModel.Send();
+            emailSendModel.Send();
 
-            if (state)
-            {
+            if (!emailSendModel.ErrorExist())
+            { // no error
                 EmailHistory history = student.EmailHistories.Where(e => e.Type == EmailType.ArriveNoticeToStud).FirstOrDefault();
 
                 if (history == null)
@@ -1662,17 +1684,14 @@ namespace ccbs.Controllers
                 }
                 db.SaveChanges();
             }
-
-            return state;
         }
 
-        public bool SendPickupConfirmationEmail(NewStudent student, string emailAddr)
+        private void SendPickupConfirmationEmail(NewStudent student, string emailAddr)
         {
-            bool state = false;
-            var emailSendModel = new EmailSentModel();
+            var emailSendModel = new SmtpEmail();
 
-            emailSendModel.To.Add(emailAddr);
-            emailSendModel.Subject = "2013 Fall UTD New Student Pickup and Temp Housing";
+            emailSendModel.Bcc.Add(emailAddr);
+            emailSendModel.Subject = Semester.this_year() + " " + Semester.this_semester() + "  UTD New Student Pickup and Temp Housing";
             ViewBag.confirmedRole = "pickup";
 
             string hashCode = ResetPasswordModel.HashResetParams(student.UserName, emailAddr);
@@ -1680,9 +1699,9 @@ namespace ccbs.Controllers
             ViewBag.hashCode = hashCode;
 
             emailSendModel.Body = RenderPartialViewToString("_FinalConfirmation", student);
-            state = emailSendModel.Send();
+            emailSendModel.Send();
 
-            if (state)
+            if (!emailSendModel.ErrorExist())
             {
                 EmailHistory history = student.EmailHistories.Where(e => e.Type == EmailType.ArriveNoticeToPickup).FirstOrDefault();
 
@@ -1709,17 +1728,14 @@ namespace ccbs.Controllers
                 }
                 db.SaveChanges();
             }
-
-            return state;
         }
 
-        public bool SendHousingConfirmationEmail(NewStudent student, string emailAddr)
+        private void SendHousingConfirmationEmail(NewStudent student, string emailAddr)
         {
-            bool state = false;
-            var emailSendModel = new EmailSentModel();
+            var emailSendModel = new SmtpEmail();
 
-            emailSendModel.To.Add(emailAddr);
-            emailSendModel.Subject = "2013 Fall UTD New Student Pickup and Temp Housing";
+            emailSendModel.Bcc.Add(emailAddr);
+            emailSendModel.Subject = Semester.this_year() + " " + Semester.this_semester() + " UTD New Student Pickup and Temp Housing";
             ViewBag.confirmedRole = "housing";
 
             string hashCode = ResetPasswordModel.HashResetParams(student.UserName, emailAddr);
@@ -1727,9 +1743,9 @@ namespace ccbs.Controllers
             ViewBag.hashCode = hashCode;
 
             emailSendModel.Body = RenderPartialViewToString("_FinalConfirmation", student);
-            state = emailSendModel.Send();
+            emailSendModel.Send();
 
-            if (state)
+            if (!emailSendModel.ErrorExist())
             {
                 EmailHistory history = student.EmailHistories.Where(e => e.Type == EmailType.ArriveNoticeToHost).FirstOrDefault();
                 if (history == null)
@@ -1755,7 +1771,6 @@ namespace ccbs.Controllers
                 }
                 db.SaveChanges();
             }
-            return state;
         }
 
         public ActionResult StudentConfirmed(int studentId, string emailAddr, string hashCode)
@@ -2099,19 +2114,19 @@ namespace ccbs.Controllers
 
         internal void NewStudentChangeInfoEmail(NewStudent stud)
         {
-            var emailSendModel = new EmailSentModel();
+            var emailSendModel = new SmtpEmail();
 
-            emailSendModel.To.Add(stud.Email);
+            emailSendModel.Bcc.Add(stud.Email);
             if ((stud.Organization != null) && (stud.Organization.OrgLeader != null))
             {
-                emailSendModel.Cc.Add(stud.Organization.OrgLeader.Email);
+                emailSendModel.Bcc.Add(stud.Organization.OrgLeader.Email);
                 if (stud.PickupVolunteer != null)
                 {
-                    emailSendModel.Cc.Add(stud.PickupVolunteer.Email);
+                    emailSendModel.Bcc.Add(stud.PickupVolunteer.Email);
                 }
                 if ((stud.TempHouseVolunteer != null) && (stud.TempHouseVolunteer != stud.PickupVolunteer))
                 {
-                    emailSendModel.Cc.Add(stud.TempHouseVolunteer.Email);
+                    emailSendModel.Bcc.Add(stud.TempHouseVolunteer.Email);
                 }
             }
             emailSendModel.Subject = "Important Notice:" + stud.CnName + " changed his/her information";
@@ -2126,9 +2141,9 @@ namespace ccbs.Controllers
             {
                 return;
             }
-            var emailSendModel = new EmailSentModel();
+            var emailSendModel = new SmtpEmail();
 
-            emailSendModel.To.Add(emailAddr);
+            emailSendModel.Bcc.Add(emailAddr);
             emailSendModel.Subject = emailRecord.Title;
             emailSendModel.Body = Server.HtmlDecode(emailRecord.Body);
             emailSendModel.Send();

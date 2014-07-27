@@ -62,6 +62,7 @@ namespace ccbs.Controllers
                 return RedirectToAction("Index");
             }
             facssdepartment.Introduction = Server.HtmlDecode(facssdepartment.Introduction);
+            facssdepartment.ApplyNotification = Server.HtmlDecode(facssdepartment.ApplyNotification);
             return View(facssdepartment);
         }
 
@@ -72,6 +73,7 @@ namespace ccbs.Controllers
         {
             FacssDepartment facssdepartment = db.FacssDepartments.Find(id);
             facssdepartment.Introduction = Server.HtmlDecode(facssdepartment.Introduction);
+            facssdepartment.ApplyNotification = Server.HtmlDecode(facssdepartment.ApplyNotification);
             return View(facssdepartment);
         }
 
@@ -89,6 +91,7 @@ namespace ccbs.Controllers
                 return RedirectToAction("Index");
             }
             facssdepartment.Introduction = Server.HtmlDecode(facssdepartment.Introduction);
+            facssdepartment.ApplyNotification = Server.HtmlDecode(facssdepartment.ApplyNotification);
             return View(facssdepartment);
         }
 
