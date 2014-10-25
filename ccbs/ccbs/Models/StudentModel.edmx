@@ -22,6 +22,7 @@
     <EntitySet Name="ManualVolunteers" EntityType="StudentModel.Store.ManualVolunteers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FacssDepartments" EntityType="StudentModel.Store.FacssDepartments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Disclaimers" EntityType="StudentModel.Store.Disclaimers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RegConfs" EntityType="StudentModel.Store.RegConfs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NewStudentRegisterEntry" EntityType="StudentModel.Store.NewStudentRegisterEntry" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LocalHelpVolunteer" EntityType="StudentModel.Store.LocalHelpVolunteer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RegisterEntryStudent" EntityType="StudentModel.Store.RegisterEntryStudent" store:Type="Tables" Schema="dbo" />
@@ -370,6 +371,16 @@
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RegConfs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="State" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ToggleDate" Type="datetime" Nullable="false" />
+    <Property Name="NextState" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="NewStudentRegisterEntry">
     <Key>
@@ -868,6 +879,7 @@
             <End Role="NewStudent" EntitySet="NewStudents" />
           </AssociationSet>
           <EntitySet Name="Disclaimers" EntityType="StudentModel.Disclaimer" />
+          <EntitySet Name="RegConfs" EntityType="StudentModel.RegConf" />
         </EntityContainer>
         <EntityType Name="NewStudent">
           <Key>
@@ -1303,6 +1315,16 @@
           <Property Type="String" Name="Description" Nullable="false" />
           <Property Type="DateTime" Name="LastUpdate" Nullable="false" />
         </EntityType>
+        <EntityType Name="RegConf">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Type" Nullable="false" />
+          <Property Type="String" Name="State" Nullable="false" />
+          <Property Type="DateTime" Name="ToggleDate" Nullable="false" />
+          <Property Type="String" Name="NextState" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1536,6 +1558,17 @@
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegConfs">
+      <EntityTypeMapping TypeName="IsTypeOf(StudentModel.RegConf)">
+        <MappingFragment StoreEntitySet="RegConfs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="ToggleDate" ColumnName="ToggleDate" />
+          <ScalarProperty Name="NextState" ColumnName="NextState" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1870,6 +1903,7 @@
           <ConnectorPoint PointX="5.375" PointY="13.641700904947918" />
         </AssociationConnector>
         <EntityTypeShape EntityType="StudentModel.Disclaimer" Width="1.5" PointX="1.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel.RegConf" Width="1.5" PointX="9.5" PointY="14.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

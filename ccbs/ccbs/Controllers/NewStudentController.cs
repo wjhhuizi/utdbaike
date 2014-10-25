@@ -621,9 +621,28 @@ namespace ccbs.Controllers
 
                 foreach (var r in rs)
                 {
-                    if (r.PickupVolunteer != null || r.TempHouseVolunteer != null || r.Group != null)
+                    if (r.PickupVolunteer != null || r.TempHouseVolunteer != null)
                     {
-                        continue;
+                        if (User.IsInRole(LWSFRoles.admin) || User.IsInRole(LWSFRoles.newStudentAdmin))
+                        {
+                            if (r.PickupVolunteer != null)
+                            {
+                                r.PickupVolunteer.PickupNewStudents.Remove(r);
+                            }
+                            if (r.TempHouseVolunteer != null)
+                            {
+                                r.TempHouseVolunteer.TempHouseNewStudents.Remove(r);
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (r.Group != null)
+                    {
+                        r.Group.NewStudents.Remove(r);
                     }
 
                     var manualAssigns = db.ManualAssignInfoes.Where(m => m.NewStudentId == r.Id).ToList();
@@ -1395,10 +1414,30 @@ namespace ccbs.Controllers
             return View(disclaimer);
         }
 
+        //public ActionResult 
+
         // GET: /NewStudent/NewStudentRegister
         public ActionResult NewStudentRegister()
         {
-            return View();
+            var regConf = db.RegConfs.Where(r => r.Type == "NewStudentRegister").FirstOrDefault();
+            string regState = "closed";
+            var model = new NewStudentRegisterModel();
+            if (regConf == null || regConf.State == "closed")
+            {
+                model.Flight = "_unknow11";
+                model.ArrivalTime = DateTime.Now;
+                model.EntryPort = "unknow";
+                model.NeedPickup = false;
+                model.NeedTempHousing = false;
+                model.DaysOfTempHousing = ccbs.Models.TempHouseLength.NotSure;
+                regState = "closed";
+            }
+            else
+            {
+                regState = "open";
+            }
+            ViewBag.regState = regState;
+            return View(model);
         }
 
         //

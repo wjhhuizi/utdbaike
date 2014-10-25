@@ -94,6 +94,8 @@
                         @Html.TextBoxFor(m => m.Major)
                         @Html.ValidationMessageFor(m => m.Major)
                     </div>
+                    @if (ViewBag.regState == "open")
+                    {
                     <br />
                     <h4>
                         接机和临住信息</h4>
@@ -150,6 +152,17 @@
                         @Html.TextAreaFor(m => m.Note)
                         @Html.ValidationMessageFor(m => m.Note)
                     </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.Flight)
+                        @Html.HiddenFor(m=>m.ArrivalTime)
+                        @Html.HiddenFor(m=>m.EntryPort)
+                        @Html.HiddenFor(m => m.NeedPickup)
+                        @Html.HiddenFor(m=>m.NeedTempHousing)
+                        @Html.HiddenFor(m=>m.DaysOfTempHousing)
+                        @Html.HiddenFor(m=>m.Note)
+                    }
                 </div>
                 <p>
                     <input type="submit" value="提交注册" />

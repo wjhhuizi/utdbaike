@@ -41,5 +41,6 @@ namespace ccbs.Models
         public DbSet<ManualVolunteer> ManualVolunteers { get; set; }
         public DbSet<FacssDepartment> FacssDepartments { get; set; }
         public DbSet<Disclaimer> Disclaimers { get; set; }
+        public DbSet<RegConf> RegConfs { get; set; }
     }
 }
